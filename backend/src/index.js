@@ -40,6 +40,12 @@ app.use(
   })
 );
 
+// passport setup
+import passport from "./passport.js";
+app.use(passport.initialize());
+app.use(passport.session());
+
+// routes
 import authRoutes from "./routes/auth.js";
 app.use("/api/auth", authRoutes);
 
