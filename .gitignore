@@ -1,0 +1,15 @@
+# Node
+node_modules/
+dist/
+
+# Frontend build
+frontend/node_modules/
+frontend/dist/
+
+# Env files
+.env
+backend/.env
+
+# OS/editor junk
+.DS_Store
+Thumbs.db
