@@ -40,6 +40,12 @@ app.use(
   })
 );
 
+// database connection
+mongoose
+  .connect(process.env.MONGO_URI || "mongodb://localhost:27017/projectdb")
+  .then(() => console.log("MongoDB connected"))
+  .catch((err) => console.error("MongoDB error:", err));
+
 // passport setup
 import passport from "./passport.js";
 app.use(passport.initialize());
@@ -49,12 +55,6 @@ app.use(passport.session());
 import authRoutes from "./routes/auth.js";
 app.use("/api/auth", authRoutes);
 
-// database connection
-mongoose
-  .connect(process.env.MONGO_URI || "mongodb://localhost:27017/projectdb")
-  .then(() => console.log("MongoDB connected"))
-  .catch((err) => console.error("MongoDB error:", err));
-
 // simple test route
 app.get("/health", (req, res) => {
   res.json({ status: "ok" });
@@ -62,4 +62,4 @@ app.get("/health", (req, res) => {
 
 // start server
 const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
