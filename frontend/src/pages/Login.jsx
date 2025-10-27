@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { post } from "../api";
+import { Link } from "react-router-dom";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000";
 
@@ -19,6 +20,27 @@ function GoogleButton() {
       }}
     >
       Continue with Google
+    </a>
+  );
+}
+
+function LinkedInButton() {
+  return (
+    <a
+      href={`${API_URL}/api/auth/linkedin`}
+      style={{
+        display: "inline-block",
+        marginTop: 8,
+        textAlign: "center",
+        background: "#0A66C2", // LinkedIn blue
+        color: "white",
+        padding: "8px 12px",
+        borderRadius: 4,
+        textDecoration: "none",
+      }}
+      rel="noopener noreferrer"
+    >
+      Continue with LinkedIn
     </a>
   );
 }
@@ -64,7 +86,16 @@ export default function Login() {
         />
         <button>Log in</button>
       </form>
-      <GoogleButton />
+      <p style={{ marginTop: 8 }}>
+        <Link to="/forgot">Forgot password?</Link>
+      </p>
+      
+      {/* social auth */}
+      <div style={{ marginTop: 8, display: "grid", gap: 8 }}>
+        <div style={{ textAlign: "center", color: "#666" }}>or</div>
+        <GoogleButton />
+        <LinkedInButton />
+      </div>
     </div>
   );
 }

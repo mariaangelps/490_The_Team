@@ -23,6 +23,27 @@ function GoogleButton() {
   );
 }
 
+function LinkedInButton() {
+  return (
+    <a
+      href={`${API_URL}/api/auth/linkedin`}
+      style={{
+        display: "inline-block",
+        marginTop: 8,
+        textAlign: "center",
+        background: "#0A66C2", // LinkedIn blue
+        color: "white",
+        padding: "8px 12px",
+        borderRadius: 4,
+        textDecoration: "none",
+      }}
+      rel="noopener noreferrer"
+    >
+      Continue with LinkedIn
+    </a>
+  );
+}
+
 export default function Register() {
   const [form, setForm] = useState({
     firstName: "", lastName: "", email: "", password: "", confirmPassword: ""
@@ -57,7 +78,12 @@ export default function Register() {
         <input name="confirmPassword" type="password" placeholder="Confirm password" value={form.confirmPassword} onChange={onChange} required />
         <button disabled={loading}>{loading ? "Creating..." : "Create account"}</button>
       </form>
-      <GoogleButton />
+      {/* social auth */}
+      <div style={{ marginTop: 12, display: "grid", gap: 8 }}>
+        <div style={{ textAlign: "center", color: "#666" }}>or</div>
+        <GoogleButton />
+        <LinkedInButton />
+      </div>
     </div>
   );
 }
