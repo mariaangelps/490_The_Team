@@ -1,5 +1,7 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { post } from "../api";
+
 import "../register.css";
 import Button from "../reusableButton.jsx";
 
@@ -16,18 +18,46 @@ function GoogleButton() {
   );
 }
 
+function LinkedInButton() {
+  return (
+    <a
+      href={`${API_URL}/api/auth/linkedin`}
+      style={{
+        display: "inline-block",
+        marginTop: 8,
+        textAlign: "center",
+        background: "#0A66C2", // LinkedIn blue
+        color: "white",
+        padding: "8px 12px",
+        borderRadius: 4,
+        textDecoration: "none",
+      }}
+      rel="noopener noreferrer"
+    >
+      Continue with LinkedIn
+    </a>
+  );
+}
+
 export default function Register() {
   const [form, setForm] = useState({
-    firstName: "", lastName: "", email: "", password: "", confirmPassword: ""
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
   });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const onChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+  const onChange = (e) =>
+    setForm({ ...form, [e.target.name]: e.target.value });
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    setError(""); setLoading(true);
+    setError("");
+    setLoading(true);
+
     try {
       await post("/api/auth/register", form);
       window.location.href = "/dashboard"; // UC-001 redirect
@@ -41,65 +71,86 @@ export default function Register() {
   return (
     <div className="login-form-container">
       <h2 className="register-header">Create your account</h2>
-      {error && <div style={{ color: "crimson", marginTop: 8, textAlign: 'center' }}>{error}</div>}
+
+      {error && (
+        <div
+          style={{
+            color: "crimson",
+            marginTop: 8,
+            textAlign: "center",
+          }}
+        >
+          {error}
+        </div>
+      )}
+
       <form onSubmit={onSubmit} className="register-form">
-        <input 
+        <input
           className="register-input"
-          name="firstName" 
-          placeholder="First name" 
-          value={form.firstName} 
-          onChange={onChange} 
-          required 
-        />
-        <input 
-          className="register-input"
-          name="lastName" 
-          placeholder="Last name" 
-          value={form.lastName} 
+          name="firstName"
+          placeholder="First name"
+          value={form.firstName}
           onChange={onChange}
-        />
-        <input 
-          className="register-input"
-          name="email" 
-          type="email" 
-          placeholder="Email" 
-          value={form.email} 
-          onChange={onChange} 
-          required 
-        />
-        <input 
-          className="register-input"
-          name="password" 
-          type="password" 
-          placeholder="Password" 
-          value={form.password} 
-          onChange={onChange} 
-          required 
-        />
-        <input 
-          className="register-input"
-          name="confirmPassword" 
-          type="password" 
-          placeholder="Confirm password" 
-          value={form.confirmPassword} 
-          onChange={onChange} 
           required
         />
-        <button 
+        <input
+          className="register-input"
+          name="lastName"
+          placeholder="Last name"
+          value={form.lastName}
+          onChange={onChange}
+        />
+        <input
+          className="register-input"
+          name="email"
+          type="email"
+          placeholder="Email"
+          value={form.email}
+          onChange={onChange}
+          required
+        />
+        <input
+          className="register-input"
+          name="password"
+          type="password"
+          placeholder="Password"
+          value={form.password}
+          onChange={onChange}
+          required
+        />
+        <input
+          className="register-input"
+          name="confirmPassword"
+          type="password"
+          placeholder="Confirm password"
+          value={form.confirmPassword}
+          onChange={onChange}
+          required
+        />
+
+        <Button
+          type="submit"
+          variant="primary"
           className="register-button"
           disabled={loading}
         >
           {loading ? "Creating..." : "Create Account"}
-        </button>
+        </Button>
       </form>
-      <div style={{ marginTop: 16 }}>
+
+      {/* Social auth / separator */}
+      <div style={{ marginTop: 12, display: "grid", gap: 8 }}>
+        <div style={{ textAlign: "center", color: "#666" }}>or</div>
         <GoogleButton />
+        <LinkedInButton />
       </div>
-      <div className="switch-text">
-        Already have an account?{' '}
-        <a href="/login" className="page-switch-link">
+
+      {/* Switch to Login */}
+      <div className="switch-text" style={{ marginTop: 16 }}>
+        Already have an account?{" "}
+        <Link to="/login" className="page-switch-link">
           Log in here
-        </a>
+        </Link>
       </div>
     </div>
   );
