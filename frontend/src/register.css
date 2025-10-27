@@ -1,0 +1,222 @@
+/* Header style */
+.register-header {
+    font-family: 'Rodchenko', sans-serif;
+    font-size: 2.5em;
+    margin-bottom: 1em;
+    white-space: nowrap;
+    text-align: center;
+}
+
+/* Input field styles for both themes */
+.register-input {
+    padding: 12px;
+    border-radius: 8px;
+    border: 2px solid transparent;
+    font-size: 1em;
+    width: 100%;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+/* Light theme input styles */
+body.theme-light .register-input {
+    background-color: #ffffff;
+    color: #000000;
+    border-color: #fcbd16;
+}
+
+body.theme-light .register-input:focus {
+    border-color: #7c2adf;
+    box-shadow: 0 0 0 2px rgba(124, 42, 223, 0.1);
+    outline: none;
+}
+
+body.theme-light .register-input::placeholder {
+    color: #666666;
+}
+
+/* Dark theme input styles */
+body.theme-dark .register-input {
+    background-color: #2a2a2a;
+    color: #ffffff;
+    border-color: #fcbd16;
+}
+
+body.theme-dark .register-input:focus {
+    border-color: #7c2adf;
+    box-shadow: 0 0 0 2px rgba(124, 42, 223, 0.2);
+    outline: none;
+}
+
+body.theme-dark .register-input::placeholder {
+    color: #999999;
+}
+
+/* Register button styles */
+.register-form {
+    display: grid;
+    gap: 8px;
+    margin-top: 12px;
+    width: 100%;
+    max-width: 400px; /* Control the max width of the form */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.register-button {
+    padding: 14px 32px;
+    font-size: 1.1em;
+    font-weight: 600;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Rodchenko', sans-serif;
+    width: 100%;
+    max-width: 100%;
+    justify-self: center; /* Center in grid layout */
+    margin-top: 8px; /* Add some space above the button */
+    margin-bottom: 16px;
+    margin-left: 30px; /* Move button slightly to the right */
+}
+
+/* Light theme button */
+body.theme-light .register-button {
+    background-color: #fcbd16;
+    color: #000000;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+body.theme-light .register-button:hover:not(:disabled) {
+    background-color: #7c2adf;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Dark theme button */
+body.theme-dark .register-button {
+    background-color: #fcbd16;
+    color: #000000;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+body.theme-dark .register-button:hover:not(:disabled) {
+    background-color: #7c2adf;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(124, 42, 223, 0.3);
+}
+
+/* Google button styles */
+.google-button {
+    display: block;
+    width: 100%;
+    max-width: 340px;
+    padding: 14px 32px;
+    margin: 16px auto;
+    border-radius: 25px;
+    font-size: 1.1em;
+    font-weight: 600;
+    text-decoration: none;
+    text-align: center;
+    transition: all 0.3s ease;
+    font-family: 'Rodchenko', sans-serif;
+    background: linear-gradient(45deg, #4285f4, #34a853, #fbbc05, #ea4335);
+    color: white;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.google-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Disabled state */
+.register-button:disabled {
+    background-color: #cccccc;
+    color: #666666;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Page switch link */
+.page-switch-link {
+    display: inline-block;
+    margin-top: 20px;
+    font-family: 'Rodchenko', sans-serif;
+    font-size: 0.9em;
+    text-decoration: none;
+    color: #fcbd16;
+    transition: all 0.3s ease;
+    padding: 5px 10px;
+    border-radius: 15px;
+}
+
+body.theme-light .page-switch-link:hover {
+    color: #7c2adf;
+    transform: translateY(-1px);
+}
+
+body.theme-dark .page-switch-link:hover {
+    color: #7c2adf;
+    transform: translateY(-1px);
+}
+
+.switch-text {
+    margin-top: 20px;
+    color: #666666;
+    font-size: 0.9em;
+}
+
+/* Google button styles */
+.google-button {
+    display: inline-block;
+    margin-top: 16px;
+    text-align: center;
+    padding: 12px 24px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-family: 'Rodchenko', sans-serif;
+    font-weight: 600;
+    font-size: 1.1em;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+/* Google button gradient effect */
+.google-button {
+    background: linear-gradient(
+        135deg,
+        #4285f4 0%,    /* Google Blue */
+        #db4437 30%,   /* Google Red */
+        #f4b400 60%,   /* Google Yellow */
+        #0f9d58 100%   /* Google Green */
+    );
+    background-size: 300% 100%;
+    color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    animation: gradientShift 3s ease infinite;
+}
+
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.google-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    background-size: 300% 100%;
+    animation: gradientShift 2s ease infinite;
+}
