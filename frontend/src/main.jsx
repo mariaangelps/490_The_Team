@@ -3,6 +3,8 @@ import { BrowserRouter, Routes, Route, Link, Navigate } from "react-router-dom";
 import Register from "./pages/Register.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import Login from "./pages/Login.jsx";
+import Forgot from "./pages/Forgot.jsx";
+import Reset from "./pages/Reset.jsx";
 
 function Nav() {
   return (
@@ -23,6 +25,8 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/forgot" element={<Forgot />} />
+        <Route path="/reset" element={<Reset />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </BrowserRouter>
