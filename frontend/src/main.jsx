@@ -7,10 +7,11 @@ import Dashboard from "./pages/Dashboard.jsx";
 import Login from "./pages/Login.jsx";
 import Forgot from "./pages/Forgot.jsx";
 import Reset from "./pages/Reset.jsx";
+import Settings from "./pages/Settings.jsx";
 
 import "./main.css";
 import IconImage from "./assets/THE.png";
-import DarkIconImage from "./assets/THE(yellow).png"; // currently unused but leaving in case you plan to swap logos in dark mode
+import DarkIconImage from "./assets/THE(yellow).png"; // unused currently
 import whiteIcon from "./assets/THE(white).png";
 import Button from "./reusableButton.jsx";
 
@@ -20,8 +21,7 @@ function scrollToElement(id) {
   const element = document.getElementById(id);
   if (element) {
     const elementPosition = element.getBoundingClientRect().top;
-    const offsetPosition = elementPosition + window.pageYOffset + 50; // Reduced offset to scroll further down
-
+    const offsetPosition = elementPosition + window.pageYOffset + 50;
     window.scrollTo({
       top: offsetPosition,
       behavior: "smooth",
@@ -29,11 +29,11 @@ function scrollToElement(id) {
   }
 }
 
-// Home page
+// home page
 function Home() {
   return (
     <div style={{ display: "flex", flexDirection: "column", minHeight: "200vh" }}>
-      {/* Top section with welcome message and scroll button */}
+      {/* Top section */}
       <div
         style={{
           height: "50vh",
@@ -50,9 +50,8 @@ function Home() {
           Get past those pesky ATS's by using AI on your own resume!
         </p>
 
-        {/* Scroll button */}
         <Button
-          variant="scroll" // Uses the .scroll-button styles from main.css
+          variant="scroll"
           className="scroll-button"
           onClick={() => scrollToElement("auth-links-nav")}
           style={{ marginTop: 32, padding: "10px 20px" }}
@@ -61,17 +60,15 @@ function Home() {
         </Button>
       </div>
 
-      {/* Bottom section with auth buttons */}
+      {/* bottom CTA section */}
       <div id="auth-links-nav" className="cta-group">
         <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
-          {/* Primary Button: Register (Visually emphasized) */}
           <Button to="/register" variant="primary">
             Create an Account
           </Button>
 
           <span style={{ opacity: 0.7 }}>or</span>
 
-          {/* Secondary Button: Login */}
           <Button to="/login" variant="secondary">
             Log In
           </Button>
@@ -82,18 +79,15 @@ function Home() {
 }
 
 function ThemeProvider({ children }) {
-  // Check localStorage for a saved theme, default to 'light'
   const [theme, setTheme] = useState(localStorage.getItem("app-theme") || "light");
 
-  // Apply theme class to the body element whenever the theme state changes
   useEffect(() => {
     document.body.className = `theme-${theme}`;
-    localStorage.setItem("app-theme", theme); // Save the preference locally
+    localStorage.setItem("app-theme", theme);
   }, [theme]);
 
-  const toggleTheme = () => {
+  const toggleTheme = () =>
     setTheme((currentTheme) => (currentTheme === "light" ? "dark" : "light"));
-  };
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
@@ -131,6 +125,9 @@ function Nav() {
       <Link to="/">Home</Link>
       <Link to="/register">Register</Link>
       <Link to="/login">Login</Link>
+      <Link to="/dashboard">Dashboard</Link>
+
+      <Link to="/settings">Settings</Link>
 
       <button
         onClick={toggleTheme}
@@ -156,19 +153,27 @@ function App() {
     <BrowserRouter>
       <Nav />
       <Routes>
+        {/* public / marketing */}
         <Route path="/" element={<Home />} />
+
+        {/* auth */}
         <Route path="/register" element={<Register />} />
-        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/login" element={<Login />} />
         <Route path="/forgot" element={<Forgot />} />
         <Route path="/reset" element={<Reset />} />
+
+        {/* app / protected-ish pages */}
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/settings" element={<Settings />} /> {/* 👈 NEW */}
+
+        {/* fallback */}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </BrowserRouter>
   );
 }
 
-// Render root
+// render root
 ReactDOM.createRoot(document.getElementById("root")).render(
   <ThemeProvider>
     <App />
