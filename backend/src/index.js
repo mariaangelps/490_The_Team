@@ -5,7 +5,9 @@ import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
 import session from "express-session";
 import MongoStore from "connect-mongo";
-
+//import passport from "./passport.js";
+import authRoutes from "./routes/auth.js";    
+import profileRoutes from "./routes/auth.js"; 
 
 dotenv.config();
 
@@ -52,8 +54,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // routes
-import authRoutes from "./routes/auth.js";
+
 app.use("/api/auth", authRoutes);
+app.use("/api/profile", profileRoutes);
 
 // simple test route
 app.get("/health", (req, res) => {

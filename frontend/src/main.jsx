@@ -7,6 +7,7 @@ import Dashboard from "./pages/Dashboard.jsx";
 import Login from "./pages/Login.jsx";
 import Forgot from "./pages/Forgot.jsx";
 import Reset from "./pages/Reset.jsx";
+import ProfileBasicForm from "./features/profile/ProfileBasicForm.tsx"; // 👈 import UC-021
 
 import "./main.css";
 import IconImage from "./assets/THE.png";
@@ -131,6 +132,7 @@ function Nav() {
       <Link to="/">Home</Link>
       <Link to="/register">Register</Link>
       <Link to="/login">Login</Link>
+      <Link to="/profile">Profile</Link>
 
       <button
         onClick={toggleTheme}
@@ -163,6 +165,7 @@ function App() {
         <Route path="/forgot" element={<Forgot />} />
         <Route path="/reset" element={<Reset />} />
         <Route path="*" element={<Navigate to="/" />} />
+        <Route path="/profile" element={<ProfileBasicForm onCancel={() => window.history.back()} />}/>
       </Routes>
     </BrowserRouter>
   );
