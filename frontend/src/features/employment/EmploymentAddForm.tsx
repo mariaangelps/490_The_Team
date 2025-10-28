@@ -341,6 +341,7 @@ export default function EmploymentAddForm({
                   type="date"
                   value={form.startDate}
                   onChange={(e) => set("startDate", e.target.value)}
+                  placeholder="yyyy-mm-dd" 
                 />
                 <InlineError>{errors.startDate}</InlineError>
               </div>
@@ -353,6 +354,7 @@ export default function EmploymentAddForm({
                   type="date"
                   value={form.endDate}
                   onChange={(e) => set("endDate", e.target.value)}
+                  placeholder="yyyy-mm-dd" 
                   disabled={form.current}
                 />
                 <div className="mt-2 flex items-center gap-2">
