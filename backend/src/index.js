@@ -53,6 +53,9 @@ app.use(passport.session());
 // routes (IMPORTA BIEN Y MONTA CON NOMBRES CONSISTENTES)
 import authRoutes from "./routes/auth.js";
 import employmentRoutes from "./routes/employment.js";  // <-- CORRECTO
+import profileRouter from "./routes/profile.js";
+
+app.use("/api/profile", profileRouter);
 
 app.use("/api/auth", authRoutes);
 app.use("/api/employment", employmentRoutes);          // <-- CORRECTO

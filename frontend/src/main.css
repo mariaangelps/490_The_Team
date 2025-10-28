@@ -348,9 +348,7 @@
   }
   .card-content { padding: 16px; }
   
-    color: #666;
-    border-color: #d6d6d6;
-  }
+
   
   body.theme-dark .btn-ghost {
     color: #d0d0d0;

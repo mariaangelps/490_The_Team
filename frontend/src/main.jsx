@@ -8,6 +8,8 @@ import Login from "./pages/Login.jsx";
 import Forgot from "./pages/Forgot.jsx";
 import Reset from "./pages/Reset.jsx";
 import EmploymentAddForm from "./features/employment/EmploymentAddForm.tsx";
+// src/main.jsx
+import Settings from "./pages/Settings.jsx";
 
 
 import ProfileBasicForm from "./features/profile/ProfileBasicForm.tsx"; // 👈 import UC-021
