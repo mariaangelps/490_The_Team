@@ -284,3 +284,175 @@ body.theme-dark .cta-button.secondary:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
 }
+/* =====================================================
+   CTA & BUTTON STYLES
+   ===================================================== */
+
+   .cta-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    min-height: 100vh;
+    scroll-margin-top: 80px;
+  }
+  
+  .cta-button {
+    font-size: 1.15em;
+    padding: 14px 30px;
+    border-radius: 25px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    border: 2px solid transparent;
+  }
+  
+  .scroll-button {
+    background-color: #FCBD16;
+    padding: 12px 28px;
+    font-size: 1.1em;
+    font-weight: 600;
+    border: none;
+    border-radius: 25px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    outline: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .scroll-button:hover {
+    background-color: #7c2adf;
+    transform: translateY(-2px);
+    color: white;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  body.theme-light .scroll-button { color: #000000; }
+  body.theme-dark .scroll-button { color: #ffffff; }
+  
+  /* =====================================================
+     FORM STYLES
+     ===================================================== */
+  
+  .form-shell {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 16px;
+  }
+  
+  .form-row {
+    margin-bottom: 14px;
+  }
+  
+  .label {
+    display: block;
+    font-size: 13px;
+    margin-bottom: 6px;
+    color: inherit;
+  }
+  
+  input,
+  select,
+  textarea {
+    width: 100%;
+    border-radius: 12px;
+    padding: 10px 12px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    outline: none;
+    transition: box-shadow 0.2s ease, border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+  }
+  
+  input::placeholder,
+  textarea::placeholder {
+    color: #9aa0a6;
+  }
+  
+  input:focus,
+  select:focus,
+  textarea:focus {
+    border-color: #7c2adf;
+    box-shadow: 0 0 0 4px rgba(124, 42, 223, 0.12);
+  }
+  
+  /* Light Theme */
+  body.theme-light input,
+  body.theme-light select,
+  body.theme-light textarea {
+    background: #ffffff;
+    color: #111;
+    border-color: #d6d6d6;
+  }
+  
+  /* Dark Theme */
+  body.theme-dark input,
+  body.theme-dark select,
+  body.theme-dark textarea {
+    background: #1f1f1f;
+    color: #eaeaea;
+    border-color: #333;
+  }
+  
+  /* Buttons (global) */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border-radius: 25px;
+    font-weight: 600;
+    font-size: 14px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.2s ease, background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  }
+  
+  .btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  
+  .btn-primary {
+    background-color: #fcbd16;
+    color: #000;
+    border-color: #fcbd16;
+  }
+  
+  .btn-primary:hover {
+    background-color: #7c2adf;
+    border-color: #7c2adf;
+    color: #fff;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.12);
+  }
+  
+  .btn-ghost {
+    background: transparent;
+    color: #666;
+    border-color: #d6d6d6;
+  }
+  
+  body.theme-dark .btn-ghost {
+    color: #d0d0d0;
+    border-color: #444;
+  }
+  
+  .btn-ghost:hover {
+    background-color: rgba(124, 42, 223, 0.08);
+    border-color: #7c2adf;
+    color: #7c2adf;
+  }
+  
+  .helper-error {
+    margin-top: 6px;
+    font-size: 12px;
+    color: #d93025;
+  }
+  
+  .counter {
+    font-size: 12px;
+    color: #777;
+    margin: 6px 0 12px;
+  }
