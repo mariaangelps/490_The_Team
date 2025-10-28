@@ -5,6 +5,8 @@ import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
 import session from "express-session";
 import MongoStore from "connect-mongo";
+import passport from "./passport.js";
+import profileRoutes from "./routes/auth.js"; 
 
 dotenv.config();
 
@@ -46,15 +48,18 @@ mongoose
   .catch((err) => console.error("MongoDB error:", err));
 
 // passport setup
-import passport from "./passport.js";
 app.use(passport.initialize());
 app.use(passport.session());
 
-// routes
+// routes (IMPORTA BIEN Y MONTA CON NOMBRES CONSISTENTES)
 import authRoutes from "./routes/auth.js";
-import userRouter from "./routes/user.js";
+import employmentRoutes from "./routes/employment.js";  // <-- CORRECTO
+
+// routes
+
 app.use("/api/auth", authRoutes);
-app.use("/api/users", userRouter);
+app.use("/api/profile", profileRoutes);
+app.use("/api/employment", employmentRoutes);          // <-- CORRECTO
 
 // simple test route
 app.get("/health", (req, res) => {
