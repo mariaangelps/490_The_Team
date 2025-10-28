@@ -8,7 +8,6 @@ import PasswordResetToken from "../models/PasswordResetToken.js";
 import { generateRawToken, hashToken } from "../utils/tokens.js";
 import { sendPasswordResetEmail } from "../utils/mailer.js";
 
-
 const router = Router();
 
 // UC-001: Register
@@ -209,39 +208,6 @@ router.post("/reset/complete", async (req, res) => {
 
   return res.json({ message: "Password has been reset", user: { id: String(user._id), email: user.email } });
 });
-router.post("/basic", async (req, res) => {
-  try {
-    const {
-      fullName,
-      email,
-      phone,
-      city,
-      state,
-      headline,
-      bio,
-      industry,
-      experience,
-    } = req.body;
-
-    if (!fullName || !email) {
-      return res.status(400).json({ error: "Full name and email are required." });
-    }
-
-    console.log("New profile received:", {
-      fullName, email, phone, city, state, headline, bio, industry, experience,
-    });
-
-    // TODO: guardar en DB si quieres
-    return res.status(200).json({
-      message: "Profile saved successfully",
-      profile: { fullName, email, phone, city, state, headline, bio, industry, experience },
-    });
-  } catch (err) {
-    console.error("Error saving profile:", err);
-    return res.status(500).json({ error: "Server error while saving profile" });
-  }
-});
-
 
 
 
