@@ -69,26 +69,26 @@ focus:outline-none focus:ring-4 focus:ring-black/5"
   );
 }
 function Button(
-  props: React.ButtonHTMLAttributes<HTMLButtonElement> & { variant?: "primary" | 
-"ghost" }
+  props: React.ButtonHTMLAttributes<HTMLButtonElement> & { variant?: "primary" | "ghost" }
 ) {
   const { variant = "primary", className, ...rest } = props;
   const styles =
     variant === "primary"
       ? "bg-black text-white hover:bg-black/90 focus:ring-black/20"
       : "bg-transparent text-gray-700 hover:bg-gray-100 focus:ring-gray-300/40";
+
   return (
     <button
       {...rest}
       className={[
-        "rounded-2xl px-4 py-2 text-sm font-medium transition focus:outline-none 
-focus:ring-4",
+        "rounded-2xl px-4 py-2 text-sm font-medium transition focus:outline-none focus:ring-4",
         styles,
         className ?? "",
-      ].join(" ")}
+      ].join(" ")} // 👈 esto cierra correctamente el arreglo
     />
   );
 }
+
 function Card({ children }: React.PropsWithChildren) {
   return (
     <div className="rounded-2xl border border-gray-200 bg-white shadow-sm">

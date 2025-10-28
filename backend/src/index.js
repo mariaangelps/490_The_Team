@@ -53,7 +53,11 @@ app.use(passport.session());
 
 // routes
 import authRoutes from "./routes/auth.js";
+import profileRoutes from "./routes/profile.js";
+
 app.use("/api/auth", authRoutes);
+app.use("/api/profile", profileRoutes);
+
 
 // simple test route
 app.get("/health", (req, res) => {
