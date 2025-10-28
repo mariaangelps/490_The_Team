@@ -7,6 +7,9 @@ import Dashboard from "./pages/Dashboard.jsx";
 import Login from "./pages/Login.jsx";
 import Forgot from "./pages/Forgot.jsx";
 import Reset from "./pages/Reset.jsx";
+import EmploymentAddForm from "./features/employment/EmploymentAddForm.tsx";
+
+
 import ProfileBasicForm from "./features/profile/ProfileBasicForm.tsx"; // 👈 import UC-021
 
 import "./main.css";
@@ -125,6 +128,7 @@ function Nav() {
       <Link to="/">Home</Link>
       <Link to="/register">Register</Link>
       <Link to="/login">Login</Link>
+      <Link to="/employment/add">Add Employment</Link>
       <Link to="/profile">Profile</Link>
 
       <button
@@ -166,6 +170,7 @@ function App() {
 
         {/* fallback */}
         <Route path="*" element={<Navigate to="/" />} />
+        <Route path="/employment/add" element={<EmploymentAddForm onCancel={() => window.history.back()} />}/>
         <Route path="/profile" element={<ProfileBasicForm onCancel={() => window.history.back()} />}/>
       </Routes>
     </BrowserRouter>
