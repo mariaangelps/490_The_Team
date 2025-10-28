@@ -56,3 +56,27 @@ export async function sendPasswordResetEmail(toEmail, resetUrl) {
   }
   return { messageId: info.messageId, previewUrl };
 }
+
+export async function sendAccountDeletionEmail(toEmail) {
+  const transporter = await getTransporter();
+  const from = process.env.EMAIL_FROM || '"ATS Support" <no-reply@example.com>';
+
+  const info = await transporter.sendMail({
+    from,
+    to: toEmail,
+    subject: "Your account has been deleted",
+    text: `This is a confirmation that your account has been permanently deleted from ATS for Candidates.
+
+If you did not perform this action, please contact support immediately.`,
+    html: `
+      <p>This is a confirmation that your account has been <strong>permanently deleted</strong> from ATS for Candidates.</p>
+      <p>If you did not perform this action, please contact support immediately.</p>
+    `,
+  });
+
+  const previewUrl = nodemailer.getTestMessageUrl(info);
+  if (previewUrl) {
+    console.log("🔍 Deletion email preview URL:", previewUrl);
+  }
+  return { messageId: info.messageId, previewUrl };
+}
