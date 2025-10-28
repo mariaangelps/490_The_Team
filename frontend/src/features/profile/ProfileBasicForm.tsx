@@ -172,7 +172,17 @@ export default function ProfileBasicForm({
   const [busy, setBusy] = useState(false);
   const [status, setStatus] = useState<"" | "success" | "error">("");
   const bioCount = form.bio?.length ?? 0;
-
+  const usStates = useMemo(
+    () => [
+      "AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA",
+      "HI","ID","IL","IN","IA","KS","KY","LA","ME","MD",
+      "MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ",
+      "NM","NY","NC","ND","OH","OK","OR","PA","RI","SC",
+      "SD","TN","TX","UT","VT","VA","WA","WV","WI","WY",
+      "DC"
+    ],
+    []
+  );
   const industries = useMemo(
     () => [
       "Software",
@@ -254,7 +264,7 @@ gap-4">
                   name="fullName"
                   value={form.fullName}
                   onChange={(e) => set("fullName", e.target.value)}
-                  placeholder="e.g., Maria Angel Palacios"
+                  placeholder="e.g., Jane Doe"
                 />
                 <InlineError>{errors.fullName}</InlineError>
               </div>
@@ -299,14 +309,19 @@ gap-4">
               </div>
               <div>
                 <Label htmlFor="state">State</Label>
-                <Input
-                  id="state"
-                  name="state"
+                <Select
                   value={form.state}
-                  onChange={(e) => set("state", e.target.value)}
-                  placeholder="NJ"
-                />
+                  onChange={(e: any) => set("state", e.target.value)}
+                  placeholder="Select state"
+                >
+                  {usStates.map((abbrev) => (
+                    <option key={abbrev} value={abbrev}>
+                      {abbrev}
+                    </option>
+                  ))}
+                </Select>
               </div>
+
 
               {/* Headline */}
               <div className="md:col-span-2">
