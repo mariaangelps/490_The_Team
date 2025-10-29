@@ -62,4 +62,9 @@ app.get("/health", (req, res) => {
 
 // start server
 const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+
+import profileUploadRoutes from "./routes/profileupload.js";
+app.use("/api/profile", profileUploadRoutes);
+
