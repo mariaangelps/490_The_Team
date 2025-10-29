@@ -129,9 +129,6 @@ function Nav() {
       <Link to="/dashboard">Dashboard</Link>
 
       <Link to="/settings">Settings</Link>
-      <Link to="/dashboard">Dashboard</Link>
-
-      <Link to="/settings">Settings</Link>
       <Link to="/profile">Profile</Link>
       <Link to="/employment/add">Add Employment</Link>
       <button
