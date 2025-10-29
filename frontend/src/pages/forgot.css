@@ -1,0 +1,141 @@
+/* Forgot Password centered & theme-aware styles */
+
+/* Container centers content in viewport */
+.forgot-form-container {
+  padding: 12px;
+  max-width: 420px;
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* position higher on the page */
+  min-height: calc(100vh - 84px); /* account for fixed nav */
+  padding-top: 40px; /* breathing room from nav */
+  gap: 10px;
+}
+
+.forgot-header {
+  font-family: 'Rodchenko', sans-serif;
+  font-size: 2.4em;
+  margin-bottom: 0.8em;
+  white-space: nowrap;
+}
+
+.forgot-info { opacity: 0.85; }
+
+/* Form layout */
+.forgot-form {
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+  width: 100%;
+  max-width: 400px;
+}
+
+/* Inputs */
+.forgot-input {
+  padding: 12px;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  font-size: 1em;
+  width: 100%;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+/* Light theme input styles */
+body.theme-light .forgot-input {
+  background-color: #ffffff;
+  color: #000000;
+  border-color: #fcbd16;
+}
+body.theme-light .forgot-input:focus {
+  border-color: #7c2adf;
+  box-shadow: 0 0 0 2px rgba(124, 42, 223, 0.1);
+  outline: none;
+}
+body.theme-light .forgot-input::placeholder { color: #666666; }
+
+/* Dark theme input styles */
+body.theme-dark .forgot-input {
+  background-color: #2a2a2a;
+  color: #ffffff;
+  border-color: #fcbd16;
+}
+body.theme-dark .forgot-input:focus {
+  border-color: #7c2adf;
+  box-shadow: 0 0 0 2px rgba(124, 42, 223, 0.2);
+  outline: none;
+}
+body.theme-dark .forgot-input::placeholder { color: #999999; }
+
+/* Fun theme input styles */
+body.theme-fun .forgot-input {
+  background-color: #FFFDF8;
+  color: #000000;
+  border-color: #D24BB9;
+}
+body.theme-fun .forgot-input:focus {
+  border-color: #7C2ADF;
+  box-shadow: 0 0 0 2px rgba(124, 42, 223, 0.15);
+  outline: none;
+}
+body.theme-fun .forgot-input::placeholder {
+  color: #7C2ADF;
+  opacity: 0.6;
+}
+
+/* Submit Button */
+.forgot-button {
+  padding: 14px 32px;
+  font-size: 1.1em;
+  font-weight: 600;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Rodchenko', sans-serif;
+  width: 100%;
+  max-width: 100%;
+  margin-top: 8px;
+  margin-left: 15px; /* shift left by 20px as requested */
+}
+
+/* Light */
+body.theme-light .forgot-button {
+  background-color: #fcbd16;
+  color: #000000;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+body.theme-light .forgot-button:hover:not(:disabled) {
+  background-color: #7c2adf;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Dark */
+body.theme-dark .forgot-button {
+  background-color: #fcbd16;
+  color: #000000;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+body.theme-dark .forgot-button:hover:not(:disabled) {
+  background-color: #7c2adf;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(124, 42, 223, 0.3);
+}
+
+/* Fun */
+body.theme-fun .forgot-button {
+  background: linear-gradient(135deg, #D24BB9, #7C2ADF);
+  color: #FFFDF8;
+  box-shadow: 0 4px 6px rgba(210, 75, 185, 0.3);
+}
+body.theme-fun .forgot-button:hover:not(:disabled) {
+  background: linear-gradient(135deg, #7C2ADF, #D24BB9);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(210, 75, 185, 0.4);
+}

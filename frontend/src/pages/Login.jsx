@@ -25,16 +25,7 @@ function LinkedInButton() {
   return (
     <a
       href={`${API_URL}/api/auth/linkedin`}
-      style={{
-        display: "inline-block",
-        marginTop: 8,
-        textAlign: "center",
-        background: "#0A66C2", // LinkedIn blue
-        color: "white",
-        padding: "8px 12px",
-        borderRadius: 4,
-        textDecoration: "none",
-      }}
+      className="linkedin-login-button"
       rel="noopener noreferrer"
     >
       Continue with LinkedIn

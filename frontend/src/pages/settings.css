@@ -1,0 +1,735 @@
+/* Settings container */
+.settings-container {
+    padding: 12px;
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Settings header */
+.settings-header {
+    font-family: 'Rodchenko', sans-serif;
+    font-size: 2.5em;
+    margin-bottom: 1em;
+    white-space: nowrap;
+}
+
+/* Theme toggle section */
+.theme-section {
+    width: 100%;
+    max-width: 800px;
+    padding: 0;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    overflow: hidden;
+}
+
+body.theme-light .theme-section {
+    background-color: #f9f9f9;
+    border: 2px solid #fcbd16;
+}
+
+body.theme-dark .theme-section {
+    background-color: #1a1a1a;
+    border: 2px solid #fcbd16;
+}
+
+body.theme-fun .theme-section {
+    background-color: #fff5f9;
+    border: 2px solid #D24BB9;
+}
+
+/* Toggle button for theme section */
+.toggle-theme-button {
+    width: 100%;
+    padding: 20px 24px;
+    font-family: 'Rodchenko', sans-serif;
+    font-size: 1.5em;
+    font-weight: 600;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.3s ease;
+    text-align: left;
+}
+
+.toggle-theme-button .material-symbols-outlined {
+    font-size: 1.3em;
+}
+
+body.theme-light .toggle-theme-button {
+    color: #000000;
+}
+
+body.theme-light .toggle-theme-button:hover {
+    background-color: rgba(252, 189, 22, 0.1);
+}
+
+body.theme-dark .toggle-theme-button {
+    color: #ffffff;
+}
+
+body.theme-dark .toggle-theme-button:hover {
+    background-color: rgba(252, 189, 22, 0.1);
+}
+
+body.theme-fun .toggle-theme-button {
+    color: #000000;
+}
+
+body.theme-fun .toggle-theme-button:hover {
+    background-color: rgba(210, 75, 185, 0.1);
+}
+
+.theme-section-content {
+    padding: 20px;
+    animation: slideDown 0.3s ease-out;
+}
+
+.theme-description {
+    margin: 0 0 16px 0;
+    font-size: 18px;
+    text-align: center;
+}
+
+body.theme-light .theme-description {
+    color: #666666;
+}
+
+body.theme-dark .theme-description {
+    color: #aaaaaa;
+}
+
+body.theme-fun .theme-description {
+    color: #7C2ADF;
+}
+
+.theme-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.theme-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
+    border-radius: 8px;
+    border: 2px solid transparent;
+    font-family: 'Rodchenko', sans-serif;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: left;
+}
+
+body.theme-light .theme-option {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+body.theme-light .theme-option:hover {
+    border-color: #fcbd16;
+}
+
+body.theme-light .theme-option.active {
+    border-color: #fcbd16;
+    background-color: #fff9e6;
+}
+
+body.theme-dark .theme-option {
+    background-color: #2a2a2a;
+    color: #ffffff;
+}
+
+body.theme-dark .theme-option:hover {
+    border-color: #7c2adf;
+}
+
+body.theme-dark .theme-option.active {
+    border-color: #7c2adf;
+    background-color: #1a0f2e;
+}
+
+body.theme-fun .theme-option {
+    background-color: #FFFDF8;
+    color: #000000;
+}
+
+body.theme-fun .theme-option:hover {
+    border-color: #D24BB9;
+}
+
+body.theme-fun .theme-option.active {
+    border-color: #D24BB9;
+    background-color: #fff0f7;
+}
+
+.theme-option .material-symbols-outlined {
+    font-size: 1.5em;
+}
+
+.theme-option-text {
+    font-weight: 600;
+}
+
+/* Text Size Section */
+.text-size-section {
+    width: 100%;
+    max-width: 800px;
+    padding: 0;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    overflow: hidden;
+}
+
+body.theme-light .text-size-section {
+    background-color: #f9f9f9;
+    border: 2px solid #fcbd16;
+}
+
+body.theme-dark .text-size-section {
+    background-color: #1a1a1a;
+    border: 2px solid #fcbd16;
+}
+
+body.theme-fun .text-size-section {
+    background-color: #fff5f9;
+    border: 2px solid #D24BB9;
+}
+
+/* Toggle button for text size section */
+.toggle-text-size-button {
+    width: 100%;
+    padding: 20px 24px;
+    font-family: 'Rodchenko', sans-serif;
+    font-size: 1.5em;
+    font-weight: 600;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.3s ease;
+    text-align: left;
+}
+
+.toggle-text-size-button .material-symbols-outlined {
+    font-size: 1.3em;
+}
+
+body.theme-light .toggle-text-size-button {
+    color: #000000;
+}
+
+body.theme-light .toggle-text-size-button:hover {
+    background-color: rgba(252, 189, 22, 0.1);
+}
+
+body.theme-dark .toggle-text-size-button {
+    color: #ffffff;
+}
+
+body.theme-dark .toggle-text-size-button:hover {
+    background-color: rgba(252, 189, 22, 0.1);
+}
+
+body.theme-fun .toggle-text-size-button {
+    color: #000000;
+}
+
+body.theme-fun .toggle-text-size-button:hover {
+    background-color: rgba(210, 75, 185, 0.1);
+}
+
+.text-size-section-content {
+    padding: 20px;
+    animation: slideDown 0.3s ease-out;
+}
+
+.text-size-description {
+    margin: 0 0 16px 0;
+    font-size: 18px;
+    text-align: center;
+}
+
+body.theme-light .text-size-description {
+    color: #666666;
+}
+
+body.theme-dark .text-size-description {
+    color: #aaaaaa;
+}
+
+body.theme-fun .text-size-description {
+    color: #7C2ADF;
+}
+
+.text-size-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.text-size-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
+    border-radius: 8px;
+    border: 2px solid transparent;
+    font-family: 'Rodchenko', sans-serif;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: left;
+}
+
+body.theme-light .text-size-option {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+body.theme-light .text-size-option:hover {
+    border-color: #fcbd16;
+}
+
+body.theme-light .text-size-option.active {
+    border-color: #fcbd16;
+    background-color: #fff9e6;
+}
+
+body.theme-dark .text-size-option {
+    background-color: #2a2a2a;
+    color: #ffffff;
+}
+
+body.theme-dark .text-size-option:hover {
+    border-color: #7c2adf;
+}
+
+body.theme-dark .text-size-option.active {
+    border-color: #7c2adf;
+    background-color: #1a0f2e;
+}
+
+body.theme-fun .text-size-option {
+    background-color: #FFFDF8;
+    color: #000000;
+}
+
+body.theme-fun .text-size-option:hover {
+    border-color: #D24BB9;
+}
+
+body.theme-fun .text-size-option.active {
+    border-color: #D24BB9;
+    background-color: #fff0f7;
+}
+
+.text-size-option .material-symbols-outlined {
+    font-size: 1.5em;
+}
+
+.text-size-option-text {
+    font-weight: 600;
+}
+
+/* Danger zone section */
+.danger-zone {
+    margin-top: 24px;
+    padding: 0;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 800px;
+    overflow: hidden;
+}
+
+/* Light theme danger zone */
+body.theme-light .danger-zone {
+    background-color: #fff5f5;
+    border: 2px solid #fcbd16;
+}
+
+/* Dark theme danger zone */
+body.theme-dark .danger-zone {
+    background-color: #2a1a1a;
+    border: 2px solid #fcbd16;
+}
+
+/* Fun theme danger zone */
+body.theme-fun .danger-zone {
+    background-color: #fff0f7;
+    border: 2px solid #D24BB9;
+}
+
+/* Toggle button for delete section */
+.toggle-delete-button {
+    width: 100%;
+    padding: 20px 24px;
+    font-family: 'Rodchenko', sans-serif;
+    font-size: 1.5em;
+    font-weight: 600;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.3s ease;
+    text-align: left;
+}
+
+.toggle-delete-button .material-symbols-outlined {
+    font-size: 1.3em;
+}
+
+/* Light theme toggle button */
+body.theme-light .toggle-delete-button {
+    color: #dc2626;
+}
+
+body.theme-light .toggle-delete-button:hover {
+    background-color: rgba(252, 189, 22, 0.1);
+}
+
+/* Dark theme toggle button */
+body.theme-dark .toggle-delete-button {
+    color: #ef4444;
+}
+
+body.theme-dark .toggle-delete-button:hover {
+    background-color: rgba(252, 189, 22, 0.1);
+}
+
+/* Fun theme toggle button */
+body.theme-fun .toggle-delete-button {
+    color: #D24BB9;
+}
+
+body.theme-fun .toggle-delete-button:hover {
+    background-color: rgba(210, 75, 185, 0.1);
+}
+
+/* Delete section content (the folded-out part) */
+.delete-section-content {
+    padding: 20px;
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        max-height: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        max-height: 500px;
+        transform: translateY(0);
+    }
+}
+
+.danger-zone-title {
+    font-family: 'Rodchenko', sans-serif;
+    color: #dc2626;
+    margin-top: 0;
+    margin-bottom: 12px;
+    font-size: 1.5em;
+}
+
+.danger-zone-text {
+    font-size: 24px;
+    line-height: 1.4;
+    margin-bottom: 16px;
+}
+
+/* Light theme text */
+body.theme-light .danger-zone-text {
+    color: #444444;
+}
+
+/* Dark theme text */
+body.theme-dark .danger-zone-text {
+    color: #cccccc;
+}
+
+/* Fun theme text */
+body.theme-fun .danger-zone-text {
+    color: #000000;
+}
+
+/* Password input wrapper */
+.password-input-wrapper {
+    margin-top: 16px;
+    text-align: left;
+}
+
+.password-label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-family: 'Rodchenko', sans-serif;
+}
+
+/* Light theme label */
+body.theme-light .password-label {
+    color: #000000;
+}
+
+/* Dark theme label */
+body.theme-dark .password-label {
+    color: #ffffff;
+}
+
+/* Fun theme label */
+body.theme-fun .password-label {
+    color: #000000;
+}
+
+/* Password input */
+.settings-password-input {
+    width: calc(100% - 24px);
+    padding: 12px;
+    border-radius: 8px;
+    border: 2px solid transparent;
+    font-size: 1em;
+    transition: all 0.2s ease;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+/* Light theme input */
+body.theme-light .settings-password-input {
+    background-color: #ffffff;
+    color: #000000;
+    border-color: #fcbd16;
+}
+
+body.theme-light .settings-password-input:focus {
+    border-color: #7c2adf;
+    box-shadow: 0 0 0 2px rgba(124, 42, 223, 0.1);
+    outline: none;
+}
+
+/* Dark theme input */
+body.theme-dark .settings-password-input {
+    background-color: #2a2a2a;
+    color: #ffffff;
+    border-color: #fcbd16;
+}
+
+body.theme-dark .settings-password-input:focus {
+    border-color: #7c2adf;
+    box-shadow: 0 0 0 2px rgba(124, 42, 223, 0.2);
+    outline: none;
+}
+
+/* Fun theme input */
+body.theme-fun .settings-password-input {
+    background-color: #FFFDF8;
+    color: #000000;
+    border-color: #D24BB9;
+}
+
+body.theme-fun .settings-password-input:focus {
+    border-color: #7C2ADF;
+    box-shadow: 0 0 0 2px rgba(124, 42, 223, 0.1);
+    outline: none;
+}
+
+/* Error message */
+.settings-error {
+    color: #dc2626;
+    font-size: 14px;
+    margin-top: 8px;
+    font-weight: 500;
+}
+
+/* Delete button */
+.delete-account-button {
+    margin-top: 20px;
+    padding: 14px 32px;
+    font-size: 1.1em;
+    font-weight: 600;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Rodchenko', sans-serif;
+    width: 100%;
+    background-color: #dc2626;
+    color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.delete-account-button:hover:not(:disabled) {
+    background-color: #b91c1c;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.delete-account-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Confirmation modal */
+.confirmation-modal-overlay {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    z-index: 9999;
+}
+
+.confirmation-modal {
+    border-radius: 8px;
+    max-width: 360px;
+    width: 100%;
+    padding: 20px;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+}
+
+/* Light theme modal */
+body.theme-light .confirmation-modal {
+    background-color: #ffffff;
+}
+
+/* Dark theme modal */
+body.theme-dark .confirmation-modal {
+    background-color: #1a1a1a;
+}
+
+/* Fun theme modal */
+body.theme-fun .confirmation-modal {
+    background-color: #FFFDF8;
+}
+
+.confirmation-modal-title {
+    margin-top: 0;
+    margin-bottom: 12px;
+    font-family: 'Rodchenko', sans-serif;
+    font-size: 1.5em;
+}
+
+/* Light theme modal title */
+body.theme-light .confirmation-modal-title {
+    color: #000000;
+}
+
+/* Dark theme modal title */
+body.theme-dark .confirmation-modal-title {
+    color: #ffffff;
+}
+
+/* Fun theme modal title */
+body.theme-fun .confirmation-modal-title {
+    color: #000000;
+}
+
+.confirmation-modal-text {
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+/* Light theme modal text */
+body.theme-light .confirmation-modal-text {
+    color: #444444;
+}
+
+/* Dark theme modal text */
+body.theme-dark .confirmation-modal-text {
+    color: #cccccc;
+}
+
+/* Fun theme modal text */
+body.theme-fun .confirmation-modal-text {
+    color: #000000;
+}
+
+.confirmation-modal-buttons {
+    display: flex;
+    gap: 8px;
+    margin-top: 20px;
+}
+
+.cancel-button {
+    flex: 1;
+    padding: 10px 12px;
+    border: none;
+    border-radius: 20px;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'Rodchenko', sans-serif;
+    transition: all 0.3s ease;
+}
+
+/* Light theme cancel */
+body.theme-light .cancel-button {
+    background-color: #e5e7eb;
+    color: #111827;
+}
+
+body.theme-light .cancel-button:hover:not(:disabled) {
+    background-color: #d1d5db;
+}
+
+/* Dark theme cancel */
+body.theme-dark .cancel-button {
+    background-color: #374151;
+    color: #ffffff;
+}
+
+body.theme-dark .cancel-button:hover:not(:disabled) {
+    background-color: #4b5563;
+}
+
+/* Fun theme cancel */
+body.theme-fun .cancel-button {
+    background-color: #FCBD16;
+    color: #000000;
+}
+
+body.theme-fun .cancel-button:hover:not(:disabled) {
+    background-color: #e0a914;
+}
+
+.confirm-delete-button {
+    flex: 1;
+    background-color: #dc2626;
+    color: white;
+    border: none;
+    padding: 10px 12px;
+    border-radius: 20px;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'Rodchenko', sans-serif;
+    transition: all 0.3s ease;
+}
+
+.confirm-delete-button:hover:not(:disabled) {
+    background-color: #b91c1c;
+    transform: translateY(-1px);
+}
+
+.confirm-delete-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}

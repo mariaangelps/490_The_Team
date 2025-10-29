@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { post } from "../api";
+import Button from "../reusableButton.jsx";
+import "./reset.css";
 
 export default function Reset() {
   const [sp] = useSearchParams();
@@ -21,13 +23,29 @@ export default function Reset() {
   };
 
   return (
-    <div style={{ padding: 12, maxWidth: 420 }}>
-      <h2>Create a new password</h2>
-      {error && <div style={{ color: "crimson" }}>{error}</div>}
-      <form onSubmit={submit} style={{ display: "grid", gap: 8, marginTop: 12 }}>
-        <input type="password" placeholder="New password" value={password} onChange={e=>setPassword(e.target.value)} required />
-        <input type="password" placeholder="Confirm password" value={confirmPassword} onChange={e=>setConfirm(e.target.value)} required />
-        <button>Reset password</button>
+    <div className="reset-form-container">
+      <h2 className="reset-header">Create a new password</h2>
+      {error && <div className="reset-error">{error}</div>}
+      <form onSubmit={submit} className="reset-form">
+        <input
+          className="reset-input"
+          type="password"
+          placeholder="New password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+        <input
+          className="reset-input"
+          type="password"
+          placeholder="Confirm password"
+          value={confirmPassword}
+          onChange={(e) => setConfirm(e.target.value)}
+          required
+        />
+        <Button type="submit" variant="primary" className="reset-button">
+          Reset password
+        </Button>
       </form>
     </div>
   );

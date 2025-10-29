@@ -8,8 +8,25 @@ html {
 body {
     /* Use 'rem' for size to ensure all text scales correctly */
     font-family: 'forma-djr-micro', sans-serif; 
-    font-size: 20px; /* Base font size */
     line-height: 1.6; /* Improve readability for body text */
+}
+
+/* Global text size adjustments controlled by Settings */
+body[data-text-size="regular"] {
+    font-size: 18px;
+}
+
+body[data-text-size="large"] {
+    font-size: 22px;
+}
+
+body[data-text-size="larger"] {
+    font-size: 26px;
+}
+
+/* If no text size is set, default to regular */
+body:not([data-text-size]) {
+    font-size: 18px;
 }
 
 /* 2. APPLY RODCHENKO TO ALL HEADERS */
@@ -148,6 +165,80 @@ body.theme-dark a {
 }
 body.theme-dark a:hover {
     color: #121212;
+}
+
+/* --- FUN THEME STYLES --- */
+body.theme-fun {
+    /* Main background color - warm off-white */
+    background-color: #FFFDF8;
+    /* Main text color - black */
+    color: #000000;
+}
+
+/* Fun theme nav background */
+body.theme-fun .app-nav {
+    background: linear-gradient(135deg, #D24BB9 0%, #7C2ADF 100%);
+}
+
+body.theme-fun .app-nav button {
+    color: #FFFDF8;
+}
+
+body.theme-fun .app-nav button:hover {
+    background-color: rgba(252, 189, 22, 0.2);
+}
+
+/* Fun theme nav links - add background for readability */
+body.theme-fun .app-nav a {
+    background-color: rgba(255, 253, 248, 0.15);
+    color: #FFFDF8;
+    border: 1px solid rgba(255, 253, 248, 0.3);
+}
+
+body.theme-fun .app-nav a:hover {
+    background-color: rgba(252, 189, 22, 0.3);
+    border-color: #FCBD16;
+}
+
+/* Fun theme links */
+body.theme-fun a {
+    color: #7C2ADF;
+}
+
+body.theme-fun a:hover {
+    color: #D24BB9;
+}
+
+/* Fun theme scroll button */
+body.theme-fun .scroll-button {
+    background: linear-gradient(135deg, #D24BB9, #7C2ADF);
+}
+
+body.theme-fun .scroll-button .material-symbols-outlined {
+    color: #FFFDF8;
+}
+
+/* Fun theme CTA buttons */
+body.theme-fun .cta-button.primary {
+    background: linear-gradient(135deg, #D24BB9, #7C2ADF);
+    color: #FFFDF8;
+}
+
+body.theme-fun .cta-button.primary:hover {
+    background: linear-gradient(135deg, #7C2ADF, #D24BB9);
+    transform: translateY(-4px);
+    box-shadow: 0 6px 20px rgba(124, 42, 223, 0.3);
+}
+
+body.theme-fun .cta-button.secondary {
+    background: linear-gradient(135deg, #7C2ADF, #D24BB9);
+    color: #ffffff;
+}
+
+body.theme-fun .cta-button.secondary:hover {
+    background: linear-gradient(135deg, #D24BB9, #7C2ADF);
+    transform: translateY(-4px);
+    box-shadow: 0 6px 20px rgba(252, 189, 22, 0.3);
 }
 
 /* main stylizations */

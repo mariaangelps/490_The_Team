@@ -1,0 +1,308 @@
+/* Dashboard Navigation */
+.dashboard-nav {
+    display: flex;
+    align-items: center;
+    padding: 16px 24px;
+    border-bottom: 2px solid #fcbd16;
+    gap: 16px;
+}
+
+.dashboard-nav-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.dashboard-nav-title {
+    font-family: 'Rodchenko', sans-serif;
+    font-size: 1.5em;
+    font-weight: 600;
+}
+
+/* Light theme nav */
+body.theme-light .dashboard-nav {
+    background-color: #ffffff;
+}
+
+body.theme-light .dashboard-nav-title {
+    color: #000000;
+}
+
+/* Dark theme nav */
+body.theme-dark .dashboard-nav {
+    background-color: #1a1a1a;
+}
+
+body.theme-dark .dashboard-nav-title {
+    color: #ffffff;
+}
+
+/* Dashboard nav logout button */
+.dashboard-nav-logout {
+    margin-left: auto;
+    padding: 8px 20px;
+    font-size: 1em;
+    font-weight: 600;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Rodchenko', sans-serif;
+}
+
+/* Light theme nav logout */
+body.theme-light .dashboard-nav-logout {
+    background-color: #fcbd16;
+    color: #000000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+body.theme-light .dashboard-nav-logout:hover {
+    background-color: #7c2adf;
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Dark theme nav logout */
+body.theme-dark .dashboard-nav-logout {
+    background-color: #fcbd16;
+    color: #000000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+body.theme-dark .dashboard-nav-logout:hover {
+    background-color: #7c2adf;
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(124, 42, 223, 0.3);
+}
+
+/* Dashboard container */
+.dashboard-container {
+    padding: 60px 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+/* Dashboard header */
+.dashboard-header {
+    font-family: 'Rodchenko', sans-serif;
+    font-size: 2.5em;
+    margin-bottom: 1em;
+}
+
+/* Masonry Grid */
+.masonry-grid {
+    column-count: 2;
+    column-gap: 64px;
+    margin-top: 32px;
+}
+
+/* Responsive masonry */
+@media (max-width: 992px) {
+    .masonry-grid {
+        column-count: 2;
+        column-gap: 32px;
+    }
+}
+
+@media (max-width: 600px) {
+    .masonry-grid {
+        column-count: 1;
+    }
+}
+
+/* Dashboard Card */
+.dashboard-card {
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 48px;
+    break-inside: avoid;
+    padding: 28px 24px;
+    border-radius: 20px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: 2px solid transparent;
+}
+
+/* Light theme cards */
+body.theme-light .dashboard-card {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f8f8 100%);
+    color: #000000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+body.theme-light .dashboard-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    border-color: var(--card-color);
+}
+
+/* Dark theme cards */
+body.theme-dark .dashboard-card {
+    background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+body.theme-dark .dashboard-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    border-color: var(--card-color);
+}
+
+/* Fun theme cards */
+body.theme-fun .dashboard-card {
+    background: linear-gradient(135deg, #FFFDF8 0%, #FFF5E6 100%);
+    color: #000000;
+    box-shadow: 0 4px 12px rgba(210, 75, 185, 0.15);
+}
+
+body.theme-fun .dashboard-card:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 8px 24px rgba(210, 75, 185, 0.25);
+    border-color: var(--card-color);
+}
+
+/* Card Icon */
+.card-icon {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: var(--card-color);
+    color: #ffffff;
+}
+
+.card-icon .material-symbols-outlined {
+    font-size: 36px;
+}
+
+/* Card Title */
+.card-title {
+    font-family: 'Rodchenko', sans-serif;
+    font-size: 1.6em;
+    margin-bottom: 10px;
+    color: var(--card-color);
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+}
+
+/* Card Description */
+.card-description {
+    font-size: 1em;
+    line-height: 1.5;
+    opacity: 0.85;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* Dashboard content */
+.dashboard-content {
+    width: 100%;
+    max-width: 400px;
+    margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* Settings link */
+.dashboard-link {
+    padding: 14px 32px;
+    font-size: 1.1em;
+    font-weight: 600;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Rodchenko', sans-serif;
+    width: 100%;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+}
+
+/* Light theme link */
+body.theme-light .dashboard-link {
+    background-color: #fcbd16;
+    color: #000000;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+body.theme-light .dashboard-link:hover {
+    background-color: #7c2adf;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Dark theme link */
+body.theme-dark .dashboard-link {
+    background-color: #fcbd16;
+    color: #000000;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+body.theme-dark .dashboard-link:hover {
+    background-color: #7c2adf;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(124, 42, 223, 0.3);
+}
+
+/* Logout button */
+.dashboard-logout-button {
+    padding: 14px 32px;
+    font-size: 1.1em;
+    font-weight: 600;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Rodchenko', sans-serif;
+    width: 100%;
+}
+
+/* Light theme logout button */
+body.theme-light .dashboard-logout-button {
+    background-color: #fcbd16;
+    color: #000000;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+body.theme-light .dashboard-logout-button:hover:not(:disabled) {
+    background-color: #7c2adf;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Dark theme logout button */
+body.theme-dark .dashboard-logout-button {
+    background-color: #fcbd16;
+    color: #000000;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+body.theme-dark .dashboard-logout-button:hover:not(:disabled) {
+    background-color: #7c2adf;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(124, 42, 223, 0.3);
+}
+
+/* Disabled button state */
+.dashboard-logout-button:disabled {
+    background-color: #cccccc;
+    color: #666666;
+    cursor: not-allowed;
+    box-shadow: none;
+}
