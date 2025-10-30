@@ -5,159 +5,159 @@ import User from "./models/User.js";
 import OAuth2Strategy from "passport-oauth2";
 import fetch from "node-fetch";
 
-passport.use(
-  new GoogleStrategy(
-    {
-      clientID: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: process.env.GOOGLE_CALLBACK
-    },
-    async (_accessToken, _refreshToken, profile, done) => {
-      try {
-        const email = profile.emails?.[0]?.value;
-        if (!email) return done(null, false, { message: "No email from Google" });
+// passport.use(
+//   new GoogleStrategy(
+//     {
+//       clientID: process.env.GOOGLE_CLIENT_ID,
+//       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+//       callbackURL: process.env.GOOGLE_CALLBACK
+//     },
+//     async (_accessToken, _refreshToken, profile, done) => {
+//       try {
+//         const email = profile.emails?.[0]?.value;
+//         if (!email) return done(null, false, { message: "No email from Google" });
 
-        const firstName = profile.name?.givenName || "";
-        const lastName = profile.name?.familyName || "";
-        const picture = profile.photos?.[0]?.value;
+//         const firstName = profile.name?.givenName || "";
+//         const lastName = profile.name?.familyName || "";
+//         const picture = profile.photos?.[0]?.value;
 
-        let user = await User.findOne({ emailNorm: email.toLowerCase() });
+//         let user = await User.findOne({ emailNorm: email.toLowerCase() });
 
-        if (!user) {
-          user = await User.create({
-            email,
-            firstName,
-            lastName,
-            picture,
-            providers: ["google"]
-          });
-        } else {
-          // link provider if not linked
-          const prov = new Set(user.providers || []);
-          prov.add("google");
-          user.providers = [...prov];
-          if (!user.picture && picture) user.picture = picture;
-          await user.save();
-        }
+//         if (!user) {
+//           user = await User.create({
+//             email,
+//             firstName,
+//             lastName,
+//             picture,
+//             providers: ["google"]
+//           });
+//         } else {
+//           // link provider if not linked
+//           const prov = new Set(user.providers || []);
+//           prov.add("google");
+//           user.providers = [...prov];
+//           if (!user.picture && picture) user.picture = picture;
+//           await user.save();
+//         }
 
-        // keep the session payload small
-        done(null, { id: String(user._id), email: user.email, name: user.firstName || "" });
-      } catch (err) {
-        done(err);
-      }
-    }
-  ),
-);
+//         // keep the session payload small
+//         done(null, { id: String(user._id), email: user.email, name: user.firstName || "" });
+//       } catch (err) {
+//         done(err);
+//       }
+//     }
+//   ),
+// );
 
-class LinkedInOIDCStrategy extends OAuth2Strategy {
-  constructor(options, verify) {
-    super(
-      {
-        authorizationURL: "https://www.linkedin.com/oauth/v2/authorization",
-        tokenURL: "https://www.linkedin.com/oauth/v2/accessToken",
-        clientID: options.clientID,
-        clientSecret: options.clientSecret,
-        callbackURL: options.callbackURL,
-        scope: ["openid", "profile", "email"],
-        state: true
-      },
-      verify
-    );
+// class LinkedInOIDCStrategy extends OAuth2Strategy {
+//   constructor(options, verify) {
+//     super(
+//       {
+//         authorizationURL: "https://www.linkedin.com/oauth/v2/authorization",
+//         tokenURL: "https://www.linkedin.com/oauth/v2/accessToken",
+//         clientID: options.clientID,
+//         clientSecret: options.clientSecret,
+//         callbackURL: options.callbackURL,
+//         scope: ["openid", "profile", "email"],
+//         state: true
+//       },
+//       verify
+//     );
 
-    this.name = "linkedin";
-  }
+//     this.name = "linkedin";
+//   }
 
-  userProfile(accessToken, done) {
-    fetch("https://api.linkedin.com/v2/userinfo", {
-      headers: {
-        Authorization: `Bearer ${accessToken}`
-      }
-    })
-      .then(async (res) => {
-        if (!res.ok) {
-          const text = await res.text();
-          throw new Error(
-            `LinkedIn userinfo failed (${res.status}): ${text}`
-          );
-        }
-        return res.json();
-      })
-      .then((json) => {
-        const profile = {
-          provider: "linkedin",
-          id: json.sub,
-          displayName: json.name || "",
-          name: {
-            givenName: json.given_name || "",
-            familyName: json.family_name || ""
-          },
-          emails: json.email
-            ? [{ value: json.email }]
-            : [],
-          photos: json.picture
-            ? [{ value: json.picture }]
-            : [],
-          _json: json
-        };
+//   userProfile(accessToken, done) {
+//     fetch("https://api.linkedin.com/v2/userinfo", {
+//       headers: {
+//         Authorization: `Bearer ${accessToken}`
+//       }
+//     })
+//       .then(async (res) => {
+//         if (!res.ok) {
+//           const text = await res.text();
+//           throw new Error(
+//             `LinkedIn userinfo failed (${res.status}): ${text}`
+//           );
+//         }
+//         return res.json();
+//       })
+//       .then((json) => {
+//         const profile = {
+//           provider: "linkedin",
+//           id: json.sub,
+//           displayName: json.name || "",
+//           name: {
+//             givenName: json.given_name || "",
+//             familyName: json.family_name || ""
+//           },
+//           emails: json.email
+//             ? [{ value: json.email }]
+//             : [],
+//           photos: json.picture
+//             ? [{ value: json.picture }]
+//             : [],
+//           _json: json
+//         };
 
-        done(null, profile);
-      })
-      .catch((err) => done(err));
-  }
-}
+//         done(null, profile);
+//       })
+//       .catch((err) => done(err));
+//   }
+// }
 
-passport.use(
-  new LinkedInOIDCStrategy(
-    {
-      clientID: process.env.LINKEDIN_CLIENT_ID,
-      clientSecret: process.env.LINKEDIN_CLIENT_SECRET,
-      callbackURL: process.env.LINKEDIN_CALLBACK
-    },
-    // verify callback: this runs AFTER we get accessToken + profile
-    async (accessToken, _refreshToken, profile, done) => {
-      try {
-        const email = profile.emails?.[0]?.value;
-        if (!email) {
-          return done(null, false, {
-            message: "No email from LinkedIn"
-          });
-        }
+// passport.use(
+//   new LinkedInOIDCStrategy(
+//     {
+//       clientID: process.env.LINKEDIN_CLIENT_ID,
+//       clientSecret: process.env.LINKEDIN_CLIENT_SECRET,
+//       callbackURL: process.env.LINKEDIN_CALLBACK
+//     },
+//     // verify callback: this runs AFTER we get accessToken + profile
+//     async (accessToken, _refreshToken, profile, done) => {
+//       try {
+//         const email = profile.emails?.[0]?.value;
+//         if (!email) {
+//           return done(null, false, {
+//             message: "No email from LinkedIn"
+//           });
+//         }
 
-        const firstName = profile.name?.givenName || "";
-        const lastName = profile.name?.familyName || "";
-        const picture = profile.photos?.[0]?.value || null;
+//         const firstName = profile.name?.givenName || "";
+//         const lastName = profile.name?.familyName || "";
+//         const picture = profile.photos?.[0]?.value || null;
 
-        let user = await User.findOne({
-          emailNorm: email.toLowerCase()
-        });
+//         let user = await User.findOne({
+//           emailNorm: email.toLowerCase()
+//         });
 
-        if (!user) {
-          user = await User.create({
-            email,
-            firstName,
-            lastName,
-            picture,
-            providers: ["linkedin"]
-          });
-        } else {
-          const prov = new Set(user.providers || []);
-          prov.add("linkedin");
-          user.providers = [...prov];
-          if (!user.picture && picture) user.picture = picture;
-          await user.save();
-        }
+//         if (!user) {
+//           user = await User.create({
+//             email,
+//             firstName,
+//             lastName,
+//             picture,
+//             providers: ["linkedin"]
+//           });
+//         } else {
+//           const prov = new Set(user.providers || []);
+//           prov.add("linkedin");
+//           user.providers = [...prov];
+//           if (!user.picture && picture) user.picture = picture;
+//           await user.save();
+//         }
 
-        return done(null, {
-          id: String(user._id),
-          email: user.email,
-          name: user.firstName || ""
-        });
-      } catch (err) {
-        return done(err);
-      }
-    }
-  )
-);
+//         return done(null, {
+//           id: String(user._id),
+//           email: user.email,
+//           name: user.firstName || ""
+//         });
+//       } catch (err) {
+//         return done(err);
+//       }
+//     }
+//   )
+// );
 
 // store minimal user in session
 passport.serializeUser((user, done) => done(null, user));

@@ -1,5 +1,5 @@
 import ReactDOM from "react-dom/client";
-import { BrowserRouter, Routes, Route, Link, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link, Navigate, useLocation } from "react-router-dom";
 import { useState, useEffect, createContext, useContext } from "react";
 
 import Register from "./pages/Register.jsx";
@@ -15,7 +15,7 @@ import DarkIconImage from "./assets/THE(yellow).png"; // unused currently
 import whiteIcon from "./assets/THE(white).png";
 import Button from "./reusableButton.jsx";
 
-const ThemeContext = createContext();
+export const ThemeContext = createContext();
 
 function scrollToElement(id) {
   const element = document.getElementById(id);
@@ -87,10 +87,15 @@ function ThemeProvider({ children }) {
   }, [theme]);
 
   const toggleTheme = () =>
-    setTheme((currentTheme) => (currentTheme === "light" ? "dark" : "light"));
+    setTheme((currentTheme) => {
+      if (currentTheme === "light") return "dark";
+      if (currentTheme === "dark") return "fun";
+      if (currentTheme === "fun") return "colorblind";
+      return "light";
+    });
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+    <ThemeContext.Provider value={{ theme, setTheme, toggleTheme }}>
       {children}
     </ThemeContext.Provider>
   );
@@ -98,10 +103,24 @@ function ThemeProvider({ children }) {
 
 function Nav() {
   const { theme, toggleTheme } = useContext(ThemeContext);
+  const location = useLocation();
+  
+  // Check if user is on a protected/authenticated page
+  const isProtectedPage = location.pathname === "/dashboard" || location.pathname === "/settings";
+  const isDashboard = location.pathname === "/dashboard";
+  const isSettings = location.pathname === "/settings";
 
-  const iconName = theme === "light" ? "dark_mode" : "light_mode";
-  const buttonText = theme === "light" ? "Dark Mode" : "Light Mode";
+  const iconName = theme === "light" ? "dark_mode" : theme === "dark" ? "palette" : theme === "fun" ? "visibility" : "light_mode";
+  const buttonText = theme === "light" ? "Dark Mode" : theme === "dark" ? "Fun Mode" : theme === "fun" ? "Colorblind Mode" : "Light Mode";
   const logoSource = theme === "light" ? IconImage : whiteIcon;
+
+  const logout = async () => {
+    await fetch((import.meta.env.VITE_API_URL || "http://localhost:4000") + "/api/auth/logout", {
+      method: "POST",
+      credentials: "include"
+    });
+    window.location.href = "/login";
+  };
 
   return (
     <nav className="app-nav">
@@ -113,6 +132,42 @@ function Nav() {
         />
       </Link>
 
+      {isProtectedPage && (
+        <>
+          {isSettings && (
+            <Link 
+              to="/dashboard"
+              style={{ 
+                fontFamily: 'Rodchenko, sans-serif', 
+                fontSize: '1.5em', 
+                fontWeight: 600,
+                marginLeft: 16,
+                textDecoration: 'none',
+                color: 'inherit',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px'
+              }}
+            >
+              DASHBOARD
+              <span className="material-symbols-outlined">arrow_forward</span>
+            </Link>
+          )}
+          <span
+            style={{ 
+              fontFamily: 'Rodchenko, sans-serif', 
+              fontSize: '1.5em', 
+              fontWeight: 600,
+              marginLeft: isSettings ? 16 : 16,
+              color: 'inherit'
+            }}
+          >
+            {isDashboard ? "DASHBOARD" : "SETTINGS"}
+          </span>
+        </>
+      )}
+
       <div
         style={{
           marginLeft: "auto",
@@ -120,30 +175,104 @@ function Nav() {
           alignItems: "center",
           gap: "20px",
         }}
-      ></div>
-
-      <Link to="/">Home</Link>
-      <Link to="/register">Register</Link>
-      <Link to="/login">Login</Link>
-      <Link to="/dashboard">Dashboard</Link>
-
-      <Link to="/settings">Settings</Link>
-
-      <button
-        onClick={toggleTheme}
-        style={{ marginLeft: "auto", padding: "4px 8px", fontSize: "0.9em" }}
       >
-        <span
-          className="material-symbols-outlined"
-          style={{
-            fontSize: "1.6em",
-            color: "inherit",
-          }}
+        {!isProtectedPage && (
+          <>
+            <Link to="/">Home</Link>
+            <Link to="/register">Register</Link>
+            <Link to="/login">Login</Link>
+          </>
+        )}
+
+        {isProtectedPage && (
+          <>
+            <Link
+              to="/settings"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "8px",
+                padding: "8px 20px",
+                fontSize: "1em",
+                fontWeight: 600,
+                border: "none",
+                borderRadius: 20,
+                cursor: "pointer",
+                transition: "all 0.3s ease",
+                fontFamily: 'Rodchenko, sans-serif',
+                backgroundColor: theme === "colorblind" ? "#ff5800" : "#fcbd16",
+                color: theme === "colorblind" ? "#FFFFFF" : "#000000",
+                boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                textDecoration: "none",
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.backgroundColor = theme === "colorblind" ? "#1E90FF" : "#7c2adf";
+                e.target.style.color = "white";
+                e.target.style.transform = "translateY(-1px)";
+                e.target.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.15)";
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.backgroundColor = theme === "colorblind" ? "#ff5800" : "#fcbd16";
+                e.target.style.color = theme === "colorblind" ? "#FFFFFF" : "#000000";
+                e.target.style.transform = "translateY(0)";
+                e.target.style.boxShadow = "0 2px 4px rgba(0, 0, 0, 0.1)";
+              }}
+            >
+              <span className="material-symbols-outlined" style={{ fontSize: "1.2em" }}>
+                settings
+              </span>
+              Settings
+            </Link>
+
+            <button
+              onClick={logout}
+              style={{
+                padding: "8px 20px",
+                fontSize: "1em",
+                fontWeight: 600,
+                border: "none",
+                borderRadius: 20,
+                cursor: "pointer",
+                transition: "all 0.3s ease",
+                fontFamily: 'Rodchenko, sans-serif',
+                backgroundColor: theme === "colorblind" ? "#ff5800" : "#fcbd16",
+                color: theme === "colorblind" ? "#FFFFFF" : "#000000",
+                boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.backgroundColor = theme === "colorblind" ? "#1E90FF" : "#7c2adf";
+                e.target.style.color = "white";
+                e.target.style.transform = "translateY(-1px)";
+                e.target.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.15)";
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.backgroundColor = theme === "colorblind" ? "#ff5800" : "#fcbd16";
+                e.target.style.color = theme === "colorblind" ? "#FFFFFF" : "#000000";
+                e.target.style.transform = "translateY(0)";
+                e.target.style.boxShadow = "0 2px 4px rgba(0, 0, 0, 0.1)";
+              }}
+            >
+              Log Out
+            </button>
+          </>
+        )}
+
+        <button
+          onClick={toggleTheme}
+          style={{ padding: "4px 8px", fontSize: "0.9em" }}
         >
-          {iconName}
-        </span>
-        {buttonText}
-      </button>
+          <span
+            className="material-symbols-outlined"
+            style={{
+              fontSize: "1.6em",
+              color: "inherit",
+            }}
+          >
+            {iconName}
+          </span>
+          {buttonText}
+        </button>
+      </div>
     </nav>
   );
 }

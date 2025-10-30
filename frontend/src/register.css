@@ -52,6 +52,24 @@ body.theme-dark .register-input::placeholder {
     color: #999999;
 }
 
+/* Fun theme input styles */
+body.theme-fun .register-input {
+    background-color: #FFFDF8;
+    color: #000000;
+    border-color: #D24BB9;
+}
+
+body.theme-fun .register-input:focus {
+    border-color: #7C2ADF;
+    box-shadow: 0 0 0 2px rgba(124, 42, 223, 0.15);
+    outline: none;
+}
+
+body.theme-fun .register-input::placeholder {
+    color: #7C2ADF;
+    opacity: 0.6;
+}
+
 /* Register button styles */
 .register-form {
     display: grid;
@@ -76,7 +94,6 @@ body.theme-dark .register-input::placeholder {
     max-width: 100%;
     justify-self: center; /* Center in grid layout */
     margin-top: 8px; /* Add some space above the button */
-    margin-bottom: 16px;
     margin-left: 30px; /* Move button slightly to the right */
 }
 
@@ -103,18 +120,31 @@ body.theme-dark .register-button {
 
 body.theme-dark .register-button:hover:not(:disabled) {
     background-color: #7c2adf;
-    color: white;
+    color: #ffffff;
     transform: translateY(-2px);
     box-shadow: 0 6px 12px rgba(124, 42, 223, 0.3);
+}
+
+/* Fun theme button */
+body.theme-fun .register-button {
+    background: linear-gradient(135deg, #D24BB9, #7C2ADF);
+    color: #FFFDF8;
+    box-shadow: 0 4px 6px rgba(210, 75, 185, 0.3);
+}
+
+body.theme-fun .register-button:hover:not(:disabled) {
+    background: linear-gradient(135deg, #7C2ADF, #D24BB9);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(210, 75, 185, 0.4);
 }
 
 /* Google button styles */
 .google-button {
     display: block;
     width: 100%;
-    max-width: 340px;
+    max-width: 400px;
+    margin-left:20px;
     padding: 14px 32px;
-    margin: 16px auto;
     border-radius: 25px;
     font-size: 1.1em;
     font-weight: 600;
@@ -122,16 +152,48 @@ body.theme-dark .register-button:hover:not(:disabled) {
     text-align: center;
     transition: all 0.3s ease;
     font-family: 'Rodchenko', sans-serif;
-    background: linear-gradient(45deg, #4285f4, #34a853, #fbbc05, #ea4335);
+    justify-self: center; /* Center within grid containers */
+    background: linear-gradient(
+        135deg,
+        #4285f4 0%,    /* Google Blue */
+        #db4437 30%,   /* Google Red */
+        #f4b400 60%,   /* Google Yellow */
+        #0f9d58 100%   /* Google Green */
+    );
+    background-size: 300% 100%;
     color: white;
     border: none;
     cursor: pointer;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    animation: gradientShift 3s ease infinite;
+}
+
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
 .google-button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    background-size: 300% 100%;
+    animation: gradientShift 2s ease infinite;
+}
+
+/* Ensure Google button text is white in dark mode */
+body.theme-dark .google-button {
+    color: white !important;
+}
+
+body.theme-dark .google-button:hover {
+    color: white !important;
 }
 
 /* Disabled state */
@@ -172,37 +234,31 @@ body.theme-dark .page-switch-link:hover {
     font-size: 0.9em;
 }
 
-/* Google button styles */
-.google-button {
-    display: inline-block;
-    margin-top: 16px;
-    text-align: center;
-    padding: 12px 24px;
-    border-radius: 25px;
-    text-decoration: none;
-    font-family: 'Rodchenko', sans-serif;
-    font-weight: 600;
-    font-size: 1.1em;
-    transition: all 0.3s ease;
+/* LinkedIn button styles */
+.linkedin-button {
+    display: block;
     width: 100%;
-}
-
-/* Google button gradient effect */
-.google-button {
-    background: linear-gradient(
-        135deg,
-        #4285f4 0%,    /* Google Blue */
-        #db4437 30%,   /* Google Red */
-        #f4b400 60%,   /* Google Yellow */
-        #0f9d58 100%   /* Google Green */
-    );
+    max-width: 400px;
+    padding: 14px 32px;
+    margin-left: 20px;
+    border-radius: 25px;
+    font-size: 1.1em;
+    font-weight: 600;
+    text-decoration: none;
+    text-align: center;
+    transition: all 0.3s ease;
+    font-family: 'Rodchenko', sans-serif;
+    justify-self: center; /* Center within grid containers */
+    background: linear-gradient(135deg, #0077B5 0%, #0A66C2 50%, #004182 100%);
     background-size: 300% 100%;
-    color: white;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-    animation: gradientShift 3s ease infinite;
+    color: white !important;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    animation: linkedinGradientShift 3s ease infinite;
 }
 
-@keyframes gradientShift {
+@keyframes linkedinGradientShift {
     0% {
         background-position: 0% 50%;
     }
@@ -214,9 +270,48 @@ body.theme-dark .page-switch-link:hover {
     }
 }
 
-.google-button:hover {
+.linkedin-button:hover {
+    color: white !important;
     transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-    background-size: 300% 100%;
-    animation: gradientShift 2s ease infinite;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    animation: linkedinGradientShift 2s ease infinite;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .register-header {
+        font-size: 2em;
+        white-space: normal;
+    }
+    
+    .register-form {
+        max-width: 100%;
+        padding: 0 16px;
+    }
+    
+    .register-button,
+    .google-button,
+    .linkedin-button {
+        margin-left: 0;
+        font-size: 1em;
+        padding: 12px 24px;
+    }
+}
+
+@media (max-width: 480px) {
+    .register-header {
+        font-size: 1.6em;
+    }
+    
+    .register-input {
+        font-size: 0.95em;
+        padding: 10px;
+    }
+    
+    .register-button,
+    .google-button,
+    .linkedin-button {
+        font-size: 0.95em;
+        padding: 10px 20px;
+    }
 }

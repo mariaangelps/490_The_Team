@@ -1,13 +1,37 @@
-import { useState } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { deleteAccount } from "../api.js";
+import { ThemeContext } from "../main.jsx";
+import "./settings.css";
 
 export default function Settings() {
   const navigate = useNavigate();
+  const { theme, setTheme } = useContext(ThemeContext);
   const [password, setPassword] = useState("");
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showDeleteSection, setShowDeleteSection] = useState(false);
+  const [showThemeSection, setShowThemeSection] = useState(false);
+  const [showTextSizeSection, setShowTextSizeSection] = useState(false);
+  const [textSize, setTextSize] = useState(() => {
+    return localStorage.getItem("textSize") || "regular";
+  });
+
+  useEffect(() => {
+    document.body.setAttribute("data-text-size", textSize);
+    localStorage.setItem("textSize", textSize);
+  }, [textSize]);
+
+  const handleThemeChange = (newTheme) => {
+    setTheme(newTheme);
+    setShowThemeSection(false);
+  };
+
+  const handleTextSizeChange = (newSize) => {
+    setTextSize(newSize);
+    setShowTextSizeSection(false);
+  };
 
   const handleDeleteClick = () => {
     // require them to type a password first
@@ -40,110 +64,178 @@ export default function Settings() {
   };
 
   return (
-    <div style={{ padding: 16, maxWidth: 480 }}>
-      <h2>Account Settings</h2>
+    <div className="settings-container">
+      <h2 className="settings-header">Account Settings</h2>
 
-      <section style={{
-        marginTop: 24,
-        padding: 16,
-        border: "1px solid #f5c2c7",
-        background: "#fff5f5",
-        borderRadius: 8
-      }}>
-        <h3 style={{ color: "#b91c1c", marginTop: 0 }}>Danger Zone</h3>
-        <p style={{ fontSize: 14, lineHeight: 1.4, color: "#444" }}>
-          Deleting your account is <strong>permanent</strong>. All your data will be removed
-          and you will be logged out immediately. This cannot be undone.
-        </p>
+      {/* Theme Toggle Section */}
+      <div className="theme-section">
+        <button 
+          className="toggle-theme-button"
+          onClick={() => setShowThemeSection(!showThemeSection)}
+        >
+          <span className="material-symbols-outlined">
+            {showThemeSection ? "expand_less" : "expand_more"}
+          </span>
+          Appearance
+        </button>
 
-        <div style={{ marginTop: 16 }}>
-          <label style={{ display: "block", fontWeight: 500, marginBottom: 6 }}>
-            Confirm Password
-          </label>
-          <input
-            type="password"
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-            placeholder="Enter your password"
-            style={{
-              width: "100%",
-              padding: "8px 10px",
-              borderRadius: 4,
-              border: "1px solid #ccc",
-              fontSize: 14
-            }}
-          />
-        </div>
+        {showThemeSection && (
+          <div className="theme-section-content">
+            <p className="theme-description">Choose your preferred theme</p>
+            
+            <div className="theme-options">
+              <button
+                className={`theme-option ${theme === "light" ? "active" : ""}`}
+                onClick={() => handleThemeChange("light")}
+              >
+                <span className="material-symbols-outlined">light_mode</span>
+                <span className="theme-option-text">Light Mode</span>
+              </button>
 
-        {error && (
-          <div style={{ color: "#b91c1c", fontSize: 14, marginTop: 8 }}>
-            {error}
+              <button
+                className={`theme-option ${theme === "dark" ? "active" : ""}`}
+                onClick={() => handleThemeChange("dark")}
+              >
+                <span className="material-symbols-outlined">dark_mode</span>
+                <span className="theme-option-text">Dark Mode</span>
+              </button>
+
+              <button
+                className={`theme-option ${theme === "auto" ? "active" : ""}`}
+                onClick={() => handleThemeChange("auto")}
+              >
+                <span className="material-symbols-outlined">contrast</span>
+                <span className="theme-option-text">Auto (System)</span>
+              </button>
+
+              <button
+                className={`theme-option ${theme === "fun" ? "active" : ""}`}
+                onClick={() => handleThemeChange("fun")}
+              >
+                <span className="material-symbols-outlined">palette</span>
+                <span className="theme-option-text">Fun Mode</span>
+              </button>
+
+              <button
+                className={`theme-option ${theme === "colorblind" ? "active" : ""}`}
+                onClick={() => handleThemeChange("colorblind")}
+              >
+                <span className="material-symbols-outlined">visibility</span>
+                <span className="theme-option-text">Colorblind Mode</span>
+              </button>
+            </div>
           </div>
         )}
+      </div>
 
-        <button
-          onClick={handleDeleteClick}
-          disabled={loading}
-          style={{
-            marginTop: 20,
-            backgroundColor: "#dc2626",
-            color: "white",
-            border: "none",
-            padding: "10px 14px",
-            borderRadius: 4,
-            fontSize: 14,
-            fontWeight: 600,
-            cursor: "pointer",
-            opacity: loading ? 0.6 : 1
-          }}
+      {/* Text Size Section */}
+      <div className="text-size-section">
+        <button 
+          className="toggle-text-size-button"
+          onClick={() => setShowTextSizeSection(!showTextSizeSection)}
         >
-          Delete My Account
+          <span className="material-symbols-outlined">
+            {showTextSizeSection ? "expand_less" : "expand_more"}
+          </span>
+          Text Size
         </button>
-      </section>
 
-      {/* confirmation modal-ish */}
+        {showTextSizeSection && (
+          <div className="text-size-section-content">
+            <p className="text-size-description">Choose your preferred text size</p>
+            
+            <div className="text-size-options">
+              <button
+                className={`text-size-option ${textSize === "regular" ? "active" : ""}`}
+                onClick={() => handleTextSizeChange("regular")}
+              >
+                <span className="material-symbols-outlined">text_fields</span>
+                <span className="text-size-option-text">Regular</span>
+              </button>
+
+              <button
+                className={`text-size-option ${textSize === "large" ? "active" : ""}`}
+                onClick={() => handleTextSizeChange("large")}
+              >
+                <span className="material-symbols-outlined">text_increase</span>
+                <span className="text-size-option-text">Large</span>
+              </button>
+
+              <button
+                className={`text-size-option ${textSize === "larger" ? "active" : ""}`}
+                onClick={() => handleTextSizeChange("larger")}
+              >
+                <span className="material-symbols-outlined">format_size</span>
+                <span className="text-size-option-text">Larger</span>
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+
+      <div className="danger-zone">
+        <button 
+          className="toggle-delete-button"
+          onClick={() => setShowDeleteSection(!showDeleteSection)}
+        >
+          <span className="material-symbols-outlined" style={{ fontSize: "1.2em" }}>
+            {showDeleteSection ? "expand_less" : "expand_more"}
+          </span>
+          Delete Account
+        </button>
+
+        {showDeleteSection && (
+          <div className="delete-section-content">
+            <h3 className="danger-zone-title">Danger Zone</h3>
+            <p className="danger-zone-text">
+              Deleting your account is <strong>permanent</strong>. All your data will be removed
+              and you will be logged out immediately. This cannot be undone.
+            </p>
+
+            <div className="password-input-wrapper">
+              <label className="password-label">
+                Confirm Password
+              </label>
+              <input
+                type="password"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                placeholder="Enter your password"
+                className="settings-password-input"
+              />
+            </div>
+
+            {error && (
+              <div className="settings-error">
+                {error}
+              </div>
+            )}
+
+            <button
+              onClick={handleDeleteClick}
+              disabled={loading}
+              className="delete-account-button"
+            >
+              Delete My Account
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* confirmation modal */}
       {confirmOpen && (
-        <div style={{
-          position: "fixed",
-          left: 0,
-          top: 0,
-          width: "100vw",
-          height: "100vh",
-          backgroundColor: "rgba(0,0,0,0.5)",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          padding: 16,
-          zIndex: 9999
-        }}>
-          <div style={{
-            background: "white",
-            borderRadius: 8,
-            maxWidth: 360,
-            width: "100%",
-            padding: 20,
-            boxShadow: "0 12px 24px rgba(0,0,0,0.2)"
-          }}>
-            <h4 style={{ marginTop: 0, marginBottom: 12 }}>Are you sure?</h4>
-            <p style={{ fontSize: 14, lineHeight: 1.4, color: "#444" }}>
+        <div className="confirmation-modal-overlay">
+          <div className="confirmation-modal">
+            <h4 className="confirmation-modal-title">Are you sure?</h4>
+            <p className="confirmation-modal-text">
               This will permanently delete your account and log you out. This cannot be undone.
             </p>
 
-            <div style={{ display: "flex", gap: 8, marginTop: 20 }}>
+            <div className="confirmation-modal-buttons">
               <button
                 onClick={() => setConfirmOpen(false)}
                 disabled={loading}
-                style={{
-                  flex: 1,
-                  backgroundColor: "#e5e7eb",
-                  color: "#111827",
-                  border: "none",
-                  padding: "10px 12px",
-                  borderRadius: 4,
-                  fontSize: 14,
-                  fontWeight: 500,
-                  cursor: "pointer"
-                }}
+                className="cancel-button"
               >
                 Cancel
               </button>
@@ -151,18 +243,7 @@ export default function Settings() {
               <button
                 onClick={actuallyDelete}
                 disabled={loading}
-                style={{
-                  flex: 1,
-                  backgroundColor: "#dc2626",
-                  color: "white",
-                  border: "none",
-                  padding: "10px 12px",
-                  borderRadius: 4,
-                  fontSize: 14,
-                  fontWeight: 600,
-                  cursor: "pointer",
-                  opacity: loading ? 0.6 : 1
-                }}
+                className="confirm-delete-button"
               >
                 {loading ? "Deleting..." : "Yes, delete"}
               </button>
