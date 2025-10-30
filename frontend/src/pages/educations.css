@@ -1,0 +1,102 @@
+/* === Spacing & rhythm upgrade === */
+
+/* Más aire entre filas del grid */
+.educationBoard-container .edu-grid,
+.container.space-y-6 .grid.md\:grid-cols-2.gap-4 {
+  column-gap: 18px;
+  row-gap: 18px;     /* <— antes 14px */
+}
+
+/* Cada label -> texto arriba + input abajo con gap cómodo */
+.educationBoard-container label,
+.container.space-y-6 label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;          /* espacio entre el título y el input */
+  margin-bottom: 6px;
+}
+
+/* Inputs más altos y con padding cómodo */
+.educationBoard-container input,
+.educationBoard-container select,
+.educationBoard-container textarea,
+.container.space-y-6 input,
+.container.space-y-6 select,
+.container.space-y-6 textarea {
+  padding: 12px 14px;
+  border-radius: 12px;
+  border-width: 2px;
+  line-height: 1.2;
+}
+
+/* Checkboxes alineados y con aire */
+.educationBoard-container label:has(> input[type="checkbox"]),
+.container.space-y-6 label:has(> input[type="checkbox"]) {
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  padding-top: 10px;  /* separa de los campos de arriba */
+  margin-bottom: 8px;
+}
+
+.educationBoard-container input[type="checkbox"],
+.container.space-y-6 input[type="checkbox"] {
+  width: 16px; height: 16px;
+  accent-color: var(--accent);
+}
+
+/* Textarea más alto y solo resize vertical */
+.educationBoard-container textarea,
+.container.space-y-6 textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+/* Más separación arriba de los botones */
+.educationBoard-container .sb-actions,
+.container.space-y-6 > .p-4.border.rounded-xl.space-y-4 > .flex.gap-2 {
+  margin-top: 8px;
+}
+
+/* ===== Light / Dark polish ===== */
+
+/* Light */
+.theme-light .educationBoard-container input,
+.theme-light .educationBoard-container select,
+.theme-light .educationBoard-container textarea,
+.theme-light .container.space-y-6 input,
+.theme-light .container.space-y-6 select,
+.theme-light .container.space-y-6 textarea {
+  background: var(--panel-2, #fff);
+  color: var(--text, #000);
+  border-color: var(--border, #d6d6d6);
+}
+
+/* Dark */
+.theme-dark .educationBoard-container input,
+.theme-dark .educationBoard-container select,
+.theme-dark .educationBoard-container textarea,
+.theme-dark .container.space-y-6 input,
+.theme-dark .container.space-y-6 select,
+.theme-dark .container.space-y-6 textarea {
+  background: var(--panel-2, #111);
+  color: var(--text, #fff);
+  border-color: rgba(255,255,255,.18);
+}
+
+/* Hover/Focus con acento y glow suave (vale para ambos temas) */
+.educationBoard-container input:hover,
+.educationBoard-container select:hover,
+.educationBoard-container textarea:hover { border-color: var(--accent); }
+
+.educationBoard-container input:focus,
+.educationBoard-container select:focus,
+.educationBoard-container textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(124, 42, 223, 0.28); /* usa tu accent morado */
+  outline: none;
+}
+
+/* Placeholders más sutiles */
+.educationBoard-container ::placeholder,
+.container.space-y-6 ::placeholder { color: var(--muted, #6b7280); opacity: .85; }

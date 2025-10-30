@@ -1,6 +1,7 @@
 // backend/src/routes/education.js
 import express from "express";
 import Education from "../models/Education.js";
+import mongoose from "mongoose";
 
 const router = express.Router(); // 👈 ESTO CREA 'router'
 
@@ -77,6 +78,10 @@ router.put("/:id", requireAuth, async (req, res) => {
   const updated = await Education.findOneAndUpdate({ _id: id, userId: req.userId }, req.body, { new: true });
   if (!updated) return res.status(404).json({ error: { message: "Education not found" } });
   res.json({ ok: true });
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    return res.status(400).json({ error: { message: "Invalid education id" } });
+  }
+  
 });
 
 // DELETE /api/education/:id

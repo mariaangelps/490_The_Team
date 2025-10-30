@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import "./educations.css";
 
 // ✅ usa VITE_API_URL si existe; si no, cae a localhost:4000
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000";
@@ -156,11 +157,35 @@ export default function EducationPage() {
       gpa: form.gpa === "" ? null : Number(form.gpa),
     };
     try {
-      if (editingId) {
-        await eduUpdate(editingId, payload);
-      } else {
-        await eduCreate(payload);
-      }
+        async function onSave() {
+            const errs = validate(form);
+            if (errs.length) {
+              alert(errs.join("\n"));
+              return;
+            }
+          
+            const payload = {
+              ...form,
+              gpa: form.gpa === "" ? null : Number(form.gpa),
+            };
+          
+            try {
+              // SOLO hace update si editingId es realmente un ID de Mongo, no "new"
+              if (editingId && editingId !== "new") {
+                await eduUpdate(editingId, payload);   // UPDATE
+              } else {
+                await eduCreate(payload);             // CREATE
+              }
+          
+              const list = await eduList();
+              setItems(list);
+              onCancel();
+          
+            } catch (e) {
+              alert("Save failed");
+            }
+          }
+          
       const list = await eduList();
       setItems(list);
       onCancel();
