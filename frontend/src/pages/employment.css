@@ -1,0 +1,41 @@
+.emp-wrap { max-width: 860px; margin: 24px auto; }
+.emp-timeline { position: relative; padding-left: 22px; }
+.emp-timeline:before { content: ""; position: absolute; left: 8px; top: 0; bottom: 0; width: 2px; background: #e5e7eb; }
+.emp-item { position: relative; margin: 14px 0; padding: 12px 14px; border: 1px solid #e5e7eb; border-radius: 8px; background: #fff; }
+.emp-dot { position: absolute; left: -2px; top: 18px; width: 10px; height: 10px; border-radius: 999px; background: #10b981; }
+.emp-meta { color: #6b7280; font-size: 14px; margin-top: 4px; }
+.badge { display:inline-block; padding: 2px 8px; border-radius: 999px; font-size: 12px; margin-left: 8px; }
+.badge-current { background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; }
+.actions { margin-left: auto; display: flex; gap: 8px; }
+.row { display:flex; align-items:center; gap:10px; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 8px; }
+.form-grid label { font-size: 12px; color:#374151; }
+.form-grid input, .form-grid textarea, .form-grid select {
+  width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px;
+}
+.form-actions { display:flex; gap:10px; margin-top: 10px; }
+/* employment.css */
+.emp-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.emp-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn {
+  padding: 8px 14px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn.primary { border-color: #7C2ADF; }
+.btn.secondary { border-color: #666; }

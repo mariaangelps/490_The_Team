@@ -5,10 +5,20 @@ import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
 import session from "express-session";
 import MongoStore from "connect-mongo";
+import educationRoutes from "./routes/education.js";
+import profileRoutes from "./routes/profile.js";
+
+
+//import { connectDB, wireDBSignals } from "./db.js"; // ✅ conexión modular
+
+
 
 dotenv.config();
 
 const app = express();
+console.log('GOOGLE_CALLBACK =', process.env.GOOGLE_CALLBACK);
+console.log('GOOGLE_CLIENT_ID (prefix) =', process.env.GOOGLE_CLIENT_ID?.slice(0,12));
+
 
 // middleware
 app.use(express.json());
@@ -53,8 +63,17 @@ app.use(passport.session());
 // routes
 import authRoutes from "./routes/auth.js";
 import userRouter from "./routes/user.js";
+import employmentRoutes from "./routes/employment.js";
+import skillsRouter from "./routes/skills.js";
+
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRouter);
+app.use("/api/employment", employmentRoutes);
+app.use("/api/skills", skillsRouter);
+app.use("/api/education", educationRoutes);
+app.use("/api/profile", profileRoutes);
+
+
 
 // simple test route
 app.get("/health", (req, res) => {
@@ -64,8 +83,3 @@ app.get("/health", (req, res) => {
 // start server
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-
-
-import profileUploadRoutes from "./routes/profileupload.js";
-app.use("/api/profile", profileUploadRoutes);
-

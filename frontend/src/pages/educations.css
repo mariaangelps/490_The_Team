@@ -1,0 +1,236 @@
+/* === Spacing & rhythm upgrade === */
+
+/* Más aire entre filas del grid */
+.educationBoard-container .edu-grid,
+.container.space-y-6 .grid.md\:grid-cols-2.gap-4 {
+  column-gap: 18px;
+  row-gap: 18px;     /* <— antes 14px */
+}
+
+/* Cada label -> texto arriba + input abajo con gap cómodo */
+.educationBoard-container label,
+.container.space-y-6 label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;          /* espacio entre el título y el input */
+  margin-bottom: 6px;
+}
+
+/* Inputs más altos y con padding cómodo */
+.educationBoard-container input,
+.educationBoard-container select,
+.educationBoard-container textarea,
+.container.space-y-6 input,
+.container.space-y-6 select,
+.container.space-y-6 textarea {
+  padding: 12px 14px;
+  border-radius: 12px;
+  border-width: 2px;
+  line-height: 1.2;
+}
+
+/* Checkboxes alineados y con aire */
+.educationBoard-container label:has(> input[type="checkbox"]),
+.container.space-y-6 label:has(> input[type="checkbox"]) {
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  padding-top: 10px;  /* separa de los campos de arriba */
+  margin-bottom: 8px;
+}
+
+.educationBoard-container input[type="checkbox"],
+.container.space-y-6 input[type="checkbox"] {
+  width: 16px; height: 16px;
+  accent-color: var(--accent);
+}
+
+/* Textarea más alto y solo resize vertical */
+.educationBoard-container textarea,
+.container.space-y-6 textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+/* Más separación arriba de los botones */
+.educationBoard-container .sb-actions,
+.container.space-y-6 > .p-4.border.rounded-xl.space-y-4 > .flex.gap-2 {
+  margin-top: 8px;
+}
+
+/* ===== Light / Dark polish ===== */
+
+/* Light */
+.theme-light .educationBoard-container input,
+.theme-light .educationBoard-container select,
+.theme-light .educationBoard-container textarea,
+.theme-light .container.space-y-6 input,
+.theme-light .container.space-y-6 select,
+.theme-light .container.space-y-6 textarea {
+  background: var(--panel-2, #fff);
+  color: var(--text, #000);
+  border-color: var(--border, #d6d6d6);
+}
+
+/* Dark */
+.theme-dark .educationBoard-container input,
+.theme-dark .educationBoard-container select,
+.theme-dark .educationBoard-container textarea,
+.theme-dark .container.space-y-6 input,
+.theme-dark .container.space-y-6 select,
+.theme-dark .container.space-y-6 textarea {
+  background: var(--panel-2, #111);
+  color: var(--text, #fff);
+  border-color: rgba(255,255,255,.18);
+}
+
+/* Hover/Focus con acento y glow suave (vale para ambos temas) */
+.educationBoard-container input:hover,
+.educationBoard-container select:hover,
+.educationBoard-container textarea:hover { border-color: var(--accent); }
+
+.educationBoard-container input:focus,
+.educationBoard-container select:focus,
+.educationBoard-container textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(124, 42, 223, 0.28); /* usa tu accent morado */
+  outline: none;
+}
+
+/* Placeholders más sutiles */
+.educationBoard-container ::placeholder,
+.container.space-y-6 ::placeholder { color: var(--muted, #6b7280); opacity: .85; }
+/* ===== Education Board ===== */
+.educationBoard-container {
+    padding: 24px;
+    background: var(--bg);
+    color: var(--text);
+  }
+  
+  /* Encabezado + acciones (reusa tus .btn/.btn-primary) */
+  .educationBoard-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  
+  /* Lista de tarjetas */
+  .educationBoard-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  /* Tarjeta */
+  .edu-card {
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: var(--panel);
+    box-shadow: var(--elev-shadow);
+    padding: 14px;
+    transition: transform .06s ease, box-shadow .12s ease, background .12s ease;
+  }
+  .edu-card:hover { transform: translateY(-1px); box-shadow: var(--elev-shadow-2, 0 12px 24px rgba(0,0,0,.18)); }
+  
+  /* Cabecera de la tarjeta */
+  .edu-card-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding-bottom: 8px;
+    margin-bottom: 10px;
+    border-bottom: 2px solid var(--border);
+  }
+  .edu-index {
+    font-family: 'Rodchenko', sans-serif;
+    font-size: 18px;
+    letter-spacing: .5px;
+    color: var(--muted);
+  }
+  .edu-title {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .edu-degree { font-weight: 700; }
+  .edu-inst   { opacity: .85; }
+  
+  /* Renglón de fechas + badges */
+  .edu-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    margin-top: 6px;
+    color: var(--muted);
+    font-size: .95rem;
+  }
+  .edu-badge {
+    padding: 2px 8px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    font-size: .82rem;
+    background: var(--panel-2);
+    color: var(--text);
+  }
+  
+  /* Acciones */
+  .edu-actions {
+    display: flex;
+    gap: 8px;
+  }
+  
+  /* Responsive: dos columnas en pantallas anchas */
+  @media (min-width: 980px) {
+    .educationBoard-list {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  /* ===== Education Board pretty ===== */
+/* ===== Education Board pretty ===== */
+.educationBoard-container { padding: 24px; background: var(--bg); color: var(--text); }
+
+.educationBoard-header{
+  display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:14px;
+}
+
+.edu-section { margin-top: 8px; }
+.edu-section-header{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:8px 2px 10px; border-bottom:2px solid var(--border); margin-bottom:10px;
+}
+.edu-section-title{ display:flex; align-items:center; gap:8px; font-weight:700; }
+.edu-dot{ width:10px; height:10px; border-radius:999px; background: var(--accent); }
+.edu-count{ font-weight:700; color:var(--muted); }
+
+.edu-list{ display:grid; grid-template-columns:1fr; gap:12px; }
+@media (min-width: 980px){ .edu-list{ grid-template-columns:1fr 1fr; } }
+
+.edu-item{
+  border:1px solid var(--border); border-radius:14px; background:var(--panel);
+  box-shadow: var(--elev-shadow); padding:14px;
+  transition:transform .06s ease, box-shadow .12s ease, background .12s ease;
+  position:relative; overflow:hidden;
+}
+.edu-item:hover{ transform:translateY(-1px); box-shadow:var(--elev-shadow-2,0 12px 24px rgba(0,0,0,.18)); }
+.edu-item::before{ content:""; position:absolute; left:0; top:0; bottom:0; width:4px; background:var(--accent); opacity:.9; }
+
+.edu-head{
+  display:flex; align-items:baseline; justify-content:space-between;
+  padding-bottom:8px; margin-bottom:10px; border-bottom:1px dashed var(--border);
+}
+.edu-index{ font-family:'Rodchenko',sans-serif; color:var(--muted); }
+.edu-degree{ font-weight:700; }
+.edu-inst{ opacity:.85; }
+
+.edu-meta{
+  display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-top:6px;
+  color:var(--muted); font-size:.95rem;
+}
+.edu-badge{
+  padding:2px 8px; border:1px solid var(--border); border-radius:999px;
+  font-size:.82rem; background:var(--panel-2); color:var(--text);
+}
+.edu-actions{ display:flex; gap:8px; }
