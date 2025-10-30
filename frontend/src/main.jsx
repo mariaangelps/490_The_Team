@@ -79,11 +79,34 @@ function Home() {
 }
 
 function ThemeProvider({ children }) {
-  const [theme, setTheme] = useState(localStorage.getItem("app-theme") || "light");
+  const [theme, setTheme] = useState(localStorage.getItem("app-theme") || "auto");
 
   useEffect(() => {
-    document.body.className = `theme-${theme}`;
-    localStorage.setItem("app-theme", theme);
+    const applyTheme = () => {
+      let actualTheme = theme;
+      
+      // If theme is set to "auto", detect system preference
+      if (theme === "auto") {
+        const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        actualTheme = systemPrefersDark ? "dark" : "light";
+      }
+      
+      document.body.className = `theme-${actualTheme}`;
+      localStorage.setItem("app-theme", theme); // Save the user's preference (including "auto")
+    };
+
+    applyTheme();
+
+    // Listen for system theme changes when in auto mode
+    if (theme === "auto") {
+      const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+      const handleChange = () => applyTheme();
+      
+      mediaQuery.addEventListener("change", handleChange);
+      
+      // Cleanup listener
+      return () => mediaQuery.removeEventListener("change", handleChange);
+    }
   }, [theme]);
 
   const toggleTheme = () =>

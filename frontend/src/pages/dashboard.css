@@ -2,7 +2,7 @@
 .dashboard-nav {
     display: flex;
     align-items: center;
-    padding: 16px 24px;
+    padding: 16px 16px;
     border-bottom: 2px solid #fcbd16;
     gap: 16px;
 }
@@ -15,7 +15,7 @@
 
 .dashboard-nav-title {
     font-family: 'Rodchenko', sans-serif;
-    font-size: 1.5em;
+    font-size: 1em;
     font-weight: 600;
 }
 
@@ -40,7 +40,7 @@ body.theme-dark .dashboard-nav-title {
 /* Dashboard nav logout button */
 .dashboard-nav-logout {
     margin-left: auto;
-    padding: 8px 20px;
+    padding: 8px 10px;
     font-size: 1em;
     font-weight: 600;
     border: none;
@@ -80,55 +80,167 @@ body.theme-dark .dashboard-nav-logout:hover {
 
 /* Dashboard container */
 .dashboard-container {
-    padding: 60px 40px;
-    max-width: 1200px;
-    margin: 0 auto;
+    padding: 5px 15px 20px 15px;
+    width: 98vw;
+    min-height: 100vh;
+    margin: 0;
+    text-align: left;
+    box-sizing: border-box;
+}
+
+/* Dashboard header - Responsive to text size settings */
+.dashboard-header {
+    font-family: 'Rodchenko', sans-serif;
+    margin-top: 0;
+    margin-bottom: .2em;
     text-align: center;
 }
 
-/* Dashboard header */
-.dashboard-header {
-    font-family: 'Rodchenko', sans-serif;
-    font-size: 2.5em;
-    margin-bottom: 1em;
+/* Dashboard header font sizes based on text size settings */
+body[data-text-size="regular"] .dashboard-header,
+body:not([data-text-size]) .dashboard-header {
+    font-size: 5em;
+}
+
+body[data-text-size="large"] .dashboard-header {
+    font-size: 2.8em;
+}
+
+body[data-text-size="larger"] .dashboard-header {
+    font-size: 3.1em;
 }
 
 /* Flexible Grid */
 .masonry-grid {
     display: flex;
     flex-wrap: wrap;
-    gap: 32px;
-    margin-top: 32px;
-    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+    justify-content: flex-start;
+    width: 100%;
+    box-sizing: border-box;
 }
 
-/* Dashboard Card */
+/* Dashboard Card - Responsive padding based on text size */
 .dashboard-card {
-    flex: 0 1 calc(50% - 16px);
-    min-width: 260px;
-    max-width: 520px;
+    flex: 1 1 calc(25% - 8px);
+    min-width: 0;
+    max-width: none;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    text-align: center;
     margin-bottom: 0;
     break-inside: auto;
-    padding: 28px 28px;
-    border-radius: 20px;
+    border-radius: 5px;
     text-decoration: none;
     transition: all 0.3s ease;
     cursor: pointer;
     border: 2px solid transparent;
+    box-sizing: border-box;
 }
 
-/* Responsive cards */
-@media (max-width: 992px) {
+/* Card padding based on text size settings */
+body[data-text-size="regular"] .dashboard-card,
+body:not([data-text-size]) .dashboard-card {
+    padding: 8px 8px;
+}
+
+body[data-text-size="large"] .dashboard-card {
+    padding: 10px 10px;
+}
+
+body[data-text-size="larger"] .dashboard-card {
+    padding: 12px 12px;
+}
+
+/* Responsive cards - No horizontal scrolling */
+@media (min-width: 1400px) {
     .dashboard-card {
-        flex: 1 1 calc(50% - 16px);
+        flex: 1 1 calc(16.666% - 8px);
+        min-width: 0;
     }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 1399px) and (min-width: 1100px) {
+    .dashboard-card {
+        flex: 1 1 calc(20% - 8px);
+        min-width: 0;
+    }
+}
+
+@media (max-width: 1099px) and (min-width: 900px) {
+    .dashboard-card {
+        flex: 1 1 calc(25% - 8px);
+        min-width: 0;
+    }
+}
+
+@media (max-width: 899px) and (min-width: 700px) {
+    .dashboard-card {
+        flex: 1 1 calc(33.333% - 8px);
+        min-width: 0;
+    }
+    
+    body[data-text-size="regular"] .dashboard-card,
+    body:not([data-text-size]) .dashboard-card {
+        padding: 6px 6px;
+    }
+    
+    body[data-text-size="large"] .dashboard-card {
+        padding: 8px 8px;
+    }
+    
+    body[data-text-size="larger"] .dashboard-card {
+        padding: 10px 10px;
+    }
+}
+
+@media (max-width: 699px) and (min-width: 500px) {
+    .dashboard-card {
+        flex: 1 1 calc(50% - 8px);
+        min-width: 0;
+    }
+    
+    body[data-text-size="regular"] .dashboard-card,
+    body:not([data-text-size]) .dashboard-card {
+        padding: 6px 6px;
+    }
+    
+    body[data-text-size="large"] .dashboard-card {
+        padding: 8px 8px;
+    }
+    
+    body[data-text-size="larger"] .dashboard-card {
+        padding: 10px 10px;
+    }
+}
+
+@media (max-width: 499px) {
     .dashboard-card {
         flex: 1 1 100%;
+        min-width: 0;
+    }
+    
+    body[data-text-size="regular"] .dashboard-card,
+    body:not([data-text-size]) .dashboard-card {
+        padding: 6px 6px;
+    }
+    
+    body[data-text-size="large"] .dashboard-card {
+        padding: 8px 8px;
+    }
+    
+    body[data-text-size="larger"] .dashboard-card {
+        padding: 10px 10px;
+    }
+    
+    .dashboard-container {
+        padding: 8px 5px;
+    }
+    
+    .masonry-grid {
+        gap: 5px;
     }
 }
 
@@ -199,11 +311,9 @@ body.theme-colorblind .card-description {
     color: #333333;
 }
 
-/* Card Icon */
+/* Card Icon - Responsive to text size settings */
 .card-icon {
-    width: 70px;
-    height: 70px;
-    margin: 0 auto 16px;
+    margin: 0 auto auto auto;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -212,28 +322,82 @@ body.theme-colorblind .card-description {
     color: #ffffff;
 }
 
-.card-icon .material-symbols-outlined {
-    font-size: 36px;
+/* Card Icon sizes based on text size settings */
+body[data-text-size="regular"] .card-icon,
+body:not([data-text-size]) .card-icon {
+    width: 50px;
+    height: 50px;
 }
 
-/* Card Title */
+body[data-text-size="large"] .card-icon {
+    width: 55px;
+    height: 55px;
+}
+
+body[data-text-size="larger"] .card-icon {
+    width: 60px;
+    height: 60px;
+}
+
+/* Card Icon font sizes based on text size settings */
+body[data-text-size="regular"] .card-icon .material-symbols-outlined,
+body:not([data-text-size]) .card-icon .material-symbols-outlined {
+    font-size: 24px;
+}
+
+body[data-text-size="large"] .card-icon .material-symbols-outlined {
+    font-size: 28px;
+}
+
+body[data-text-size="larger"] .card-icon .material-symbols-outlined {
+    font-size: 32px;
+}
+
+/* Card Title - Responsive to text size settings */
 .card-title {
-    font-family: 'Rodchenko', sans-serif;
-    font-size: 1.6em;
-    margin-bottom: 10px;
+    font-family: 'Rodchenko', sans-serif !important;
+    font-weight: 300 !important;
+    margin-bottom: 2px;
     color: var(--card-color);
     word-wrap: break-word;
     overflow-wrap: break-word;
     hyphens: auto;
 }
 
-/* Card Description */
+/* Card Title font sizes based on text size settings */
+body[data-text-size="regular"] .card-title,
+body:not([data-text-size]) .card-title {
+    font-size: 28px !important;
+}
+
+body[data-text-size="large"] .card-title {
+    font-size: 32px !important;
+}
+
+body[data-text-size="larger"] .card-title {
+    font-size: 36px !important;
+}
+
+/* Card Description - Responsive to text size settings */
 .card-description {
-    font-size: 1em;
-    line-height: 1.5;
+    line-height: 1.2;
     opacity: 0.85;
     word-wrap: break-word;
     overflow-wrap: break-word;
+}
+
+/* Card Description font sizes based on text size settings */
+body[data-text-size="regular"] .card-description,
+body:not([data-text-size]) .card-description {
+    font-size: 0.9em;
+}
+
+body[data-text-size="large"] .card-description {
+    font-size: 1em;
+}
+
+body[data-text-size="larger"] .card-description {
+    font-size: 1.1em;
 }
 
 /* Dashboard content */
