@@ -6,6 +6,8 @@ import cookieParser from "cookie-parser";
 import session from "express-session";
 import MongoStore from "connect-mongo";
 
+
+
 dotenv.config();
 
 const app = express();
@@ -56,8 +58,11 @@ app.use(passport.session());
 // routes
 import authRoutes from "./routes/auth.js";
 import userRouter from "./routes/user.js";
+import employmentRoutes from "./routes/employment.js";
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRouter);
+app.use("/api/employment", employmentRoutes);
+
 
 // simple test route
 app.get("/health", (req, res) => {
