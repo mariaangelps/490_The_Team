@@ -50,10 +50,21 @@ export default function Register() {
     setLoading(true);
 
     try {
+      console.log("Submitting form:", form);
       await post("/api/auth/register", form);
-      window.location.href = "/dashboard"; // UC-001 redirect
+      console.log("Registration success!");
+      window.location.href = "/dashboard"; // redirect after success
     } catch (err) {
-      setError(err?.message || "Registration failed");
+      console.error("Registration failed:", err);
+      const msg = err?.message || err?.error?.message || JSON.stringify(err);
+      if (err?.error?.fields) {
+        const fields = Object.entries(err.error.fields)
+          .map(([k, v]) => `${k}: ${v}`)
+          .join("; ");
+        setError(`${msg} — ${fields}`);
+      } else {
+        setError(msg);
+      }
     } finally {
       setLoading(false);
     }

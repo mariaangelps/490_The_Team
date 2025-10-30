@@ -11,6 +11,7 @@ import DashboardIcon from "./pages/dashboardicon.jsx"; // matches your file
 import Portfolio from "./pages/Portfolio.jsx";
 import ProfileDashboard from "./pages/ProfileDashboard.jsx";
 import Certifications from "./pages/Certifications.jsx";
+import Education from "./pages/Education.jsx";
 
 
 import Forgot from "./pages/Forgot.jsx";
@@ -36,22 +37,70 @@ export const ThemeContext = createContext();
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000";
 
-function Nav({ user }) {
-  return (
-    <nav style={{ display: "flex", gap: 12, padding: 12 }}>
-      <Link to="/">Home</Link>
-      {user ? (
-        <>
-          <Link to="/dashboard">Dashboard</Link>
-          <Link to="/profile">Profile</Link>
-          <Link to="/icons">Icons</Link>
-          <Link to="/certifications">Certifications</Link>
+function Nav() {
+  const { theme, toggleTheme } = useContext(ThemeContext);
+  const location = useLocation();
+  
+  // Check if user is on a protected/authenticated page
+  const isProtectedPage = location.pathname === "/dashboard" || location.pathname === "/settings";
+  const isDashboard = location.pathname === "/dashboard";
+  const isSettings = location.pathname === "/settings";
 
-        </>
-      ) : (
+  const iconName = theme === "light" ? "dark_mode" : theme === "dark" ? "palette" : theme === "fun" ? "visibility" : "light_mode";
+  const buttonText = theme === "light" ? "Dark Mode" : theme === "dark" ? "Fun Mode" : theme === "fun" ? "Colorblind Mode" : "Light Mode";
+  const logoSource = theme === "light" ? IconImage : whiteIcon;
+
+  const logout = async () => {
+    await fetch((import.meta.env.VITE_API_URL || "http://localhost:4000") + "/api/auth/logout", {
+      method: "POST",
+      credentials: "include"
+    });
+    window.location.href = "/login";
+  };
+
+  return (
+    <nav className="app-nav">
+      <Link to="/">
+        <img
+          src={logoSource}
+          alt="Site Logo"
+          style={{ height: 64, width: 64 }}
+        />
+      </Link>
+
+      {isProtectedPage && (
         <>
-          <Link to="/register">Register</Link>
-          <Link to="/login">Login</Link>
+          {isSettings && (
+            <Link 
+              to="/dashboard"
+              style={{ 
+                fontFamily: 'Rodchenko, sans-serif', 
+                fontSize: '1.5em', 
+                fontWeight: 600,
+                marginLeft: 16,
+                textDecoration: 'none',
+                color: 'inherit',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px'
+              }}
+            >
+              DASHBOARD
+              <span className="material-symbols-outlined">arrow_forward</span>
+            </Link>
+          )}
+          <span
+            style={{ 
+              fontFamily: 'Rodchenko, sans-serif', 
+              fontSize: '1.5em', 
+              fontWeight: 600,
+              marginLeft: isSettings ? 16 : 16,
+              color: 'inherit'
+            }}
+          >
+            {isDashboard ? "DASHBOARD" : "SETTINGS"}
+          </span>
         </>
       )}
 
@@ -171,7 +220,7 @@ function App() {
 
   // Fetch current user from backend session
   useEffect(() => {
-    fetch(`${API_URL}/api/auth/me`, { credentials: "include" })
+      fetch(`${API_URL}/api/auth/me`, { credentials: "include" })
       .then((res) => {
         if (!res.ok) throw new Error("Not authenticated");
         return res.json();
@@ -187,6 +236,7 @@ function App() {
     <BrowserRouter>
       <Nav user={user} />
       <Routes>
+        <Route path="/education" element={user ? <Education userId={user.id} /> : <Navigate to="/login" />} />
         <Route path="/certifications" element={user ? <Certifications /> : <Navigate to="/login" />}/>
         <Route path="/profile-dashboard" element={user ? <ProfileDashboard /> : <Navigate to="/login" />} />
         <Route path="/portfolio" element={user ? <Portfolio /> : <Navigate to="/login" />} />

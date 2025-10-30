@@ -49,6 +49,9 @@ class LinkedInOIDCStrategy extends OAuth2Strategy {
   }
 }
 
+/* ================================
+   GOOGLE STRATEGY (ACTIVE)
+================================ */
 passport.use(
   new LinkedInOIDCStrategy(
     {
@@ -67,8 +70,10 @@ passport.use(
 
         let user = await User.findOne({ emailNorm: email.toLowerCase() });
         if (!user) {
+          // Create new user
           user = await User.create({
             email,
+            emailNorm,
             firstName,
             lastName,
             picture,

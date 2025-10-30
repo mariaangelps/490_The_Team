@@ -12,11 +12,20 @@ const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000";
 // Helper component, defined outside Login()
 function GoogleButton() {
   return (
-    <a
-      href={`${API_URL}/api/auth/google`}
-      className="google-login-button"
-    >
+    <a href={`${API_URL}/api/auth/google`} className="google-login-button">
       Continue with Google
+    </a>
+  );
+}
+
+function LinkedInButton() {
+  return (
+    <a
+      href={`${API_URL}/api/auth/linkedin`}
+      className="linkedin-login-button"
+      rel="noopener noreferrer"
+    >
+      Continue with LinkedIn
     </a>
   );
 }
