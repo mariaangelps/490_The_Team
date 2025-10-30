@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route, Link, Navigate, useLocation } from "react-router-dom";
 import { useState, useEffect, createContext, useContext } from "react";
@@ -5,6 +6,13 @@ import { useState, useEffect, createContext, useContext } from "react";
 import Register from "./pages/Register.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import Login from "./pages/Login.jsx";
+import Profile from "./pages/profile.jsx";
+import DashboardIcon from "./pages/dashboardicon.jsx"; // matches your file
+import Portfolio from "./pages/Portfolio.jsx";
+import ProfileDashboard from "./pages/ProfileDashboard.jsx";
+import Certifications from "./pages/Certifications.jsx";
+
+
 import Forgot from "./pages/Forgot.jsx";
 import Reset from "./pages/Reset.jsx";
 import Settings from "./pages/Settings.jsx";
@@ -25,177 +33,25 @@ import Button from "./reusableButton.jsx";
 //comm
 export const ThemeContext = createContext();
 
-function scrollToElement(id) {
-  const element = document.getElementById(id);
-  if (element) {
-    const elementPosition = element.getBoundingClientRect().top;
-    const offsetPosition = elementPosition + window.pageYOffset + 50;
-    window.scrollTo({
-      top: offsetPosition,
-      behavior: "smooth",
-    });
-  }
-}
 
-// home page
-function Home() {
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000";
+
+function Nav({ user }) {
   return (
-    <div style={{ display: "flex", flexDirection: "column", minHeight: "200vh" }}>
-      {/* Top section */}
-      <div
-        style={{
-          height: "50vh",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          padding: 12,
-          textAlign: "center",
-        }}
-      >
-        <h1>Revamp Your Resume</h1>
-        <p style={{ maxWidth: 600 }}>
-          Get past those pesky ATS's by using AI on your own resume!
-        </p>
-
-        <Button
-          variant="scroll"
-          className="scroll-button"
-          onClick={() => scrollToElement("auth-links-nav")}
-          style={{ marginTop: 32, padding: "10px 20px" }}
-        >
-          <span className="material-symbols-outlined">arrow_downward</span>
-        </Button>
-      </div>
-
-      {/* bottom CTA section */}
-      <div id="auth-links-nav" className="cta-group">
-        <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
-          <Button to="/register" variant="primary">
-            Create an Account
-          </Button>
-
-          <span style={{ opacity: 0.7 }}>or</span>
-
-          <Button to="/login" variant="secondary">
-            Log In
-          </Button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function ThemeProvider({ children }) {
-  const [theme, setTheme] = useState(localStorage.getItem("app-theme") || "auto");
-
-  useEffect(() => {
-    const applyTheme = () => {
-      let actualTheme = theme;
-      
-      // If theme is set to "auto", detect system preference
-      if (theme === "auto") {
-        const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-        actualTheme = systemPrefersDark ? "dark" : "light";
-      }
-      
-      document.body.className = `theme-${actualTheme}`;
-      localStorage.setItem("app-theme", theme); // Save the user's preference (including "auto")
-    };
-
-    applyTheme();
-
-    // Listen for system theme changes when in auto mode
-    if (theme === "auto") {
-      const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-      const handleChange = () => applyTheme();
-      
-      mediaQuery.addEventListener("change", handleChange);
-      
-      // Cleanup listener
-      return () => mediaQuery.removeEventListener("change", handleChange);
-    }
-  }, [theme]);
-
-  const toggleTheme = () =>
-    setTheme((currentTheme) => {
-      if (currentTheme === "light") return "dark";
-      if (currentTheme === "dark") return "fun";
-      if (currentTheme === "fun") return "colorblind";
-      return "light";
-    });
-
-  return (
-    <ThemeContext.Provider value={{ theme, setTheme, toggleTheme }}>
-      {children}
-    </ThemeContext.Provider>
-  );
-}
-
-function Nav() {
-  const { theme, toggleTheme } = useContext(ThemeContext);
-  const location = useLocation();
-  
-  // Check if user is on a protected/authenticated page
-  const isProtectedPage = location.pathname === "/dashboard" || location.pathname === "/settings";
-  const isDashboard = location.pathname === "/dashboard";
-  const isSettings = location.pathname === "/settings";
-
-  const iconName = theme === "light" ? "dark_mode" : theme === "dark" ? "palette" : theme === "fun" ? "visibility" : "light_mode";
-  const buttonText = theme === "light" ? "Dark Mode" : theme === "dark" ? "Fun Mode" : theme === "fun" ? "Colorblind Mode" : "Light Mode";
-  const logoSource = theme === "light" ? IconImage : whiteIcon;
-
-  const logout = async () => {
-    await fetch((import.meta.env.VITE_API_URL || "http://localhost:4000") + "/api/auth/logout", {
-      method: "POST",
-      credentials: "include"
-    });
-    window.location.href = "/login";
-  };
-
-  return (
-    <nav className="app-nav">
-      <Link to="/">
-        <img
-          src={logoSource}
-          alt="Site Logo"
-          style={{ height: 64, width: 64 }}
-        />
-      </Link>
-
-      {isProtectedPage && (
+    <nav style={{ display: "flex", gap: 12, padding: 12 }}>
+      <Link to="/">Home</Link>
+      {user ? (
         <>
-          {isSettings && (
-            <Link 
-              to="/dashboard"
-              style={{ 
-                fontFamily: 'Rodchenko, sans-serif', 
-                fontSize: '1.5em', 
-                fontWeight: 600,
-                marginLeft: 16,
-                textDecoration: 'none',
-                color: 'inherit',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px'
-              }}
-            >
-              DASHBOARD
-              <span className="material-symbols-outlined">arrow_forward</span>
-            </Link>
-          )}
-          <span
-            style={{ 
-              fontFamily: 'Rodchenko, sans-serif', 
-              fontSize: '1.5em', 
-              fontWeight: 600,
-              marginLeft: isSettings ? 16 : 16,
-              color: 'inherit'
-            }}
-          >
-            {isDashboard ? "DASHBOARD" : "SETTINGS"}
-          </span>
+          <Link to="/dashboard">Dashboard</Link>
+          <Link to="/profile">Profile</Link>
+          <Link to="/icons">Icons</Link>
+          <Link to="/certifications">Certifications</Link>
+
+        </>
+      ) : (
+        <>
+          <Link to="/register">Register</Link>
+          <Link to="/login">Login</Link>
         </>
       )}
 
@@ -310,10 +166,42 @@ function Nav() {
 }
 
 function App() {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch current user from backend session
+  useEffect(() => {
+    fetch(`${API_URL}/api/auth/me`, { credentials: "include" })
+      .then((res) => {
+        if (!res.ok) throw new Error("Not authenticated");
+        return res.json();
+      })
+      .then((data) => setUser(data))
+      .catch(() => setUser(null))
+      .finally(() => setLoading(false));
+  }, []);
+
+  if (loading) return <p>Loading...</p>;
+
   return (
     <BrowserRouter>
-      <Nav />
+      <Nav user={user} />
       <Routes>
+        <Route path="/certifications" element={user ? <Certifications /> : <Navigate to="/login" />}/>
+        <Route path="/profile-dashboard" element={user ? <ProfileDashboard /> : <Navigate to="/login" />} />
+        <Route path="/portfolio" element={user ? <Portfolio /> : <Navigate to="/login" />} />
+        <Route path="/" element={<Navigate to={user ? "/dashboard" : "/login"} />} />
+        <Route path="/register" element={user ? <Navigate to="/dashboard" /> : <Register />} />
+        <Route path="/login" element={user ? <Navigate to="/dashboard" /> : <Login />} />
+        <Route path="/dashboard-icons" element={user ? <DashboardIcon /> : <Navigate to="/login" />} />
+        <Route
+          path="/profile"
+          element={user ? <Profile userId={user.id} /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/icons"
+          element={user ? <DashboardIcon /> : <Navigate to="/login" />}
+        />
         {/* public / marketing */}
         <Route path="/" element={<Home />} />
 
@@ -343,6 +231,7 @@ function App() {
   );
 }
 
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
 // render root
 ReactDOM.createRoot(document.getElementById("root")).render(
   <ThemeProvider>
