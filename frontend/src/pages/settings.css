@@ -42,6 +42,18 @@ body.theme-fun .theme-section {
     border: 2px solid #D24BB9;
 }
 
+body.theme-colorblind .theme-section {
+    background-color: #f9f9f9;
+    border: 2px solid #ff5800;
+}
+
+/* Colorblind: default text inside sections should be dark for contrast */
+body.theme-colorblind .theme-section,
+body.theme-colorblind .text-size-section,
+body.theme-colorblind .danger-zone {
+    color: #1a1a1a;
+}
+
 /* Toggle button for theme section */
 .toggle-theme-button {
     width: 100%;
@@ -87,9 +99,28 @@ body.theme-fun .toggle-theme-button:hover {
     background-color: rgba(210, 75, 185, 0.1);
 }
 
+body.theme-colorblind .toggle-theme-button {
+    color: #1a1a1a;
+}
+
+body.theme-colorblind .toggle-theme-button:hover {
+    background-color: rgba(255, 140, 0, 0.1);
+}
+
+/* Make the expand icon match text color */
+body.theme-colorblind .toggle-theme-button .material-symbols-outlined {
+    color: #1a1a1a;
+}
+
 .theme-section-content {
     padding: 20px;
     animation: slideDown 0.3s ease-out;
+}
+
+/* Colorblind: light blue background for expanded content */
+body.theme-colorblind .theme-section-content {
+    background-color: rgba(30, 144, 255, 0.08); /* light blue tint */
+    border-top: 2px solid #1E90FF;
 }
 
 .theme-description {
@@ -108,6 +139,10 @@ body.theme-dark .theme-description {
 
 body.theme-fun .theme-description {
     color: #7C2ADF;
+}
+
+body.theme-colorblind .theme-description {
+    color: #333333;
 }
 
 .theme-options {
@@ -172,6 +207,20 @@ body.theme-fun .theme-option.active {
     background-color: #fff0f7;
 }
 
+body.theme-colorblind .theme-option {
+    background-color: #ffffff;
+    color: #1a1a1a;
+}
+
+body.theme-colorblind .theme-option:hover {
+    border-color: #ff5800;
+}
+
+body.theme-colorblind .theme-option.active {
+    border-color: #ff5800;
+    background-color: #fff4e6;
+}
+
 .theme-option .material-symbols-outlined {
     font-size: 1.5em;
 }
@@ -203,6 +252,11 @@ body.theme-dark .text-size-section {
 body.theme-fun .text-size-section {
     background-color: #fff5f9;
     border: 2px solid #D24BB9;
+}
+
+body.theme-colorblind .text-size-section {
+    background-color: #f9f9f9;
+    border: 2px solid #ff5800;
 }
 
 /* Toggle button for text size section */
@@ -250,9 +304,28 @@ body.theme-fun .toggle-text-size-button:hover {
     background-color: rgba(210, 75, 185, 0.1);
 }
 
+body.theme-colorblind .toggle-text-size-button {
+    color: #1a1a1a;
+}
+
+body.theme-colorblind .toggle-text-size-button:hover {
+    background-color: rgba(255, 88, 0, 0.1);
+}
+
+/* Make the expand icon match text color */
+body.theme-colorblind .toggle-text-size-button .material-symbols-outlined {
+    color: #1a1a1a;
+}
+
 .text-size-section-content {
     padding: 20px;
     animation: slideDown 0.3s ease-out;
+}
+
+/* Colorblind: light blue background for expanded content */
+body.theme-colorblind .text-size-section-content {
+    background-color: rgba(30, 144, 255, 0.08);
+    border-top: 2px solid #1E90FF;
 }
 
 .text-size-description {
@@ -271,6 +344,10 @@ body.theme-dark .text-size-description {
 
 body.theme-fun .text-size-description {
     color: #7C2ADF;
+}
+
+body.theme-colorblind .text-size-description {
+    color: #333333;
 }
 
 .text-size-options {
@@ -335,6 +412,20 @@ body.theme-fun .text-size-option.active {
     background-color: #fff0f7;
 }
 
+body.theme-colorblind .text-size-option {
+    background-color: #ffffff;
+    color: #1a1a1a;
+}
+
+body.theme-colorblind .text-size-option:hover {
+    border-color: #ff5800;
+}
+
+body.theme-colorblind .text-size-option.active {
+    border-color: #ff5800;
+    background-color: #fff4e6;
+}
+
 .text-size-option .material-symbols-outlined {
     font-size: 1.5em;
 }
@@ -369,6 +460,12 @@ body.theme-dark .danger-zone {
 body.theme-fun .danger-zone {
     background-color: #fff0f7;
     border: 2px solid #D24BB9;
+}
+
+/* Colorblind theme danger zone */
+body.theme-colorblind .danger-zone {
+    background-color: #fff5f5;
+    border: 2px solid #ff5800;
 }
 
 /* Toggle button for delete section */
@@ -419,10 +516,30 @@ body.theme-fun .toggle-delete-button:hover {
     background-color: rgba(210, 75, 185, 0.1);
 }
 
+/* Colorblind theme toggle button */
+body.theme-colorblind .toggle-delete-button {
+    color: #1a1a1a;
+}
+
+body.theme-colorblind .toggle-delete-button:hover {
+    background-color: rgba(255, 88, 0, 0.1);
+}
+
+/* Make the expand icon match text color */
+body.theme-colorblind .toggle-delete-button .material-symbols-outlined {
+    color: #1a1a1a;
+}
+
 /* Delete section content (the folded-out part) */
 .delete-section-content {
     padding: 20px;
     animation: slideDown 0.3s ease-out;
+}
+
+/* Colorblind: light blue background for expanded content */
+body.theme-colorblind .delete-section-content {
+    background-color: rgba(30, 144, 255, 0.08);
+    border-top: 2px solid #1E90FF;
 }
 
 @keyframes slideDown {
@@ -446,6 +563,11 @@ body.theme-fun .toggle-delete-button:hover {
     font-size: 1.5em;
 }
 
+/* Colorblind mode: make the title orange to match palette */
+body.theme-colorblind .danger-zone-title {
+    color: #ff5800;
+}
+
 .danger-zone-text {
     font-size: 24px;
     line-height: 1.4;
@@ -465,6 +587,11 @@ body.theme-dark .danger-zone-text {
 /* Fun theme text */
 body.theme-fun .danger-zone-text {
     color: #000000;
+}
+
+/* Colorblind theme text */
+body.theme-colorblind .danger-zone-text {
+    color: #ff5800; /* orange for emphasis in colorblind mode */
 }
 
 /* Password input wrapper */
@@ -493,6 +620,11 @@ body.theme-dark .password-label {
 /* Fun theme label */
 body.theme-fun .password-label {
     color: #000000;
+}
+
+/* Colorblind theme label */
+body.theme-colorblind .password-label {
+    color: #1a1a1a;
 }
 
 /* Password input */
@@ -546,6 +678,19 @@ body.theme-fun .settings-password-input:focus {
     outline: none;
 }
 
+/* Colorblind theme input */
+body.theme-colorblind .settings-password-input {
+    background-color: #ffffff;
+    color: #1a1a1a;
+    border-color: #ff5800;
+}
+
+body.theme-colorblind .settings-password-input:focus {
+    border-color: #1E90FF;
+    box-shadow: 0 0 0 2px rgba(30, 144, 255, 0.1);
+    outline: none;
+}
+
 /* Error message */
 .settings-error {
     color: #dc2626;
@@ -580,6 +725,18 @@ body.theme-fun .settings-password-input:focus {
 .delete-account-button:disabled {
     opacity: 0.6;
     cursor: not-allowed;
+}
+
+/* Colorblind theme: make delete button orange */
+body.theme-colorblind .delete-account-button {
+    background-color: #ff5800;
+    color: #FFFFFF;
+}
+
+body.theme-colorblind .delete-account-button:hover:not(:disabled) {
+    background-color: #ff5800; /* keep orange on hover */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 /* Confirmation modal */
@@ -620,6 +777,11 @@ body.theme-fun .confirmation-modal {
     background-color: #FFFDF8;
 }
 
+/* Colorblind theme modal */
+body.theme-colorblind .confirmation-modal {
+    background-color: #ffffff;
+}
+
 .confirmation-modal-title {
     margin-top: 0;
     margin-bottom: 12px;
@@ -642,6 +804,11 @@ body.theme-fun .confirmation-modal-title {
     color: #000000;
 }
 
+/* Colorblind theme modal title */
+body.theme-colorblind .confirmation-modal-title {
+    color: #1a1a1a;
+}
+
 .confirmation-modal-text {
     font-size: 14px;
     line-height: 1.4;
@@ -660,6 +827,11 @@ body.theme-dark .confirmation-modal-text {
 /* Fun theme modal text */
 body.theme-fun .confirmation-modal-text {
     color: #000000;
+}
+
+/* Colorblind theme modal text */
+body.theme-colorblind .confirmation-modal-text {
+    color: #333333;
 }
 
 .confirmation-modal-buttons {
@@ -732,4 +904,96 @@ body.theme-fun .cancel-button:hover:not(:disabled) {
 .confirm-delete-button:disabled {
     opacity: 0.6;
     cursor: not-allowed;
+}
+
+/* Colorblind theme: make modal confirm delete button orange */
+body.theme-colorblind .confirm-delete-button {
+    background-color: #ff5800;
+    color: #FFFFFF;
+}
+
+body.theme-colorblind .confirm-delete-button:hover:not(:disabled) {
+    background-color: #ff5800; /* keep orange on hover */
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .settings-container {
+        padding: 16px;
+        max-width: 100%;
+    }
+    
+    .settings-header {
+        font-size: 2em;
+        white-space: normal;
+    }
+    
+    .theme-section,
+    .text-size-section,
+    .danger-zone {
+        max-width: 100%;
+    }
+    
+    .toggle-theme-button,
+    .toggle-text-size-button,
+    .toggle-delete-button {
+        font-size: 1.2em;
+        padding: 16px 20px;
+    }
+    
+    .theme-options,
+    .text-size-options {
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+    }
+    
+    .delete-account-button {
+        font-size: 1em;
+        padding: 12px 24px;
+    }
+}
+
+@media (max-width: 480px) {
+    .settings-header {
+        font-size: 1.6em;
+    }
+    
+    .toggle-theme-button,
+    .toggle-text-size-button,
+    .toggle-delete-button {
+        font-size: 1em;
+        padding: 14px 16px;
+    }
+    
+    .theme-options,
+    .text-size-options {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    
+    .theme-option,
+    .text-size-option {
+        font-size: 0.95em;
+        padding: 12px;
+    }
+    
+    .delete-input {
+        font-size: 0.95em;
+        padding: 10px;
+    }
+    
+    .delete-account-button {
+        font-size: 0.95em;
+        padding: 10px 20px;
+    }
+    
+    .modal-actions {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .cancel-button,
+    .confirm-delete-button {
+        width: 100%;
+    }
 }

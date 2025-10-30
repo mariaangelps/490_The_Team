@@ -6,10 +6,13 @@ import "./forgot.css";
 export default function Forgot() {
   const [email, setEmail] = useState("");
   const [sent, setSent] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const submit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     await post("/api/auth/reset/request", { email }); // always returns success
+    setLoading(false);
     setSent(true);
   };
 
@@ -28,8 +31,15 @@ export default function Forgot() {
             onChange={(e) => setEmail(e.target.value)}
             required
           />
-          <Button type="submit" variant="primary" className="forgot-button">
-            Send reset link
+          <Button type="submit" variant="primary" className="forgot-button" disabled={loading}>
+            {loading ? (
+              <>
+                <span className="material-symbols-outlined rotating">progress_activity</span>
+                Sending...
+              </>
+            ) : (
+              "Send reset link"
+            )}
           </Button>
         </form>
       )}

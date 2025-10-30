@@ -115,6 +115,14 @@ export default function Settings() {
                 <span className="material-symbols-outlined">palette</span>
                 <span className="theme-option-text">Fun Mode</span>
               </button>
+
+              <button
+                className={`theme-option ${theme === "colorblind" ? "active" : ""}`}
+                onClick={() => handleThemeChange("colorblind")}
+              >
+                <span className="material-symbols-outlined">visibility</span>
+                <span className="theme-option-text">Colorblind Mode</span>
+              </button>
             </div>
           </div>
         )}

@@ -1,7 +1,19 @@
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { ThemeContext } from "../main.jsx";
 import "./dashboard.css";
 
 export default function Dashboard() {
+  const { theme } = useContext(ThemeContext);
+  
+    // Colorblind mode palette limited to requested colors
+    const colorblindColors = {
+      blue: "#1E90FF",     // DodgerBlue
+      orange: "#ff5800",   // Vivid Orange
+      black: "#000000",
+      white: "#FFFFFF"
+    };
+  
   // Card data - customize these links and content as needed
   const cards = [
     {
@@ -9,48 +21,48 @@ export default function Dashboard() {
       title: "Upload Resume",
       description: "Start by uploading your resume to get AI-powered insights",
       link: "/upload",
-      icon: "upload_file",
-      color: "#7C2ADF"
+    icon: "upload_file",
+    color: theme === "colorblind" ? colorblindColors.blue : "#7C2ADF",
     },
     {
       id: 2,
       title: "Settings",
       description: "Customize your account preferences and appearance",
       link: "/settings",
-      icon: "settings",
-      color: "#D24BB9"
+    icon: "settings",
+    color: theme === "colorblind" ? colorblindColors.orange : "#D24BB9",
     },
     {
       id: 3,
       title: "My Resumes",
       description: "View and manage all your resume versions",
       link: "/resumes",
-      icon: "description",
-      color: "#FCBD16"
+  icon: "description",
+  color: theme === "colorblind" ? colorblindColors.blue : "#FCBD16",
     },
     {
       id: 4,
       title: "Job Matches",
       description: "Find jobs that match your resume profile",
       link: "/jobs",
-      icon: "work",
-      color: "#7C2ADF"
+  icon: "work",
+  color: theme === "colorblind" ? colorblindColors.orange : "#7C2ADF",
     },
     {
       id: 5,
       title: "Analytics",
       description: "Track your resume performance and optimization scores",
       link: "/analytics",
-      icon: "analytics",
-      color: "#D24BB9"
+    icon: "analytics",
+    color: theme === "colorblind" ? colorblindColors.blue : "#D24BB9",
     },
     {
       id: 6,
       title: "Templates",
       description: "Browse professional resume templates",
       link: "/templates",
-      icon: "article",
-      color: "#FCBD16"
+    icon: "article",
+    color: theme === "colorblind" ? colorblindColors.orange : "#FCBD16",
     }
   ];
 

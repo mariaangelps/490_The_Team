@@ -116,7 +116,7 @@ body.theme-light .login-button {
 
 body.theme-dark .login-button:hover:not(:disabled) {
     background-color: #7c2adf;
-    color: white;
+    color: #ffffff;
     transform: translateY(-2px);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
@@ -130,7 +130,7 @@ body.theme-dark .login-button {
 
 body.theme-dark .login-button:hover:not(:disabled) {
     background-color: #7c2adf;
-    color: white;
+    color: #ffffff;
     transform: translateY(-2px);
     box-shadow: 0 6px 12px rgba(124, 42, 223, 0.3);
 }
@@ -300,4 +300,47 @@ body.theme-fun .page-switch-link:hover {
     text-align: center;
     font-size: 0.9em;
     width: 100%;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .login-header {
+        font-size: 2em;
+        white-space: normal;
+    }
+    
+    .login-form-container {
+        padding: 16px;
+        max-width: 100%;
+    }
+    
+    .login-form {
+        max-width: 100%;
+    }
+    
+    .login-button,
+    .google-login-button,
+    .linkedin-login-button {
+        margin-left: 0;
+        font-size: 1em;
+        padding: 12px 24px;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-header {
+        font-size: 1.6em;
+    }
+    
+    .login-input {
+        font-size: 0.95em;
+        padding: 10px;
+    }
+    
+    .login-button,
+    .google-login-button,
+    .linkedin-login-button {
+        font-size: 0.95em;
+        padding: 10px 20px;
+    }
 }

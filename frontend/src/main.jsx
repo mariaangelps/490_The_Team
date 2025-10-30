@@ -90,6 +90,7 @@ function ThemeProvider({ children }) {
     setTheme((currentTheme) => {
       if (currentTheme === "light") return "dark";
       if (currentTheme === "dark") return "fun";
+      if (currentTheme === "fun") return "colorblind";
       return "light";
     });
 
@@ -109,8 +110,8 @@ function Nav() {
   const isDashboard = location.pathname === "/dashboard";
   const isSettings = location.pathname === "/settings";
 
-  const iconName = theme === "light" ? "dark_mode" : theme === "dark" ? "palette" : "light_mode";
-  const buttonText = theme === "light" ? "Dark Mode" : theme === "dark" ? "Fun Mode" : "Light Mode";
+  const iconName = theme === "light" ? "dark_mode" : theme === "dark" ? "palette" : theme === "fun" ? "visibility" : "light_mode";
+  const buttonText = theme === "light" ? "Dark Mode" : theme === "dark" ? "Fun Mode" : theme === "fun" ? "Colorblind Mode" : "Light Mode";
   const logoSource = theme === "light" ? IconImage : whiteIcon;
 
   const logout = async () => {
@@ -199,20 +200,20 @@ function Nav() {
                 cursor: "pointer",
                 transition: "all 0.3s ease",
                 fontFamily: 'Rodchenko, sans-serif',
-                backgroundColor: "#fcbd16",
-                color: "#000000",
+                backgroundColor: theme === "colorblind" ? "#ff5800" : "#fcbd16",
+                color: theme === "colorblind" ? "#FFFFFF" : "#000000",
                 boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
                 textDecoration: "none",
               }}
               onMouseEnter={(e) => {
-                e.target.style.backgroundColor = "#7c2adf";
+                e.target.style.backgroundColor = theme === "colorblind" ? "#1E90FF" : "#7c2adf";
                 e.target.style.color = "white";
                 e.target.style.transform = "translateY(-1px)";
                 e.target.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.15)";
               }}
               onMouseLeave={(e) => {
-                e.target.style.backgroundColor = "#fcbd16";
-                e.target.style.color = "#000000";
+                e.target.style.backgroundColor = theme === "colorblind" ? "#ff5800" : "#fcbd16";
+                e.target.style.color = theme === "colorblind" ? "#FFFFFF" : "#000000";
                 e.target.style.transform = "translateY(0)";
                 e.target.style.boxShadow = "0 2px 4px rgba(0, 0, 0, 0.1)";
               }}
@@ -234,19 +235,19 @@ function Nav() {
                 cursor: "pointer",
                 transition: "all 0.3s ease",
                 fontFamily: 'Rodchenko, sans-serif',
-                backgroundColor: "#fcbd16",
-                color: "#000000",
+                backgroundColor: theme === "colorblind" ? "#ff5800" : "#fcbd16",
+                color: theme === "colorblind" ? "#FFFFFF" : "#000000",
                 boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
               }}
               onMouseEnter={(e) => {
-                e.target.style.backgroundColor = "#7c2adf";
+                e.target.style.backgroundColor = theme === "colorblind" ? "#1E90FF" : "#7c2adf";
                 e.target.style.color = "white";
                 e.target.style.transform = "translateY(-1px)";
                 e.target.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.15)";
               }}
               onMouseLeave={(e) => {
-                e.target.style.backgroundColor = "#fcbd16";
-                e.target.style.color = "#000000";
+                e.target.style.backgroundColor = theme === "colorblind" ? "#ff5800" : "#fcbd16";
+                e.target.style.color = theme === "colorblind" ? "#FFFFFF" : "#000000";
                 e.target.style.transform = "translateY(0)";
                 e.target.style.boxShadow = "0 2px 4px rgba(0, 0, 0, 0.1)";
               }}

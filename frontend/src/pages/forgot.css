@@ -139,3 +139,64 @@ body.theme-fun .forgot-button:hover:not(:disabled) {
   transform: translateY(-2px);
   box-shadow: 0 6px 12px rgba(210, 75, 185, 0.4);
 }
+
+.forgot-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* Rotating loading icon */
+.rotating {
+  animation: rotate 1s linear infinite;
+  margin-right: 8px;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .forgot-form-container {
+    padding: 20px 16px;
+    max-width: 100%;
+    padding-top: 30px;
+  }
+  
+  .forgot-header {
+    font-size: 2em;
+    white-space: normal;
+  }
+  
+  .forgot-form {
+    max-width: 100%;
+  }
+  
+  .forgot-button {
+    font-size: 1em;
+    padding: 12px 24px;
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .forgot-header {
+    font-size: 1.6em;
+  }
+  
+  .forgot-input {
+    font-size: 0.95em;
+    padding: 10px;
+  }
+  
+  .forgot-button {
+    font-size: 0.95em;
+    padding: 10px 20px;
+  }
+}

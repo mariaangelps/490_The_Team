@@ -120,7 +120,7 @@ body.theme-dark .register-button {
 
 body.theme-dark .register-button:hover:not(:disabled) {
     background-color: #7c2adf;
-    color: white;
+    color: #ffffff;
     transform: translateY(-2px);
     box-shadow: 0 6px 12px rgba(124, 42, 223, 0.3);
 }
@@ -275,4 +275,43 @@ body.theme-dark .page-switch-link:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
     animation: linkedinGradientShift 2s ease infinite;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .register-header {
+        font-size: 2em;
+        white-space: normal;
+    }
+    
+    .register-form {
+        max-width: 100%;
+        padding: 0 16px;
+    }
+    
+    .register-button,
+    .google-button,
+    .linkedin-button {
+        margin-left: 0;
+        font-size: 1em;
+        padding: 12px 24px;
+    }
+}
+
+@media (max-width: 480px) {
+    .register-header {
+        font-size: 1.6em;
+    }
+    
+    .register-input {
+        font-size: 0.95em;
+        padding: 10px;
+    }
+    
+    .register-button,
+    .google-button,
+    .linkedin-button {
+        font-size: 0.95em;
+        padding: 10px 20px;
+    }
 }
