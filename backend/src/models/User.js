@@ -9,6 +9,12 @@ const UserSchema = new mongoose.Schema(
     lastName: String,
     picture: String,
     providers: [{ type: String }],
+    employment: [{ type: String }],
+    skills: [{ type: String }],
+    education: [{ type: String }],
+    projects: [{ type: String }],
+    createdAt: Date,
+    updatedAt: Date,
     deletedAt: Date
   },
   { timestamps: true }
