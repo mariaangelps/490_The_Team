@@ -13,6 +13,8 @@ import SkillsPage from "./pages/SkillsPage.jsx";  import "./main.css";
 import EmploymentHistory from "./pages/EmploymentHistory.jsx";
 // Features (están dentro de src/features)
 import EmploymentAddForm from "./features/employment/EmploymentAddForm.tsx";
+import EducationPage from "./pages/Education";
+
 import ProfileBasicForm from "./features/profile/ProfileBasicForm.tsx";
 import SkillsBoard from "./pages/SkillsBoard.jsx";
 import IconImage from "./assets/THE.png";
@@ -303,6 +305,7 @@ function App() {
         <Route path="/skills/board" element={<SkillsBoard />} />
         <Route path="/employment" element={<EmploymentHistory />} />
         <Route path="/employment/new" element={<EmploymentAddForm />} />
+        <Route path="/education" element={<EducationPage />} />
 
 
         <Route path="/settings" element={<Settings />} /> {/* 👈 NEW */}

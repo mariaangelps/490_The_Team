@@ -7,6 +7,7 @@ import Reset from "./pages/Reset.jsx";
 import Settings from "./pages/Settings.jsx"; // <-- we'll create this next
 import EmploymentHistory from "./pages/EmploymentHistory.jsx";
 import SkillsManager from "./pages/Skills.jsx";
+import EducationPage from "./pages/Education.jsx";
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
         <Route path="/settings" element={<Settings />} />
         <Route path="/employment" element={<EmploymentHistory />} />
         <Route path="/skills" element={<SkillsManager />} />
+        <Route path="/education" element={<EducationPage />} />
 
 
         <Route path="/login" element={<Login />} />

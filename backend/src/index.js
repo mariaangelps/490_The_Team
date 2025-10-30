@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
 import session from "express-session";
 import MongoStore from "connect-mongo";
+import educationRoutes from "./routes/education.js";
 
 //import { connectDB, wireDBSignals } from "./db.js"; // ✅ conexión modular
 
@@ -67,6 +68,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/users", userRouter);
 app.use("/api/employment", employmentRoutes);
 app.use("/api/skills", skillsRouter);
+app.use("/api/education", educationRoutes);
 
 
 

@@ -86,6 +86,15 @@ export default function Dashboard() {
       icon: "workspace_premium", // o "construction", "star"
       color: theme === "colorblind" ? colorblindColors.orange : brand.teal,
     },
+    {
+      id: 9,
+      title: "Education",
+      description: "Add and manage your educational background",
+      link: "/education",
+      icon: "school",
+      color: theme === "colorblind" ? colorblindColors.blue : brand.purple,
+    },
+    
   ];
 
   return (
