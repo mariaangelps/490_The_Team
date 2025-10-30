@@ -1,0 +1,138 @@
+/* ========== PAGE WRAPPER ========== */
+.profile-page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 24px;
+  }
+  
+  /* Title (Rodchenko font already loaded in main.css) */
+  .profile-title {
+    font-family: 'Rodchenko', sans-serif;
+    font-size: clamp(2.8rem, 6vw, 5rem);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    line-height: 1;
+    margin-bottom: 40px;
+    text-align: left;
+  }
+  
+  /* ========== NAV BUTTONS (Back / Go to Employment) ========== */
+  .profile-nav {
+    margin-bottom: 32px;
+    display: flex;
+    gap: 32px;
+    font-size: 0.9rem;
+  }
+  
+  .profile-nav a {
+    color: var(--text-color);
+    opacity: 0.8;
+    transition: opacity 0.2s ease-in-out;
+    text-decoration: none;
+  }
+  
+  .profile-nav a:hover {
+    opacity: 1;
+  }
+  
+  /* ========== FORM ========== */
+  .profile-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem;
+  }
+  
+  .profile-row {
+    display: flex;
+    gap: 12px;
+    width: 100%;
+  }
+  
+  .profile-row > * {
+    flex: 1;
+  }
+  
+  /* ========== INPUTS & TEXTAREA ========== */
+  .profile-form input,
+  .profile-form select,
+  .profile-form textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: 10px;
+    outline: none;
+    border: 2px solid var(--border-color);
+    background: var(--bg-color);
+    color: var(--text-color);
+    transition: border-color 0.2s ease-in-out;
+  }
+  
+  .profile-form input:focus,
+  .profile-form select:focus,
+  .profile-form textarea:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 4px rgba(252, 189, 22, 0.25);
+  }
+  
+  /* ========== LABEL ========== */
+  .profile-form label {
+    font-size: 0.9rem;
+    margin-bottom: 4px;
+    opacity: 0.9;
+  }
+  
+  /* ========== TEXTAREA COUNTER ========== */
+  .bio-counter {
+    font-size: 12px;
+    text-align: right;
+    opacity: 0.6;
+  }
+  
+  /* ========== BUTTONS ========== */
+  .profile-actions {
+    display: flex;
+    gap: 16px;
+  }
+  
+  .btn-save {
+    background-color: var(--accent-color);
+    color: white;
+    padding: 10px 24px;
+    border-radius: 16px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .btn-save:hover {
+    background-color: #7c2adf;
+    color: white;
+  }
+  
+  .btn-cancel {
+    border: 2px solid var(--border-color);
+    padding: 10px 24px;
+    border-radius: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    background: transparent;
+    color: var(--text-color);
+  }
+  
+  .btn-cancel:hover {
+    border-color: #c4c4c4;
+  }
+  
+  /* ========== MESSAGES ========= */
+  .profile-msg-success {
+    color: #16a34a;
+    font-size: 14px;
+    margin-top: 8px;
+  }
+  
+  .profile-msg-error {
+    color: #dc2626;
+    font-size: 14px;
+    margin-top: 8px;
+  }
+  

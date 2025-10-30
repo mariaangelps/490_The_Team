@@ -13,6 +13,12 @@ export default function Dashboard() {
       black: "#000000",
       white: "#FFFFFF"
     };
+    const brand = {
+      purple: "#7C2ADF",
+      pink: "#D24BB9",
+      amber: "#FCBD16",
+      teal: "#0ea5a3",
+    };
   
   // Card data - customize these links and content as needed
   const cards = [
@@ -63,7 +69,32 @@ export default function Dashboard() {
       link: "/templates",
     icon: "article",
     color: theme === "colorblind" ? colorblindColors.orange : "#FCBD16",
-    }
+    },
+    {
+      id: 7,
+      title: "Employment History",
+      description: "View and edit your work experience timeline",
+      link: "/employment",          // <-- Navigates to your EmploymentHistory.jsx page
+      icon: "history",
+      color: theme === "colorblind" ? colorblindColors.blue : "#7C2ADF",
+    },
+    {
+      id: 8,
+      title: "Skills",
+      description: "Add, edit, and organize your skills & proficiency",
+      link: "/skills",
+      icon: "workspace_premium", // o "construction", "star"
+      color: theme === "colorblind" ? colorblindColors.orange : brand.teal,
+    },
+    {
+      id: 9,
+      title: "Education",
+      description: "Add and manage your educational background",
+      link: "/education",
+      icon: "school",
+      color: theme === "colorblind" ? colorblindColors.blue : brand.purple,
+    },
+    
   ];
 
   return (

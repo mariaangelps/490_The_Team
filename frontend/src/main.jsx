@@ -8,13 +8,21 @@ import Login from "./pages/Login.jsx";
 import Forgot from "./pages/Forgot.jsx";
 import Reset from "./pages/Reset.jsx";
 import Settings from "./pages/Settings.jsx";
+import SkillsPage from "./pages/SkillsPage.jsx";  import "./main.css";
+// Páginas
+import EmploymentHistory from "./pages/EmploymentHistory.jsx"; // 👈 ruta real del archivo
+// Features (están dentro de src/features)
+import EmploymentAddForm from "./pages/EmploymentAddForm.jsx";
+import ProfileBasicForm from "./pages/ProfileBasicForm.jsx";
 
-import "./main.css";
+import EducationPage from "./pages/Education";
+
+import SkillsBoard from "./pages/SkillsBoard.jsx";
 import IconImage from "./assets/THE.png";
 import DarkIconImage from "./assets/THE(yellow).png"; // unused currently
 import whiteIcon from "./assets/THE(white).png";
 import Button from "./reusableButton.jsx";
-
+//comm
 export const ThemeContext = createContext();
 
 function scrollToElement(id) {
@@ -204,6 +212,7 @@ function Nav() {
             <Link to="/">Home</Link>
             <Link to="/register">Register</Link>
             <Link to="/login">Login</Link>
+            
           </>
         )}
 
@@ -316,6 +325,15 @@ function App() {
 
         {/* app / protected-ish pages */}
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/skills" element={<SkillsPage />} />
+        <Route path="/skills/board" element={<SkillsBoard />} />
+        <Route path="/employment" element={<EmploymentHistory />} />
+        <Route path="/employment/new" element={<EmploymentAddForm />} />
+        <Route path="/education" element={<EducationPage />} />
+        <Route path="/profile/basic" element={<ProfileBasicForm />} />
+
+
+
         <Route path="/settings" element={<Settings />} /> {/* 👈 NEW */}
 
         {/* fallback */}

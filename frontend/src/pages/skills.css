@@ -1,0 +1,80 @@
+/* Layout helpers */
+.page-pad { padding: 24px; }
+.space-v > * + * { margin-top: 24px; }
+.page-title { font-size: 28px; font-weight: 700; }
+.section-title { font-size: 20px; font-weight: 600; margin: 12px 0; }
+.muted { color: var(--muted, #6b7280); }
+
+/* Form */
+.skill-form { border: 1px solid var(--border,#d6d6d6); border-radius: 16px; padding: 12px; }
+.skill-form-row { display: flex; gap: 12px; flex-wrap: wrap; }
+.skill-form-col { display: flex; flex-direction: column; gap: 6px; min-width: 220px; }
+.skill-form-col.end { align-self: end; }
+.label { font-size: 0.9rem; font-weight: 600; }
+.skill-input, .skill-select { padding: 8px 10px; border: 1px solid var(--border,#d6d6d6); border-radius: 10px; background: var(--bg,#fff); color: var(--text,#000); }
+
+/* Badge (chip) */
+.badge {
+  display: inline-flex; align-items: center;
+  padding: 4px 10px; border: 1px solid var(--border,#d6d6d6);
+  border-radius: 999px; font-size: .85rem; line-height: 1;
+  background: var(--bg,#fff); color: var(--text,#000);
+  box-shadow: var(--elev-shadow, 0 2px 8px rgba(0,0,0,.08));
+}
+
+/* Rows */
+.skill-row {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; padding: 10px 12px;
+  border: 1px solid var(--border,#d6d6d6); border-radius: 12px;
+  background: transparent;
+}
+.skill-row + .skill-row { margin-top: 8px; }
+.skill-row-left { display: flex; align-items: center; gap: 8px; }
+.skill-name { font-weight: 600; }
+
+.skill-row-actions { display: flex; align-items: center; gap: 8px; }
+
+/* Buttons */
+.btn { padding: 8px 12px; border-radius: 10px; border: 1px solid var(--border,#d6d6d6); background: var(--bg,#fff); color: var(--text,#000); }
+/* Botón primario: ADD y EXPORT JSON */
+.btn-primary {
+  background: #7C2ADF;
+  color: #000000 !important;  /* <-- TEXTO BLANCO SIEMPRE */
+  border: none;
+  font-weight: 600;
+}
+
+/* Hover */
+.btn-primary:hover {
+  background: #691fbe;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+/* Active (click) */
+.btn-primary:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.btn-danger { color: #c0392b; border-color: #f1b4ae; background: transparent; }
+
+/* Confirm modal */
+.confirm-overlay { position: fixed; inset: 0; display: grid; place-items: center; background: rgba(0,0,0,.4); z-index: 50; }
+.confirm-card { width: min(92vw, 420px); background: #fff; color: #000; border-radius: 16px; padding: 20px; }
+.confirm-title { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+.confirm-text { font-size: 14px; color: #555; margin-bottom: 14px; }
+.confirm-actions { display: flex; justify-content: end; gap: 8px; }
+
+/* Errors */
+.error { color: #dc2626; }
+.skills-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+/* ya tienes .btn y .btn-primary en ese mismo CSS */
