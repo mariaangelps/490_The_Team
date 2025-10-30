@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { COMMON_SKILLS } from "../data/commonSkills";
 import "./skills.css"; // 👈 estilos de abajo
+import { Link } from "react-router-dom";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000";
 
@@ -257,7 +258,10 @@ export default function SkillsPage() {
 
   return (
     <div className="page-pad space-v">
-      <h1 className="page-title">Skills</h1>
+      <div className="skills-header">
+        <h1 className="page-title">Skills</h1>
+        <Link to="/skills/board" className="btn btn-primary">My Skills Board</Link>
+      </div>
 
       <SkillForm existing={skills} onAdd={addLocal} />
 

@@ -37,7 +37,27 @@
 
 /* Buttons */
 .btn { padding: 8px 12px; border-radius: 10px; border: 1px solid var(--border,#d6d6d6); background: var(--bg,#fff); color: var(--text,#000); }
-.btn-primary { background: #7C2ADF; color: #fff; border: none; }
+/* Botón primario: ADD y EXPORT JSON */
+.btn-primary {
+  background: #7C2ADF;
+  color: #000000 !important;  /* <-- TEXTO BLANCO SIEMPRE */
+  border: none;
+  font-weight: 600;
+}
+
+/* Hover */
+.btn-primary:hover {
+  background: #691fbe;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+/* Active (click) */
+.btn-primary:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
 .btn-danger { color: #c0392b; border-color: #f1b4ae; background: transparent; }
 
 /* Confirm modal */
@@ -49,3 +69,12 @@
 
 /* Errors */
 .error { color: #dc2626; }
+.skills-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+/* ya tienes .btn y .btn-primary en ese mismo CSS */
