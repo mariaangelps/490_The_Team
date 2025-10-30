@@ -5,6 +5,8 @@ import Register from "./pages/Register.jsx";
 import Forgot from "./pages/Forgot.jsx";
 import Reset from "./pages/Reset.jsx";
 import Settings from "./pages/Settings.jsx"; // <-- we'll create this next
+import EmploymentHistory from "./pages/EmploymentHistory.jsx";
+
 
 function App() {
   return (
@@ -19,6 +21,8 @@ function App() {
       <Routes>
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/settings" element={<Settings />} />
+        <Route path="/employment" element={<EmploymentHistory />} />
+
 
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />

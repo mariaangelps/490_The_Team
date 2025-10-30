@@ -1,45 +1,32 @@
-// backend/src/index.js
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
+import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
 import session from "express-session";
 import MongoStore from "connect-mongo";
-import passport from "./passport.js";
-import { connectDB, wireDBSignals } from "./db.js"; // ✅ conexión modular
+//import { connectDB, wireDBSignals } from "./db.js"; // ✅ conexión modular
+
+
 
 dotenv.config();
 
 const app = express();
+console.log('GOOGLE_CALLBACK =', process.env.GOOGLE_CALLBACK);
+console.log('GOOGLE_CLIENT_ID (prefix) =', process.env.GOOGLE_CLIENT_ID?.slice(0,12));
 
-// ================================================
-//  GLOBAL MIDDLEWARE
-// ================================================
+
+// middleware
 app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "http://localhost:5173", // Vite dev server
+    origin: "http://localhost:5173", // frontend will run on Vite dev server
     credentials: true,
   })
 );
 
-// ================================================
-//  DATABASE CONNECTION (Atlas / local)
-// ================================================
-(async () => {
-  try {
-    await connectDB();      // ✅ conecta mongoose usando tu db.js
-    wireDBSignals();        // logs + manejo de SIGINT
-  } catch (err) {
-    console.error("❌ Could not connect to MongoDB:", err.message);
-    process.exit(1);
-  }
-})();
-
-// ================================================
-//  SESSION + MONGO STORE
-// ================================================
+// session setup
 app.use(
   session({
     name: "sid",
@@ -48,41 +35,41 @@ app.use(
     saveUninitialized: false,
     cookie: {
       httpOnly: true,
-      secure: false,       // true en producción con HTTPS
+      secure: false,
       sameSite: "lax",
-      maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
+      maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
     },
     store: MongoStore.create({
-      mongoUrl: process.env.MONGO_URI,   // ✅ usa Atlas desde .env
-      ttl: 60 * 60 * 24 * 7,              // 7 días
+      mongoUrl: process.env.MONGO_URI || "mongodb://localhost:27017/projectdb",
     }),
   })
 );
 
-// ================================================
-//  PASSPORT AUTH
-// ================================================
+// database connection
+mongoose
+  .connect(process.env.MONGO_URI || "mongodb://localhost:27017/projectdb")
+  .then(() => console.log("MongoDB connected"))
+  .catch((err) => console.error("MongoDB error:", err));
+
+// passport setup
+import passport from "./passport.js";
 app.use(passport.initialize());
 app.use(passport.session());
 
-// ================================================
-//  ROUTES
-// ================================================
+// routes
 import authRoutes from "./routes/auth.js";
 import userRouter from "./routes/user.js";
-import employmentRouter from "./routes/employment.js"; // ✅ UC-021 / 023 / 024 / 025
-
+import employmentRoutes from "./routes/employment.js";
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRouter);
-app.use("/api/employment", employmentRouter);
+app.use("/api/employment", employmentRoutes);
 
-// TEST HEALTH ENDPOINT
+
+// simple test route
 app.get("/health", (req, res) => {
   res.json({ status: "ok" });
 });
 
-// ================================================
-//  START SERVER
-// ================================================
+// start server
 const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

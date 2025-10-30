@@ -63,7 +63,15 @@ export default function Dashboard() {
       link: "/templates",
     icon: "article",
     color: theme === "colorblind" ? colorblindColors.orange : "#FCBD16",
-    }
+    },
+    {
+      id: 7,
+      title: "Employment History",
+      description: "View and edit your work experience timeline",
+      link: "/employment",          // <-- Navigates to your EmploymentHistory.jsx page
+      icon: "history",
+      color: theme === "colorblind" ? colorblindColors.blue : "#7C2ADF",
+    },
   ];
 
   return (

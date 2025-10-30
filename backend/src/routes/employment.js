@@ -1,4 +1,3 @@
-// backend/src/routes/employment.js
 import { Router } from "express";
 import Employment from "../models/Employment.js";
 
@@ -34,7 +33,6 @@ router.put("/:id", requireAuth, async (req, res) => {
   if (!title?.trim() || !company?.trim() || !startDate?.trim()) {
     return res.status(400).json({ error: { message: "Missing required fields" } });
   }
-
   // if current == true, force endDate = null
   const payload = {
     title: title.trim(),
@@ -56,17 +54,17 @@ router.put("/:id", requireAuth, async (req, res) => {
   res.json({ entry: updated });
 });
 
-// POST /api/employment  → create (útil para pruebas)
+// (Optional) POST create – handy for seeding
 router.post("/", requireAuth, async (req, res) => {
   const body = req.body || {};
   if (!body.title || !body.company || !body.startDate) {
     return res.status(400).json({ error: { message: "Missing required fields" } });
   }
   if (body.current) body.endDate = null;
-
   const created = await Employment.create({ ...body, userId: req.userId });
   res.status(201).json({ entry: created });
 });
+
 
 // DELETE /api/employment/:id → permanente, con guarda de "solo-una"
 router.delete("/:id", requireAuth, async (req, res) => {
