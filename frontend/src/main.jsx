@@ -13,7 +13,7 @@ import IconImage from "./assets/THE.png";
 import DarkIconImage from "./assets/THE(yellow).png"; // unused currently
 import whiteIcon from "./assets/THE(white).png";
 import Button from "./reusableButton.jsx";
-
+//comm
 export const ThemeContext = createContext();
 
 function scrollToElement(id) {
