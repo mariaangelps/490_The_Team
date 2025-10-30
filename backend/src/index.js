@@ -5,23 +5,24 @@ import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
 import session from "express-session";
 import MongoStore from "connect-mongo";
+import passport from "./passport.js"; // ✅ Make sure this file exists and sets up GoogleStrategy
 
-
+// load env vars
 dotenv.config();
 
 const app = express();
 
-// middleware
+// ========== MIDDLEWARES ==========
 app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "http://localhost:5173", // frontend will run on Vite dev server
+    origin: process.env.CLIENT_URL || "http://localhost:5173",
     credentials: true,
   })
 );
 
-// session setup
+// ========== SESSION SETUP ==========
 app.use(
   session({
     name: "sid",
@@ -30,7 +31,7 @@ app.use(
     saveUninitialized: false,
     cookie: {
       httpOnly: true,
-      secure: false,
+      secure: false, // use true if deploying with HTTPS
       sameSite: "lax",
       maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
     },
@@ -40,31 +41,27 @@ app.use(
   })
 );
 
-// passport setup
-import passport from "./passport.js";
+// ========== PASSPORT AUTH ==========
 app.use(passport.initialize());
 app.use(passport.session());
 
-// routes
+// ========== ROUTES ==========
 import authRoutes from "./routes/auth.js";
+import profileUploadRoutes from "./routes/profileupload.js";
+
 app.use("/api/auth", authRoutes);
+app.use("/api/profile", profileUploadRoutes);
 
-// database connection
-mongoose
-  .connect(process.env.MONGO_URI || "mongodb://localhost:27017/projectdb")
-  .then(() => console.log("MongoDB connected"))
-  .catch((err) => console.error("MongoDB error:", err));
-
-// simple test route
+// ========== TEST ROUTE ==========
 app.get("/health", (req, res) => {
   res.json({ status: "ok" });
 });
 
-// start server
+// ========== DATABASE & SERVER START ==========
+mongoose
+  .connect(process.env.MONGO_URI || "mongodb://localhost:27017/projectdb")
+  .then(() => console.log("✅ MongoDB connected"))
+  .catch((err) => console.error("❌ MongoDB error:", err));
+
 const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-
-
-import profileUploadRoutes from "./routes/profileupload.js";
-app.use("/api/profile", profileUploadRoutes);
-
+app.listen(PORT, () => console.log(`✅ Server running on http://localhost:${PORT}`));

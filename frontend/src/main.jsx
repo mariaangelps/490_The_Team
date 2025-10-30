@@ -9,6 +9,7 @@ import DashboardIcon from "./pages/dashboardicon.jsx"; // matches your file
 import Portfolio from "./pages/Portfolio.jsx";
 import ProfileDashboard from "./pages/ProfileDashboard.jsx";
 import Certifications from "./pages/Certifications.jsx";
+import Education from "./pages/Education.jsx";
 
 
 
@@ -43,7 +44,7 @@ function App() {
 
   // Fetch current user from backend session
   useEffect(() => {
-    fetch(`${API_URL}/api/auth/me`, { credentials: "include" })
+      fetch(`${API_URL}/api/auth/me`, { credentials: "include" })
       .then((res) => {
         if (!res.ok) throw new Error("Not authenticated");
         return res.json();
@@ -59,6 +60,7 @@ function App() {
     <BrowserRouter>
       <Nav user={user} />
       <Routes>
+        <Route path="/education" element={user ? <Education userId={user.id} /> : <Navigate to="/login" />} />
         <Route path="/certifications" element={user ? <Certifications /> : <Navigate to="/login" />}/>
         <Route path="/profile-dashboard" element={user ? <ProfileDashboard /> : <Navigate to="/login" />} />
         <Route path="/portfolio" element={user ? <Portfolio /> : <Navigate to="/login" />} />

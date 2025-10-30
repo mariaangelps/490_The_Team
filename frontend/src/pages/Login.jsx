@@ -31,12 +31,16 @@ export default function Login() {
   const submit = async (e) => {
     e.preventDefault();
     setError("");
-    try {
+  try {
       await post('/api/auth/login', { email, password });
       window.location.href = '/dashboard';
     } catch (err) {
-      if (err.code === 'OAUTH_ONLY') {
+      // Show backend-provided message when available
+      const msg = err?.message || err?.error?.message || (err?.error && JSON.stringify(err.error));
+      if (err?.code === 'OAUTH_ONLY' || err?.error?.code === 'OAUTH_ONLY') {
         setError('This account uses Google Sign-In. Click “Continue with Google” or set a password.');
+      } else if (msg) {
+        setError(msg);
       } else {
         setError('Invalid email or password');
       }
