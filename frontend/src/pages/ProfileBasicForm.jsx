@@ -1,6 +1,14 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import "./profile.css";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000";
 
-const ProfileBasicForm = ({ onCancel }) => {
+function InlineError({ children }) {
+  if (!children) return null;
+  return <p style={{ color: "#dc2626", fontSize: 12, marginTop: 4 }}>{children}</p>;
+}
+
+export default function ProfileBasicForm({ onCancel }) {
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -14,7 +22,9 @@ const ProfileBasicForm = ({ onCancel }) => {
   });
 
   const [charCount, setCharCount] = useState(0);
+  const [errors, setErrors] = useState({});
   const [message, setMessage] = useState("");
+  const [busy, setBusy] = useState(false);
 
   const industries = [
     "Software Development",
@@ -33,148 +43,180 @@ const ProfileBasicForm = ({ onCancel }) => {
     if (name === "bio") setCharCount(value.length);
   };
 
+  function validate() {
+    const e = {};
+    if (!formData.fullName.trim()) e.fullName = "Full Name is required";
+    if (!formData.email.trim()) e.email = "Email is required";
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email))
+      e.email = "Invalid email format";
+    if (formData.phone && !/^[0-9+\-() ]+$/.test(formData.phone))
+      e.phone = "Invalid phone number";
+    if (formData.bio.length > 500) e.bio = "Max 500 characters";
+    if (!formData.industry) e.industry = "Select industry";
+    if (!formData.experience) e.experience = "Select experience level";
+    setErrors(e);
+    return Object.keys(e).length === 0;
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setMessage("");
+    if (!validate()) return;
 
-    const required = ["fullName", "email", "industry", "experience"];
-    for (let field of required) {
-      if (!formData[field]) {
-        setMessage(`❌ ${field} is required`);
-        return;
-      }
-    }
-
+    setBusy(true);
     try {
-      const res = await fetch("http://localhost:4000/api/profile/basic", {
+      const res = await fetch(`${API_URL}/api/profile/basic`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
         body: JSON.stringify(formData),
       });
 
-      if (res.ok) {
-        setMessage("✅ Profile saved successfully!");
-        setFormData({
-          fullName: "",
-          email: "",
-          phone: "",
-          city: "",
-          state: "",
-          headline: "",
-          bio: "",
-          industry: "",
-          experience: "",
-        });
-        setCharCount(0);
-      } else {
-        setMessage("⚠️ Error saving profile.");
-      }
-    } catch (error) {
-      console.error(error);
-      setMessage("⚠️ Server connection error.");
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+      setMessage("✅ Profile saved successfully!");
+      setFormData({
+        fullName: "",
+        email: "",
+        phone: "",
+        city: "",
+        state: "",
+        headline: "",
+        bio: "",
+        industry: "",
+        experience: "",
+      });
+      setCharCount(0);
+      setErrors({});
+    } catch (err) {
+      console.error(err);
+      setMessage("⚠️ Error saving profile. Try again.");
+    } finally {
+      setBusy(false);
     }
   };
 
   return (
-    <div style={{ maxWidth: "600px", margin: "0 auto", padding: 24 }}>
-      <h2>Basic Profile Information</h2>
-
-      <form
-        onSubmit={handleSubmit}
-        style={{ display: "flex", flexDirection: "column", gap: 12 }}
-      >
-        <input
-          name="fullName"
-          placeholder="Full Name"
-          value={formData.fullName}
-          onChange={handleChange}
-          required
-        />
-
-        <input
-          name="email"
-          type="email"
-          placeholder="Email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-        />
-
-        <input
-          name="phone"
-          placeholder="Phone"
-          value={formData.phone}
-          onChange={handleChange}
-        />
-
-        <div style={{ display: "flex", gap: 8 }}>
+    <div className="profile-page">
+      <h1 className="page-title">Basic Profile Information</h1>
+  
+      {/* ✅ Navigation buttons */}
+      <div className="profile-nav">
+        <Link to="/employment" className="btn btn-secondary">
+          ← Back to Employment History
+        </Link>
+  
+        <Link to="/employment/new" className="btn btn-primary">
+          Add Employment Entry
+        </Link>
+      </div>
+  
+      {/* ✅ REAL FORM STARTS HERE (fuera del nav) */}
+      <form className="profile-form" onSubmit={handleSubmit}>
+        <div>
+          <label>Full Name *</label>
           <input
-            name="city"
-            placeholder="City"
-            value={formData.city}
+            name="fullName"
+            value={formData.fullName}
             onChange={handleChange}
           />
+          {errors.fullName && <InlineError>{errors.fullName}</InlineError>}
+        </div>
+  
+        <div>
+          <label>Email *</label>
           <input
-            name="state"
-            placeholder="State"
-            value={formData.state}
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+          />
+          {errors.email && <InlineError>{errors.email}</InlineError>}
+        </div>
+  
+        {/* CITY + STATE */}
+        <div className="profile-row">
+          <div>
+            <label>City</label>
+            <input name="city" value={formData.city} onChange={handleChange} />
+          </div>
+  
+          <div>
+            <label>State</label>
+            <input name="state" value={formData.state} onChange={handleChange} />
+          </div>
+        </div>
+  
+        {/* HEADLINE */}
+        <div>
+          <label>Professional Headline</label>
+          <input
+            name="headline"
+            placeholder="e.g., Software Engineer"
+            value={formData.headline}
             onChange={handleChange}
           />
         </div>
-
-        <input
-          name="headline"
-          placeholder="Professional Headline (e.g., Frontend Developer)"
-          value={formData.headline}
-          onChange={handleChange}
-        />
-
-        <textarea
-          name="bio"
-          placeholder="Brief Bio (max 500 characters)"
-          maxLength={500}
-          value={formData.bio}
-          onChange={handleChange}
-          rows={4}
-        />
-
-        <small>{charCount}/500 characters</small>
-
-        <select name="industry" value={formData.industry} onChange={handleChange} required>
-          <option value="">Select Industry</option>
-          {industries.map((ind) => (
-            <option key={ind} value={ind}>
-              {ind}
-            </option>
-          ))}
-        </select>
-
-        <select name="experience" value={formData.experience} onChange={handleChange} required>
-          <option value="">Select Experience Level</option>
-          {experienceLevels.map((lvl) => (
-            <option key={lvl} value={lvl}>
-              {lvl}
-            </option>
-          ))}
-        </select>
-
-        <div style={{ display: "flex", justifyContent: "space-between", marginTop: 16 }}>
-          <button type="submit" style={{ backgroundColor: "#fcbd16", padding: "8px 16px" }}>
-            Save
-          </button>
-          <button
-            type="button"
-            onClick={onCancel}
-            style={{ backgroundColor: "#ccc", padding: "8px 16px" }}
-          >
-            Cancel
-          </button>
+  
+        {/* BIO */}
+        <div>
+          <label>Bio (max 500 chars)</label>
+          <textarea
+            name="bio"
+            rows={4}
+            maxLength={500}
+            value={formData.bio}
+            onChange={handleChange}
+          />
+          <div className="bio-counter">{charCount}/500</div>
         </div>
+  
+        {/* DROPDOWNS */}
+        <div className="profile-row">
+          <div>
+            <label>Industry *</label>
+            <select
+              name="industry"
+              value={formData.industry}
+              onChange={handleChange}
+            >
+              <option value="">Select industry</option>
+              {industries.map((i) => (
+                <option key={i}>{i}</option>
+              ))}
+            </select>
+            {errors.industry && <InlineError>{errors.industry}</InlineError>}
+          </div>
+  
+          <div>
+            <label>Experience *</label>
+            <select
+              name="experience"
+              value={formData.experience}
+              onChange={handleChange}
+            >
+              <option value="">Select experience level</option>
+              {experienceLevels.map((e) => (
+                <option key={e}>{e}</option>
+              ))}
+            </select>
+            {errors.experience && <InlineError>{errors.experience}</InlineError>}
+          </div>
+        </div>
+  
+        {/* Buttons */}
+        <div className="profile-actions">
+          <button type="submit" className="btn-save">Save</button>
+          <button type="button" onClick={onCancel} className="btn-cancel">Cancel</button>
+        </div>
+  
+        {message && (
+          <p className={message.includes("✅") ? "profile-msg-success" : "profile-msg-error"}>
+            {message}
+          </p>
+        )}
       </form>
-
-      {message && <p style={{ marginTop: 12 }}>{message}</p>}
     </div>
   );
-};
-
-export default ProfileBasicForm;
+  
+}
