@@ -1,8 +1,8 @@
+import express from "express";
 import { Router } from "express";
 import Employment from "../models/Employment.js";
 
-const router = Router();
-
+const router = express.Router();
 // helper: require login (session-based)
 function requireAuth(req, res, next) {
   const u = req.session?.passport?.user;

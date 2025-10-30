@@ -8,6 +8,8 @@ import Settings from "./pages/Settings.jsx"; // <-- we'll create this next
 import EmploymentHistory from "./pages/EmploymentHistory.jsx";
 import SkillsManager from "./pages/Skills.jsx";
 import EducationPage from "./pages/Education.jsx";
+import EmploymentAddForm from "./pages/EmploymentAddForm.jsx";
+import ProfileBasicForm from "./pages/ProfileBasicForm.jsx";
 
 
 function App() {

@@ -1,13 +1,10 @@
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 
-/** =======================
- *  UI PRIMITIVES (ligeros)
- *  ======================= */
-function Label({
-  htmlFor,
-  children,
-}: React.PropsWithChildren<{ htmlFor?: string }>) {
+/* =======================
+   UI PRIMITIVES (ligeros)
+   ======================= */
+function Label({ htmlFor, children }) {
   return (
     <label htmlFor={htmlFor} className="block text-sm font-medium mb-1">
       {children}
@@ -15,12 +12,7 @@ function Label({
   );
 }
 
-function Input(
-  props: React.InputHTMLAttributes<HTMLInputElement> & {
-    rightEl?: React.ReactNode;
-  }
-) {
-  const { rightEl, className, ...rest } = props;
+function Input({ rightEl, className, ...rest }) {
   return (
     <div className="relative">
       <input
@@ -45,12 +37,7 @@ function Input(
   );
 }
 
-function Textarea(
-  props: React.TextareaHTMLAttributes<HTMLTextAreaElement> & {
-    counter?: { value: number; max: number };
-  }
-) {
-  const { counter, className, ...rest } = props;
+function Textarea({ counter, className, ...rest }) {
   return (
     <div className="relative">
       <textarea
@@ -75,12 +62,7 @@ function Textarea(
   );
 }
 
-function Select(
-  props: React.SelectHTMLAttributes<HTMLSelectElement> & {
-    placeholder?: string;
-  }
-) {
-  const { placeholder, className, children, ...rest } = props;
+function Select({ placeholder, className, children, ...rest }) {
   return (
     <select
       {...rest}
@@ -104,12 +86,7 @@ function Select(
   );
 }
 
-function Button(
-  props: React.ButtonHTMLAttributes<HTMLButtonElement> & {
-    variant?: "primary" | "ghost";
-  }
-) {
-  const { variant = "primary", className, ...rest } = props;
+function Button({ variant = "primary", className, ...rest }) {
   const style =
     variant === "primary"
       ? {
@@ -135,7 +112,7 @@ function Button(
   );
 }
 
-function Card({ children }: React.PropsWithChildren) {
+function Card({ children }) {
   return (
     <div
       className="rounded-2xl border shadow-sm"
@@ -148,67 +125,46 @@ function Card({ children }: React.PropsWithChildren) {
     </div>
   );
 }
-function CardHeader({ title, subtitle }: { title: string; subtitle?: string }) {
+function CardHeader({ title, subtitle }) {
   return (
-    <div
-      className="p-4 border-b"
-      style={{ borderColor: "var(--border-color)" }}
-    >
+    <div className="p-4 border-b" style={{ borderColor: "var(--border-color)" }}>
       <h2 className="text-xl font-semibold">{title}</h2>
-      {subtitle ? (
-        <p className="text-sm opacity-70 mt-1">{subtitle}</p>
-      ) : null}
+      {subtitle ? <p className="text-sm opacity-70 mt-1">{subtitle}</p> : null}
     </div>
   );
 }
-function CardContent({ children }: React.PropsWithChildren) {
+function CardContent({ children }) {
   return <div className="p-4">{children}</div>;
 }
-function InlineError({ children }: React.PropsWithChildren) {
+function InlineError({ children }) {
   if (!children) return null;
-  return <p className="mt-1 text-[12px]" style={{ color: "#dc2626" }}>{children}</p>;
+  return (
+    <p className="mt-1 text-[12px]" style={{ color: "#dc2626" }}>
+      {children}
+    </p>
+  );
 }
 
-/** =======================
- *  TYPES
- *  ======================= */
-export type EmploymentEntry = {
-  title: string;
-  company: string;
-  location?: string;
-  startDate: string; // yyyy-mm-dd
-  endDate?: string;  // yyyy-mm-dd
-  current: boolean;
-  description?: string; // <= 1000
-};
-
-/** =======================
- *  API
- *  ======================= */
-async function saveEmployment(entry: EmploymentEntry) {
-  // Ajusta el endpoint a tu backend real; con Vite proxy /api funciona
+/* =======================
+   API
+   ======================= */
+async function saveEmployment(entry) {
+  // Ajusta si usas API_URL: `${API_URL}/api/employment/add`
   const res = await fetch("/api/employment/add", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
+    credentials: "include",
     body: JSON.stringify(entry),
   });
   if (!res.ok) throw new Error(await res.text());
   return res.json();
 }
 
-/** =======================
- *  COMPONENT
- *  ======================= */
-export default function EmploymentAddForm({
-  initial,
-  onCancel,
-  onSuccess,
-}: {
-  initial?: Partial<EmploymentEntry>;
-  onCancel?: () => void;
-  onSuccess?: (saved: any) => void;
-}) {
-  const [form, setForm] = useState<EmploymentEntry>({
+/* =======================
+   COMPONENT
+   ======================= */
+export default function EmploymentAddForm({ initial, onCancel, onSuccess }) {
+  const [form, setForm] = useState({
     title: initial?.title ?? "",
     company: initial?.company ?? "",
     location: initial?.location ?? "",
@@ -218,58 +174,47 @@ export default function EmploymentAddForm({
     description: (initial?.description ?? "").slice(0, 1000),
   });
 
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [errors, setErrors] = useState({});
   const [busy, setBusy] = useState(false);
-  const [status, setStatus] = useState<"" | "success" | "error">("");
+  const [status, setStatus] = useState("");
 
   const descCount = form.description?.length ?? 0;
 
-  function set<K extends keyof EmploymentEntry>(k: K, v: EmploymentEntry[K]) {
+  function setField(k, v) {
     setForm((f) => ({ ...f, [k]: v }));
   }
 
   function validate() {
-    const e: Record<string, string> = {};
+    const e = {};
     if (!form.title.trim()) e.title = "Job title is required";
     if (!form.company.trim()) e.company = "Company is required";
     if (!form.startDate) e.startDate = "Start date is required";
+    if (!form.current && !form.endDate) e.endDate = "End date is required unless Current is checked";
 
-    // Si NO es posición actual, exigimos endDate
-    if (!form.current && !form.endDate) {
-      e.endDate = "End date is required unless Current is checked";
-    }
-
-    // Validación de orden de fechas
     if (form.startDate && form.endDate && !form.current) {
       const s = new Date(form.startDate).getTime();
       const en = new Date(form.endDate).getTime();
-      if (isFinite(s) && isFinite(en) && s > en) {
-        e.endDate = "End date must be after start date";
-      }
+      if (isFinite(s) && isFinite(en) && s > en) e.endDate = "End date must be after start date";
     }
-
-    if ((form.description || "").length > 1000) {
-      e.description = "Description must be at most 1000 characters";
-    }
+    if ((form.description || "").length > 1000) e.description = "Description must be at most 1000 characters";
 
     setErrors(e);
     return Object.keys(e).length === 0;
   }
 
-  async function handleSubmit(ev: React.FormEvent) {
+  async function handleSubmit(ev) {
     ev.preventDefault();
     setStatus("");
     if (!validate()) return;
     setBusy(true);
     try {
-      const payload: EmploymentEntry = {
+      const payload = {
         ...form,
         description: (form.description || "").slice(0, 1000),
-        endDate: form.current ? "" : form.endDate, // si es actual, limpiamos endDate
+        endDate: form.current ? "" : form.endDate,
       };
       const saved = await saveEmployment(payload);
       setStatus("success");
-      // Clear after success
       setForm({
         title: "",
         company: "",
@@ -279,7 +224,7 @@ export default function EmploymentAddForm({
         current: false,
         description: "",
       });
-      onSuccess?.(saved);
+      onSuccess && onSuccess(saved);
     } catch (err) {
       console.error(err);
       setStatus("error");
@@ -292,69 +237,61 @@ export default function EmploymentAddForm({
     <div className="max-w-3xl mx-auto p-4">
       <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}>
         <Card>
-          <CardHeader
-            title="Add Employment Entry"
-            subtitle="Document your work experience"
-          />
+          <CardHeader title="Add Employment Entry" subtitle="Document your work experience" />
           <CardContent>
             <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {/* Job Title */}
               <div className="md:col-span-1">
                 <Label htmlFor="title">Job title *</Label>
                 <Input
                   id="title"
                   value={form.title}
-                  onChange={(e) => set("title", e.target.value)}
+                  onChange={(e) => setField("title", e.target.value)}
                   placeholder="e.g., Software Engineer"
                 />
                 <InlineError>{errors.title}</InlineError>
               </div>
 
-              {/* Company */}
               <div className="md:col-span-1">
                 <Label htmlFor="company">Company *</Label>
                 <Input
                   id="company"
                   value={form.company}
-                  onChange={(e) => set("company", e.target.value)}
+                  onChange={(e) => setField("company", e.target.value)}
                   placeholder="e.g., Acme Corp"
                 />
                 <InlineError>{errors.company}</InlineError>
               </div>
 
-              {/* Location */}
               <div className="md:col-span-2">
                 <Label htmlFor="location">Location</Label>
                 <Input
                   id="location"
                   value={form.location}
-                  onChange={(e) => set("location", e.target.value)}
+                  onChange={(e) => setField("location", e.target.value)}
                   placeholder="City, State (or Remote)"
                 />
               </div>
 
-              {/* Start Date */}
               <div>
                 <Label htmlFor="startDate">Start date *</Label>
                 <Input
                   id="startDate"
                   type="date"
                   value={form.startDate}
-                  onChange={(e) => set("startDate", e.target.value)}
-                  placeholder="yyyy-mm-dd" 
+                  onChange={(e) => setField("startDate", e.target.value)}
+                  placeholder="yyyy-mm-dd"
                 />
                 <InlineError>{errors.startDate}</InlineError>
               </div>
 
-              {/* End Date + Current */}
               <div>
                 <Label htmlFor="endDate">End date</Label>
                 <Input
                   id="endDate"
                   type="date"
                   value={form.endDate}
-                  onChange={(e) => set("endDate", e.target.value)}
-                  placeholder="yyyy-mm-dd" 
+                  onChange={(e) => setField("endDate", e.target.value)}
+                  placeholder="yyyy-mm-dd"
                   disabled={form.current}
                 />
                 <div className="mt-2 flex items-center gap-2">
@@ -362,20 +299,19 @@ export default function EmploymentAddForm({
                     id="current"
                     type="checkbox"
                     checked={form.current}
-                    onChange={(e) => set("current", e.target.checked)}
+                    onChange={(e) => setField("current", e.target.checked)}
                   />
                   <Label htmlFor="current">Current position</Label>
                 </div>
                 <InlineError>{errors.endDate}</InlineError>
               </div>
 
-              {/* Description */}
               <div className="md:col-span-2">
                 <Label htmlFor="description">Job description (max 1000)</Label>
                 <Textarea
                   id="description"
                   value={form.description}
-                  onChange={(e) => set("description", e.target.value)}
+                  onChange={(e) => setField("description", e.target.value)}
                   maxLength={1000}
                   placeholder="Responsibilities, achievements, stack…"
                   counter={{ value: descCount, max: 1000 }}
@@ -383,7 +319,6 @@ export default function EmploymentAddForm({
                 <InlineError>{errors.description}</InlineError>
               </div>
 
-              {/* Actions */}
               <div className="md:col-span-2 flex items-center gap-3 pt-2">
                 <Button type="submit" disabled={busy}>
                   {busy ? "Saving…" : "Save"}

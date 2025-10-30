@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const ProfileBasicForm = ({ onCancel }: { onCancel?: () => void }) => {
+const ProfileBasicForm = ({ onCancel }) => {
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -27,21 +27,18 @@ const ProfileBasicForm = ({ onCancel }: { onCancel?: () => void }) => {
 
   const experienceLevels = ["Entry", "Mid", "Senior", "Executive"];
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-  ) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
     if (name === "bio") setCharCount(value.length);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Required field validation
     const required = ["fullName", "email", "industry", "experience"];
     for (let field of required) {
-      if (!formData[field as keyof typeof formData]) {
+      if (!formData[field]) {
         setMessage(`❌ ${field} is required`);
         return;
       }
@@ -81,7 +78,11 @@ const ProfileBasicForm = ({ onCancel }: { onCancel?: () => void }) => {
   return (
     <div style={{ maxWidth: "600px", margin: "0 auto", padding: 24 }}>
       <h2>Basic Profile Information</h2>
-      <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+
+      <form
+        onSubmit={handleSubmit}
+        style={{ display: "flex", flexDirection: "column", gap: 12 }}
+      >
         <input
           name="fullName"
           placeholder="Full Name"
@@ -89,6 +90,7 @@ const ProfileBasicForm = ({ onCancel }: { onCancel?: () => void }) => {
           onChange={handleChange}
           required
         />
+
         <input
           name="email"
           type="email"
@@ -97,12 +99,14 @@ const ProfileBasicForm = ({ onCancel }: { onCancel?: () => void }) => {
           onChange={handleChange}
           required
         />
+
         <input
           name="phone"
           placeholder="Phone"
           value={formData.phone}
           onChange={handleChange}
         />
+
         <div style={{ display: "flex", gap: 8 }}>
           <input
             name="city"
@@ -117,12 +121,14 @@ const ProfileBasicForm = ({ onCancel }: { onCancel?: () => void }) => {
             onChange={handleChange}
           />
         </div>
+
         <input
           name="headline"
           placeholder="Professional Headline (e.g., Frontend Developer)"
           value={formData.headline}
           onChange={handleChange}
         />
+
         <textarea
           name="bio"
           placeholder="Brief Bio (max 500 characters)"
@@ -131,9 +137,8 @@ const ProfileBasicForm = ({ onCancel }: { onCancel?: () => void }) => {
           onChange={handleChange}
           rows={4}
         />
-        <small>
-          {charCount}/500 characters
-        </small>
+
+        <small>{charCount}/500 characters</small>
 
         <select name="industry" value={formData.industry} onChange={handleChange} required>
           <option value="">Select Industry</option>
@@ -157,7 +162,11 @@ const ProfileBasicForm = ({ onCancel }: { onCancel?: () => void }) => {
           <button type="submit" style={{ backgroundColor: "#fcbd16", padding: "8px 16px" }}>
             Save
           </button>
-          <button type="button" onClick={onCancel} style={{ backgroundColor: "#ccc", padding: "8px 16px" }}>
+          <button
+            type="button"
+            onClick={onCancel}
+            style={{ backgroundColor: "#ccc", padding: "8px 16px" }}
+          >
             Cancel
           </button>
         </div>
