@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
 import session from "express-session";
 import MongoStore from "connect-mongo";
-import passport from "./passport.js"; // ✅ Make sure this file exists and sets up GoogleStrategy
+import passport from "./passport.js"; 
 
 // load env vars
 dotenv.config();
