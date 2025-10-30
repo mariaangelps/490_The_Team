@@ -175,6 +175,361 @@ body.theme-dark .cta-button.secondary:hover {
 /* --- SCROLL BUTTON --- */
 .scroll-button {
   background-color: var(--accent-color);
+/* main.css */
+
+html {
+  scroll-behavior: smooth;
+}
+
+:root {
+body {
+    /* Use 'rem' for size to ensure all text scales correctly */
+    font-family: 'forma-djr-micro', sans-serif; 
+    line-height: 1.6; /* Improve readability for body text */
+}
+
+/* Global text size adjustments controlled by Settings */
+body[data-text-size="regular"] {
+    font-size: 18px;
+}
+
+body[data-text-size="large"] {
+    font-size: 22px;
+}
+
+body[data-text-size="larger"] {
+    font-size: 26px;
+}
+
+/* If no text size is set, default to regular */
+body:not([data-text-size]) {
+    font-size: 18px;
+}
+
+/* 2. APPLY RODCHENKO TO ALL HEADERS */
+h1, h2, h3, h4, h5, h6 {
+    font-size: 100px;
+    font-family: 'Rodchenko', sans-serif;
+    letter-spacing: 0.05em; /* Optional: Rodchenko often looks better with slight letter spacing */
+}
+
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color:transparent;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.app-nav {
+  /* Layout: Puts items in a row and aligns them vertically */
+  display: flex;
+  align-items: center; /* Vertically centers the logo and links */
+  gap: 20px;          /* Space between the logo and links */
+  padding: 12px 24px; /* Vertical and horizontal padding */
+
+  /* Fixed positioning */
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000; /* Ensure nav stays above other content */
+
+  /* Appearance: Styles the bar itself */
+  background-color: transparent; /* Semi-transparent background for light theme */ 
+  backdrop-filter: blur(4px); /* Adds a frosted glass effect */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  margin-bottom: 20px; /* Space separating the nav from page content */
+}
+
+.app-nav a {
+  /* Styling for the react-router <Link> elements */
+  font-family:"rodchenko", sans-serif;
+  font-size: larger;
+  color: white; 
+  text-decoration: none;
+  font-weight: 500;
+  padding: 8px 10px; /* Padding inside the link for a larger click target */
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+/* Target the theme toggle button specifically */
+.app-nav button {
+    /* Base appearance */
+    font-family:"rodchenko", sans-serif;
+    font-size: larger;
+    background: transparent; /* Remove default button background */
+    border: 1px solid currentColor; /* Use the text color for a clean border */
+    border-radius: 20px; /* Highly rounded corners (pill shape) */
+    padding: 6px 12px; /* Increase padding for better click area */
+    transition: all 0.2s ease; /* Smooth transitions for hover/theme change */
+    
+    /* Ensure icon and text are vertically aligned (already set in JSX but good to reinforce) */
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Slightly more space between text and icon */
+}
+/* --- DARK THEME STYLES --- */
+body.theme-dark .app-nav button {
+    /* Button text/icon color is already inherited from body.theme-dark color */
+    color: #e0e0e0; 
+    border-color: #e0e0e0;
+}
+body.theme-dark .app-nav button:hover {
+    background-color: rgba(224, 224, 224, 0.1);
+    border-color: #fcbd16 ;
+}
+
+/* --- LIGHT THEME STYLES --- */
+body.theme-light .app-nav button {
+    /* Button text/icon color is already inherited from body.theme-light color */
+    color: #333333;
+    border-color: #333333;
+}
+body.theme-light .app-nav button:hover {
+    background-color: rgba(51, 51, 51, 0.05); /* Very slight dark background highlight */
+    border-color: #7c2ADF;
+}
+
+.app-nav a:hover {
+  background-color: #fcbd16; /* Subtle highlight on hover */
+}
+/* main.css or index.css */
+
+/* --- Base Styles (Ensures smooth transitions) --- */
+/* Apply this to the element that changes color, usually the body or root */
+body {
+    transition: background-color 0.3s ease, color 0.3s ease;
+    padding-top: 84px; /* Add padding to account for fixed nav (nav height + padding) */
+}
+
+/* --- LIGHT THEME STYLES (Default) --- */
+body.theme-light {
+    /* Main background color for light mode */
+    background-color: #ffffff;
+    /* Main text color for light mode */
+    color: #000000; 
+}
+
+/* Example: Styling the nav bar links in light mode */
+body.theme-light a {
+    color: #121212;
+}
+body.theme-light a:hover {
+    color: #121212;
+}
+
+/* --- DARK THEME STYLES --- */
+body.theme-dark {
+    /* Main background color for dark mode */
+    background-color: #121212; 
+    /* Main text color for dark mode */
+    color: #e0e0e0;
+}
+
+/* Dark theme nav background */
+body.theme-dark .app-nav {
+    background-color: rgba(18, 18, 18, 0.95);
+}
+
+/* Example: Styling the nav bar links in dark mode */
+body.theme-dark a {
+    color: #bbbbbb;
+}
+body.theme-dark a:hover {
+    color: #121212;
+}
+
+/* --- FUN THEME STYLES --- */
+body.theme-fun {
+    /* Main background color - warm off-white */
+    background-color: #FFFDF8;
+    /* Main text color - black */
+    color: #000000;
+}
+
+/* Fun theme nav background */
+body.theme-fun .app-nav {
+    background: linear-gradient(135deg, #D24BB9 0%, #7C2ADF 100%);
+}
+
+body.theme-fun .app-nav button {
+    color: #FFFDF8;
+}
+
+body.theme-fun .app-nav button:hover {
+    background-color: rgba(252, 189, 22, 0.2);
+}
+
+/* Fun theme nav links - add background for readability */
+body.theme-fun .app-nav a {
+    background-color: rgba(255, 253, 248, 0.15);
+    color: #FFFDF8;
+    border: 1px solid rgba(255, 253, 248, 0.3);
+}
+
+body.theme-fun .app-nav a:hover {
+    background-color: rgba(252, 189, 22, 0.3);
+    border-color: #FCBD16;
+}
+
+/* Fun theme links */
+body.theme-fun a {
+    color: #7C2ADF;
+}
+
+body.theme-fun a:hover {
+    color: #D24BB9;
+}
+
+/* Fun theme scroll button */
+body.theme-fun .scroll-button {
+    background: linear-gradient(135deg, #D24BB9, #7C2ADF);
+}
+
+body.theme-fun .scroll-button .material-symbols-outlined {
+    color: #FFFDF8;
+}
+
+/* Fun theme CTA buttons */
+body.theme-fun .cta-button.primary {
+    background: linear-gradient(135deg, #D24BB9, #7C2ADF);
+    color: #FFFDF8;
+}
+
+body.theme-fun .cta-button.primary:hover {
+    background: linear-gradient(135deg, #7C2ADF, #D24BB9);
+    transform: translateY(-4px);
+    box-shadow: 0 6px 20px rgba(124, 42, 223, 0.3);
+}
+
+body.theme-fun .cta-button.secondary {
+    background: linear-gradient(135deg, #7C2ADF, #D24BB9);
+    color: #ffffff;
+}
+
+body.theme-fun .cta-button.secondary:hover {
+    background: linear-gradient(135deg, #D24BB9, #7C2ADF);
+    transform: translateY(-4px);
+    box-shadow: 0 6px 20px rgba(252, 189, 22, 0.3);
+}
+
+/* --- COLORBLIND THEME STYLES --- */
+/* Uses high contrast blue/orange palette safe for most color vision deficiencies */
+body.theme-colorblind {
+  background-color: #FFFFFF; /* white background */
+  color: #000000; /* black text */
+}
+
+/* Colorblind theme nav */
+body.theme-colorblind .app-nav {
+  background-color: #1E90FF; /* blue */
+}
+
+body.theme-colorblind .app-nav button {
+  color: #FFFFFF;
+  background-color: #ff5800; /* orange button */
+  border-color: #ff5800;
+}
+
+body.theme-colorblind .app-nav button:hover {
+  background-color: #1E90FF; /* swap to blue on hover */
+  border-color: #1E90FF;
+}
+
+body.theme-colorblind .app-nav a {
+  color: #FFFFFF;
+  background-color: #ff5800; /* make nav links look like buttons */
+  border: 1px solid #ff5800;
+  border-radius: 20px;
+}
+
+body.theme-colorblind .app-nav a:hover {
+  background-color: #1E90FF; /* swap to blue on hover */
+  border-color: #1E90FF;
+  color: #FFFFFF;
+}
+
+/* Colorblind theme links */
+body.theme-colorblind a {
+  color: #1E90FF;
+}
+
+body.theme-colorblind a:hover {
+  color: #ff5800;
+}
+
+/* Colorblind theme scroll button */
+body.theme-colorblind .scroll-button {
+  background-color: #ff5800;
+  color: #FFFFFF;
+}
+
+body.theme-colorblind .scroll-button:hover {
+  background-color: #1E90FF;
+}
+
+body.theme-colorblind .scroll-button .material-symbols-outlined {
+    color: #FFFFFF;
+}
+
+/* Colorblind theme CTA buttons */
+body.theme-colorblind .cta-button.primary {
+  background-color: #1E90FF;
+  color: #FFFFFF;
+}
+
+body.theme-colorblind .cta-button.primary:hover {
+  background-color: #ff5800; /* swap on hover */
+  transform: translateY(-4px);
+  box-shadow: 0 6px 20px rgba(30, 144, 255, 0.35);
+}
+
+body.theme-colorblind .cta-button.secondary {
+  background-color: #ff5800;
+  color: #FFFFFF;
+}
+
+body.theme-colorblind .cta-button.secondary:hover {
+  background-color: #1E90FF; /* swap on hover */
+  transform: translateY(-4px);
+  box-shadow: 0 6px 20px rgba(255, 88, 0, 0.35);
+}
+
+/* main stylizations */
+
+/* --- CTA BUTTON GROUP STYLES --- */
+
+/* Group container for centering and spacing */
+.cta-group {
+    display: flex;
+    justify-content: center; /* Center the buttons horizontally */
+    align-items: center; /* Center vertically within the container */
+    gap: 20px; /* Space between the two buttons */
+    min-height: 100vh; /* Make container take full viewport height */
+    scroll-margin-top: 80px; /* Ensures proper scroll position accounting for nav bar */
+}
+
+/* Base style for all CTA links/buttons */
+.cta-button {
+    /* (Styles inherited from previous steps, like padding, font-size, etc.) */
+    font-size: 1.15em;
+    padding: 14px 30px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    border: 2px solid transparent; /* Prepare for border style */
+}
+
+/* --- SCROLL BUTTON STYLING --- */
+
+.scroll-button {
+  /* Primary styles */
+  background-color: #FCBD16; /* Primary blue color */
   padding: 12px 28px;
   font-size: 1.1em;
   font-weight: 600;
@@ -235,3 +590,187 @@ input:focus, select:focus, textarea:focus {
   font-size: 12px; 
   color: var(--muted); 
 }
+  border-radius: 25px; /* Pill shape */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  
+  /* Override default button focus style */
+  outline: none;
+  
+  /* Flexbox layout for button content */
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Theme-specific styles for the scroll button */
+body.theme-light .scroll-button {
+  color: #000000;
+}
+
+body.theme-light .scroll-button .material-symbols-outlined {
+  color: black;
+}
+
+body.theme-dark .scroll-button {
+  color: #ffffff;
+}
+
+body.theme-dark .scroll-button .material-symbols-outlined {
+  color: #ffffff;
+}
+
+/* Add a separate style for the hover effect */
+.scroll-button:hover {
+  background-color: #7c2adf; /* Slightly darker blue on hover */
+  transform: translateY(-2px); /* Lifts the button slightly */
+  color:white;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2); /* More pronounced shadow */
+}
+
+
+/* --- PRIMARY BUTTON (Create Account) --- */
+
+/* Light Theme Primary (Solid color) */
+body.theme-light .cta-button.primary {
+    background-color: #fcbd16;
+    color: black;
+    border-color: #fcbd16;
+    border-radius: 25px;
+}
+body.theme-light .cta-button.primary:hover {
+    background-color: #7c2adf;
+    color: white;
+    border-color: #7c2adf;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Dark Theme Primary (Solid color) */
+body.theme-dark .cta-button.primary {
+    background-color: #fcbd16;
+    color: #000000;
+    border-color: #fcbd16;
+}
+body.theme-dark .cta-button.primary:hover {
+    background-color: #7c2adf;
+    color: #ffffff;
+    border-color: #7c2adf;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+}
+
+/* --- SECONDARY BUTTON (Log In) --- */
+
+/* Light Theme Secondary (Outline style) */
+body.theme-light .cta-button.secondary {
+    background-color: transparent;
+    color: #fcbd16;
+    border-color: #FCBD16;
+    border-radius: 25px;
+
+}
+body.theme-light .cta-button.secondary:hover {
+    background-color: rgba(0, 123, 255, 0.05); /* Subtle background fill on hover */
+    color:#7c2adf;
+    border-color:#7c2adf;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+}
+
+/* Dark Theme Secondary (Outline style) */
+body.theme-dark .cta-button.secondary {
+    background-color: transparent;
+    color: #d24bb9;
+    border-color: #d24bb9;
+}
+body.theme-dark .cta-button.secondary:hover {
+    background-color: rgba(124, 42, 223, 0.2);
+    color: #ffffff;
+    border-color: #7c2adf;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+}
+
+/* Responsive Navigation */
+@media (max-width: 992px) {
+  .app-nav {
+    gap: 12px;
+    padding: 10px 16px;
+  }
+  
+  .app-nav a {
+    font-size: 1em;
+    padding: 6px 8px;
+  }
+  
+  .app-nav button {
+    font-size: 0.9em;
+    padding: 5px 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 3em;
+  }
+  
+  .app-nav {
+    gap: 8px;
+    padding: 8px 12px;
+    flex-wrap: wrap;
+  }
+  
+  .app-nav a {
+    font-size: 0.9em;
+    padding: 5px 6px;
+  }
+  
+  .cta-button {
+    font-size: 1em;
+    padding: 12px 24px;
+  }
+  
+  .scroll-button {
+    font-size: 1em;
+    padding: 10px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 2em;
+  }
+  
+  h2, h3, h4, h5, h6 {
+    font-size: 1.5em;
+  }
+  
+  body[data-text-size="regular"] {
+    font-size: 16px;
+  }
+  
+  body[data-text-size="large"] {
+    font-size: 18px;
+  }
+  
+  body[data-text-size="larger"] {
+    font-size: 20px;
+  }
+  
+  .app-nav {
+    gap: 6px;
+    padding: 6px 10px;
+  }
+  
+  .app-nav img {
+    height: 48px !important;
+    width: 48px !important;
+  }
+  
+  .cta-button {
+    font-size: 0.95em;
+    padding: 10px 20px;
+  }
+}
+

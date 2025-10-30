@@ -1,33 +1,74 @@
-// passport287.js
+// backend/src/passport.js (or ./auth/linkedin.js)
 import 'dotenv/config';
-import passport from "passport";
-import { Strategy as GoogleStrategy } from "passport-google-oauth20";
-import User from "./models/User.js";
+import passport from 'passport';
+import OAuth2Strategy from 'passport-oauth2';
+import fetch from 'node-fetch';
+import User from './models/User.js';
+import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
+
+
+// ---- LinkedIn OIDC via generic OAuth2 ----
+class LinkedInOIDCStrategy extends OAuth2Strategy {
+  constructor(options, verify) {
+    super(
+      {
+        authorizationURL: 'https://www.linkedin.com/oauth/v2/authorization',
+        tokenURL: 'https://www.linkedin.com/oauth/v2/accessToken',
+        clientID: options.clientID,
+        clientSecret: options.clientSecret,
+        callbackURL: options.callbackURL,
+        scope: ['openid', 'profile', 'email'],
+        state: true,
+      },
+      verify
+    );
+    this.name = 'linkedin'; // <-- this must match your route
+  }
+
+  userProfile(accessToken, done) {
+    fetch('https://api.linkedin.com/v2/userinfo', {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    })
+      .then(async (res) => {
+        if (!res.ok) throw new Error(`LinkedIn userinfo ${res.status}: ${await res.text()}`);
+        return res.json();
+      })
+      .then((json) => {
+        const profile = {
+          provider: 'linkedin',
+          id: json.sub,
+          displayName: json.name || '',
+          name: { givenName: json.given_name || '', familyName: json.family_name || '' },
+          emails: json.email ? [{ value: json.email }] : [],
+          photos: json.picture ? [{ value: json.picture }] : [],
+          _json: json,
+        };
+        done(null, profile);
+      })
+      .catch((err) => done(err));
+  }
+}
 
 /* ================================
    GOOGLE STRATEGY (ACTIVE)
 ================================ */
 passport.use(
-  new GoogleStrategy(
+  new LinkedInOIDCStrategy(
     {
-      clientID: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: process.env.GOOGLE_CALLBACK || "http://localhost:4000/api/auth/google/callback",
-      passReqToCallback: false
+      clientID: process.env.LINKEDIN_CLIENT_ID,
+      clientSecret: process.env.LINKEDIN_CLIENT_SECRET,
+      callbackURL: process.env.LINKEDIN_CALLBACK, // e.g. http://localhost:4000/api/auth/linkedin/callback
     },
     async (_accessToken, _refreshToken, profile, done) => {
       try {
         const email = profile.emails?.[0]?.value;
-        if (!email) return done(null, false, { message: "No email returned from Google" });
+        if (!email) return done(null, false, { message: 'No email from LinkedIn' });
 
-        const firstName = profile.name?.givenName || "";
-        const lastName = profile.name?.familyName || "";
-        const picture = profile.photos?.[0]?.value;
+        const firstName = profile.name?.givenName || '';
+        const lastName = profile.name?.familyName || '';
+        const picture = profile.photos?.[0]?.value || null;
 
-        const emailNorm = email.toLowerCase();
-
-        let user = await User.findOne({ emailNorm });
-
+        let user = await User.findOne({ emailNorm: email.toLowerCase() });
         if (!user) {
           // Create new user
           user = await User.create({
@@ -36,32 +77,63 @@ passport.use(
             firstName,
             lastName,
             picture,
-            providers: ["google"]
+            providers: ['linkedin'],
           });
         } else {
-          // Update providers list if needed
           const prov = new Set(user.providers || []);
-          prov.add("google");
+          prov.add('linkedin');
           user.providers = [...prov];
           if (!user.picture && picture) user.picture = picture;
           await user.save();
         }
 
-        done(null, {
-          id: String(user._id),
-          email: user.email,
-          name: user.firstName || ""
-        });
+        return done(null, { id: String(user._id), email: user.email, name: user.firstName || '' });
       } catch (err) {
-        done(err);
+        return done(err);
       }
     }
   )
 );
 
-/* ================================
-   SERIALIZATION
-================================ */
+// --- GOOGLE ---
+passport.use(
+    new GoogleStrategy(
+      {
+        clientID: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        callbackURL: process.env.GOOGLE_CALLBACK, // e.g. http://localhost:4000/api/auth/google/callback
+      },
+      async (_accessToken, _refreshToken, profile, done) => {
+        try {
+          const email = profile.emails?.[0]?.value;
+          if (!email) return done(null, false, { message: 'No email from Google' });
+  
+          const firstName = profile.name?.givenName || '';
+          const lastName  = profile.name?.familyName || '';
+          const picture   = profile.photos?.[0]?.value;
+  
+          let user = await User.findOne({ emailNorm: email.toLowerCase() });
+          if (!user) {
+            user = await User.create({
+              email, firstName, lastName, picture, providers: ['google'],
+            });
+          } else {
+            const prov = new Set(user.providers || []);
+            prov.add('google');
+            user.providers = [...prov];
+            if (!user.picture && picture) user.picture = picture;
+            await user.save();
+          }
+  
+          return done(null, { id: String(user._id), email: user.email, name: user.firstName || '' });
+        } catch (err) {
+          return done(err);
+        }
+      }
+    )
+  );
+  
+// minimal session payload
 passport.serializeUser((user, done) => done(null, user));
 passport.deserializeUser((obj, done) => done(null, obj));
 

@@ -1,35 +1,29 @@
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000";
 
 export async function post(path, body) {
-  let res;
-  try {
-    console.log("POST request to:", `${API_URL}${path}`, "with body:", body);
+  const res = await fetch(`${API_URL}${path}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    body: JSON.stringify(body),
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw data?.error || { message: "Request failed" };
+  return data;
+}
 
-    res = await fetch(`${API_URL}${path}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include", // important for session cookies
-      body: JSON.stringify(body),
-    });
-  } catch (networkErr) {
-    console.error("Network error:", networkErr);
-    throw { message: `Network error: ${networkErr.message || networkErr}` };
-  }
+// DELETE /api/users/me with password check
+export async function deleteAccount(password) {
+  const res = await fetch(`${API_URL}/api/users/me`, {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    body: JSON.stringify({ password })
+  });
 
-  let data;
-  try {
-    data = await res.json();
-  } catch (jsonErr) {
-    console.error("Failed to parse JSON:", jsonErr);
-    data = {};
-  }
-
+  const data = await res.json().catch(() => ({}));
   if (!res.ok) {
-    console.error("API error response:", res.status, data);
-    const err = data?.error || data || { message: "Request failed" };
-    throw { status: res.status, ...err };
+    throw data?.error || { message: "Failed to delete account" };
   }
-
-  console.log("API response:", data);
   return data;
 }

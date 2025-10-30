@@ -69,7 +69,7 @@ export default function Profile287({ userId }) {
         <button onClick={handleUpload} disabled={uploading}>
           {uploading ? "Uploading..." : "Upload"}
         </button>
-        <button onClick={handleRemove}>Remove</button>
+        <button onClick={handleRemove} disabled={uploading}>Remove</button>
       </div>
       {error && <p style={{ color: "red" }}>{error}</p>}
     </div>

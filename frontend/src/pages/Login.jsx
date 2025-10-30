@@ -30,6 +30,18 @@ function LinkedInButton() {
   );
 }
 
+function LinkedInButton() {
+  return (
+    <a
+      href={`${API_URL}/api/auth/linkedin`}
+      className="linkedin-login-button"
+      rel="noopener noreferrer"
+    >
+      Continue with LinkedIn
+    </a>
+  );
+}
+
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -45,22 +57,14 @@ export default function Login() {
 
     try {
       await post("/api/auth/login", { email, password });
-      navigate("/dashboard"); // Redirect after login
+      navigate("/dashboard");
     } catch (err) {
-      // Extract backend-provided message if available
-      const msg =
-        err?.message ||
-        err?.error?.message ||
-        (err?.error && JSON.stringify(err.error));
-
-      if (err?.code === "OAUTH_ONLY" || err?.error?.code === "OAUTH_ONLY") {
+      if (err.code === "OAUTH_ONLY") {
         setError(
           "This account uses Google Sign-In. Click “Continue with Google” or set a password."
         );
-      } else if (msg) {
-        setError(msg);
       } else {
-        setError("Invalid email or password");
+        setError(err.message || "Invalid email or password");
       }
     } finally {
       setIsLoading(false);
