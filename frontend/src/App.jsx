@@ -14,9 +14,12 @@ function App() {
     <BrowserRouter>
       {/* super minimal nav just so you can move around during dev */}
       <nav style={{ padding: "8px", borderBottom: "1px solid #ccc" }}>
+
         <Link to="/dashboard" style={{ marginRight: 12 }}>Dashboard</Link>
         <Link to="/settings" style={{ marginRight: 12 }}>Settings</Link>
         <Link to="/login" style={{ marginRight: 12 }}>Login</Link>
+
+        
       </nav>
 
       <Routes>
