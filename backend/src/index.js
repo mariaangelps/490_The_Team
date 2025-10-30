@@ -9,6 +9,9 @@ import MongoStore from "connect-mongo";
 dotenv.config();
 
 const app = express();
+console.log('GOOGLE_CALLBACK =', process.env.GOOGLE_CALLBACK);
+console.log('GOOGLE_CLIENT_ID (prefix) =', process.env.GOOGLE_CLIENT_ID?.slice(0,12));
+
 
 // middleware
 app.use(express.json());
