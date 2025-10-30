@@ -49,6 +49,7 @@ router.post("/register", async (req, res) => {
   }
 
   const passwordHash = await bcrypt.hash(password, 12);
+  const lastModified = new Date();
   const user = await User.create({
     email,
     passwordHash,
@@ -249,6 +250,7 @@ router.post("/reset/complete", async (req, res) => {
   const prov = new Set(user.providers || []);
   prov.add("local");
   user.providers = [...prov];
+  user.updatedAt = new Date()
   await user.save();
 
   const now = new Date();
