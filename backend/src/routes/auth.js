@@ -20,7 +20,7 @@ router.post("/register", async (req, res) => {
 
   if (!isStrongPwd(password))
     return res.status(400).json(
-      apiError("VALIDATION_ERROR", "Weak password", { password: "Min 8, 1 upper, 1 lower, 1 number" })
+      apiError("VALIDATION_ERROR", "Weak password (Needs 8 chars, 1 upper, 1 lower, 1 number)", { password: "Min 8, 1 upper, 1 lower, 1 number" })
     );
 
   if (password !== confirmPassword)
@@ -33,12 +33,15 @@ router.post("/register", async (req, res) => {
   if (existing) return res.status(409).json(apiError("DUPLICATE_EMAIL", "Email already registered"));
 
   const passwordHash = await bcrypt.hash(password, 12);
+  const lastModified = new Date();
   const user = await User.create({
     email,
     passwordHash,
     firstName: firstName || "",
     lastName: lastName || "",
-    providers: ["local"]
+    providers: ["local"],
+    createdAt: lastModified,
+    updatedAt: lastModified
   });
 
   setSessionUser(user, req); // auto-login
@@ -194,6 +197,7 @@ router.post("/reset/complete", async (req, res) => {
   const prov = new Set(user.providers || []);
   prov.add("local");
   user.providers = [...prov];
+  user.updatedAt = new Date()
   await user.save();
 
   // mark token used and invalidate any others
