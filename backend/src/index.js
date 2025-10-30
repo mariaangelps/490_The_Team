@@ -7,7 +7,7 @@ import session from "express-session";
 import MongoStore from "connect-mongo";
 import passport from "./passport.js"; // ✅ Make sure this file exists and sets up GoogleStrategy
 
-// load env vars
+// ========== LOAD ENV VARS ==========
 dotenv.config();
 
 const app = express();
@@ -48,9 +48,11 @@ app.use(passport.session());
 // ========== ROUTES ==========
 import authRoutes from "./routes/auth.js";
 import profileUploadRoutes from "./routes/profileupload.js";
+import userRouter from "./routes/user.js";
 
 app.use("/api/auth", authRoutes);
 app.use("/api/profile", profileUploadRoutes);
+app.use("/api/users", userRouter);
 
 // ========== TEST ROUTE ==========
 app.get("/health", (req, res) => {
