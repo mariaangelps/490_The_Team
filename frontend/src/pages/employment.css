@@ -14,3 +14,28 @@
   width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px;
 }
 .form-actions { display:flex; gap:10px; margin-top: 10px; }
+/* employment.css */
+.emp-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.emp-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn {
+  padding: 8px 14px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn.primary { border-color: #7C2ADF; }
+.btn.secondary { border-color: #666; }

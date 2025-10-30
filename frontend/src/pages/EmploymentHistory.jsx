@@ -1,53 +1,55 @@
 import React, { useEffect, useMemo, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "./employment.css";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000";
 
 function fmtRange(s, e, current) {
   const pretty = (v) => (v ? v : "");
   return current ? `${pretty(s)} – Present` : `${pretty(s)} – ${pretty(e || "")}`;
 }
-
-// ---- API helpers ----
 async function apiList() {
-  const res = await fetch("/api/employment/list", { credentials: "include" });
-  if (!res.ok) throw new Error(await res.text());
+  const res = await fetch(`${API_URL}/api/employment/list`, { credentials: "include" });
+  if (!res.ok) {
+    const err = new Error(`HTTP ${res.status}`);
+    err.status = res.status;
+    throw err;
+  }
   const data = await res.json();
   return Array.isArray(data.entries) ? data.entries : [];
 }
 
 async function apiUpdate(id, payload) {
-  const res = await fetch(`/api/employment/${id}`, {
+  const res = await fetch(`${API_URL}/api/employment/${id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     credentials: "include",
     body: JSON.stringify(payload),
   });
-  if (!res.ok) throw new Error(await res.text());
+  if (!res.ok) throw new Error(await res.text().catch(() => `HTTP ${res.status}`));
   const data = await res.json();
   return data.entry;
 }
 
-// ✅ NEW: DELETE helper
 async function apiDelete(id) {
-  const res = await fetch(`/api/employment/${id}`, {
+  const res = await fetch(`${API_URL}/api/employment/${id}`, {
     method: "DELETE",
     credentials: "include",
   });
   const data = await res.json().catch(() => ({}));
-  if (!res.ok) throw data?.error?.message || "Failed to delete.";
+  if (!res.ok) throw new Error(data?.error?.message || `HTTP ${res.status}`);
   return data;
 }
 
-export default function EmploymentHistory() {
-  const [items, setItems] = useState([]);
-  const [editingId, setEditingId] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [err, setErr] = useState("");
 
+export default function EmploymentHistory() {
+  const nav = useNavigate();
+  // ...
   useEffect(() => {
     (async () => {
       try {
         setItems(await apiList());
       } catch (e) {
+        if (e.status === 401) { nav("/login"); return; }
         setErr("Failed to load employment history.");
       } finally {
         setLoading(false);
@@ -57,6 +59,7 @@ export default function EmploymentHistory() {
 
   const sorted = useMemo(() => {
     const arr = [...items];
+    // reverse-chronological (current first)
     const weight = (it) => (it.current ? "9999-12-31" : (it.endDate || "0000-00-00"));
     arr.sort((a, b) => {
       const byEnd = weight(b).localeCompare(weight(a));
@@ -70,24 +73,6 @@ export default function EmploymentHistory() {
     const updated = await apiUpdate(id, values);
     setItems((prev) => prev.map((x) => (x._id === id ? updated : x)));
     setEditingId(null);
-  };
-
-  // ✅ UC-025: delete handler
-  const onDelete = async (id) => {
-    if (!window.confirm("Are you sure? This cannot be undone.")) return;
-
-    // Optimistic update
-    const prev = items;
-    setItems(items.filter((x) => x._id !== id));
-
-    try {
-      const res = await apiDelete(id);
-      alert("Employment entry deleted successfully ✅");
-    } catch (e) {
-      // revert optimistic update
-      setItems(prev);
-      alert(e);
-    }
   };
 
   if (loading) return <div className="emp-wrap">Loading…</div>;
@@ -106,14 +91,7 @@ export default function EmploymentHistory() {
               onSave={(vals) => onSave(it._id, vals)}
             />
           ) : (
-            <ViewCard
-              key={it._id}
-              item={it}
-              onEdit={() => setEditingId(it._id)}
-              // ✅ pass delete handler
-              onDelete={() => onDelete(it._id)}
-              canDelete={items.length > 1} // ✅ only show delete if >1 items
-            />
+            <ViewCard key={it._id} item={it} onEdit={() => setEditingId(it._id)} />
           )
         )}
       </div>
@@ -121,14 +99,13 @@ export default function EmploymentHistory() {
   );
 }
 
-function ViewCard({ item, onEdit, onDelete, canDelete }) {
+function ViewCard({ item, onEdit }) {
   return (
     <div className="emp-item">
       <span className="emp-dot" />
       <div className="row">
         <div>
-          <div style={{ fontWeight: 600 }}>
-            {item.title} @ {item.company}
+          <div style={{ fontWeight: 600 }}>{item.title} @ {item.company}
             {item.current && <span className="badge badge-current">Current</span>}
           </div>
           <div className="emp-meta">
@@ -141,13 +118,6 @@ function ViewCard({ item, onEdit, onDelete, canDelete }) {
         </div>
         <div className="actions">
           <button onClick={onEdit}>Edit</button>
-
-          {/* ✅ UC-025 DELETE BUTTON */}
-          {canDelete && (
-            <button onClick={onDelete} className="delete-btn">
-              🗑️
-            </button>
-          )}
         </div>
       </div>
     </div>
@@ -166,6 +136,7 @@ function EditCard({ initial, onCancel, onSave }) {
   });
   const set = (k, v) => setForm((f) => ({ ...f, [k]: v }));
 
+  // If current is true, hide/clear endDate
   useEffect(() => {
     if (form.current) set("endDate", "");
   }, [form.current]);

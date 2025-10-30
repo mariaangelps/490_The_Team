@@ -9,6 +9,11 @@ import Forgot from "./pages/Forgot.jsx";
 import Reset from "./pages/Reset.jsx";
 import Settings from "./pages/Settings.jsx";
 import SkillsPage from "./pages/SkillsPage.jsx";  import "./main.css";
+// Páginas
+import EmploymentHistory from "./pages/EmploymentHistory.jsx";
+// Features (están dentro de src/features)
+import EmploymentAddForm from "./features/employment/EmploymentAddForm.tsx";
+import ProfileBasicForm from "./features/profile/ProfileBasicForm.tsx";
 import SkillsBoard from "./pages/SkillsBoard.jsx";
 import IconImage from "./assets/THE.png";
 import DarkIconImage from "./assets/THE(yellow).png"; // unused currently
@@ -181,6 +186,7 @@ function Nav() {
             <Link to="/">Home</Link>
             <Link to="/register">Register</Link>
             <Link to="/login">Login</Link>
+            
           </>
         )}
 
@@ -295,7 +301,8 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/skills" element={<SkillsPage />} />
         <Route path="/skills/board" element={<SkillsBoard />} />
-
+        <Route path="/employment" element={<EmploymentHistory />} />
+        <Route path="/employment/new" element={<EmploymentAddForm />} />
 
 
         <Route path="/settings" element={<Settings />} /> {/* 👈 NEW */}

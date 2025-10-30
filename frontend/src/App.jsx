@@ -31,6 +31,7 @@ function App() {
 
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        
 
         {/* UC-006 / UC-007 stuff */}
         <Route path="/forgot" element={<Forgot />} />
