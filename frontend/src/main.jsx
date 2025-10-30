@@ -65,7 +65,7 @@ function App() {
         <Route path="/" element={<Navigate to={user ? "/dashboard" : "/login"} />} />
         <Route path="/register" element={user ? <Navigate to="/dashboard" /> : <Register />} />
         <Route path="/login" element={user ? <Navigate to="/dashboard" /> : <Login />} />
-        <Route path="/dashboard-icons" element={<DashboardIcon />} />
+        <Route path="/dashboard-icons" element={user ? <DashboardIcon /> : <Navigate to="/login" />} />
         <Route
           path="/profile"
           element={user ? <Profile userId={user.id} /> : <Navigate to="/login" />}
