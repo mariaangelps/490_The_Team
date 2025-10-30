@@ -6,6 +6,7 @@ import Forgot from "./pages/Forgot.jsx";
 import Reset from "./pages/Reset.jsx";
 import Settings from "./pages/Settings.jsx"; // <-- we'll create this next
 import EmploymentHistory from "./pages/EmploymentHistory.jsx";
+import SkillsManager from "./pages/Skills.jsx";
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/employment" element={<EmploymentHistory />} />
+        <Route path="/skills" element={<SkillsManager />} />
 
 
         <Route path="/login" element={<Login />} />

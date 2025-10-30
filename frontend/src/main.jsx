@@ -15,6 +15,7 @@ import DarkIconImage from "./assets/THE(yellow).png"; // unused currently
 import whiteIcon from "./assets/THE(white).png";
 import Button from "./reusableButton.jsx";
 
+
 export const ThemeContext = createContext();
 
 function scrollToElement(id) {

@@ -60,9 +60,13 @@ app.use(passport.session());
 import authRoutes from "./routes/auth.js";
 import userRouter from "./routes/user.js";
 import employmentRoutes from "./routes/employment.js";
+import skillsRouter from "./routes/skills.js";
+
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRouter);
 app.use("/api/employment", employmentRoutes);
+app.use("/api/skills", skillsRouter);
+
 
 
 // simple test route
