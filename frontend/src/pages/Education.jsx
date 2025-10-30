@@ -1,13 +1,16 @@
 import { useEffect, useMemo, useState } from "react";
 import "./educations.css";
 
-// ✅ usa VITE_API_URL si existe; si no, cae a localhost:4000
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000";
 
 /** =============== API helpers inline =============== */
 async function eduList() {
-  const res = await fetch(`${API_URL}/api/education/list`, { credentials: "include" });
-  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const res = await fetch(`${API_URL}/api/education/list`, {
+    credentials: "include",
+    cache: "no-store",
+    headers: { "Cache-Control": "no-cache" },
+  });
+  if (!res.ok && res.status !== 304) throw new Error(`HTTP ${res.status}`);
   const data = await res.json();
   return Array.isArray(data.entries) ? data.entries : [];
 }
@@ -60,28 +63,37 @@ function Empty() {
   );
 }
 
-function Row({ item, onEdit, onDelete }) {
+/* ===== Tarjeta bonita ===== */
+function Row({ item, index, onEdit, onDelete }) {
   const range = item.currentlyEnrolled
     ? `${item.startDate || ""} – Present`
     : `${item.startDate || ""} – ${item.graduationDate || ""}`;
 
   return (
-    <div className="flex items-start justify-between gap-4 p-4 border rounded-xl mb-3">
-      <div>
-        <div className="font-semibold">
-          {item.degreeType} in {item.fieldOfStudy}
+    <div className="edu-item">
+      <div className="edu-head">
+        <div>
+          <div className="edu-degree">{item.degreeType} in {item.fieldOfStudy}</div>
+          <div className="edu-inst">{item.institution}</div>
         </div>
-        <div className="opacity-80">{item.institution}</div>
-        <div className="text-sm opacity-70">{range}</div>
-        {item.honors && <div className="text-sm mt-1">🏅 {item.honors}</div>}
-        {item.gpa != null && item.gpa !== "" && !item.gpaPrivate && (
-          <div className="text-sm mt-1">GPA: {Number(item.gpa).toFixed(2)}</div>
-        )}
+
+        <div className="edu-actions">
+          <span className="edu-index">Education #{index}</span>
+          <button className="btn" onClick={() => onEdit(item)}>Edit</button>
+          <button className="btn btn-danger" onClick={() => onDelete(item.id /* o _id */)}>
+            Delete
+          </button>
+        </div>
       </div>
 
-      <div className="flex gap-2">
-        <button className="btn" onClick={() => onEdit(item)}>Edit</button>
-        <button className="btn btn-danger" onClick={() => onDelete(item.id)}>Delete</button>
+      <div className="edu-meta">
+        <span>{range}</span>
+        {item.level && <span className="edu-badge">{item.level}</span>}
+        {item.gpa != null && item.gpa !== "" && !item.gpaPrivate && (
+          <span className="edu-badge">GPA {Number(item.gpa).toFixed(2)}</span>
+        )}
+        {item.honors && <span className="edu-badge">🏅 {item.honors}</span>}
+        {item.currentlyEnrolled && <span className="edu-badge">Enrolled</span>}
       </div>
     </div>
   );
@@ -112,7 +124,7 @@ export default function EducationPage() {
       try {
         const list = await eduList();
         setItems(list);
-      } catch (e) {
+      } catch {
         setError("Failed to load education list");
       } finally {
         setLoading(false);
@@ -152,44 +164,19 @@ export default function EducationPage() {
       alert(errs.join("\n"));
       return;
     }
-    const payload = {
-      ...form,
-      gpa: form.gpa === "" ? null : Number(form.gpa),
-    };
+
+    const payload = { ...form, gpa: form.gpa === "" ? null : Number(form.gpa) };
+
     try {
-        async function onSave() {
-            const errs = validate(form);
-            if (errs.length) {
-              alert(errs.join("\n"));
-              return;
-            }
-          
-            const payload = {
-              ...form,
-              gpa: form.gpa === "" ? null : Number(form.gpa),
-            };
-          
-            try {
-              // SOLO hace update si editingId es realmente un ID de Mongo, no "new"
-              if (editingId && editingId !== "new") {
-                await eduUpdate(editingId, payload);   // UPDATE
-              } else {
-                await eduCreate(payload);             // CREATE
-              }
-          
-              const list = await eduList();
-              setItems(list);
-              onCancel();
-          
-            } catch (e) {
-              alert("Save failed");
-            }
-          }
-          
+      if (editingId && editingId !== "new") {
+        await eduUpdate(editingId, payload);
+      } else {
+        await eduCreate(payload);
+      }
       const list = await eduList();
       setItems(list);
       onCancel();
-    } catch (e) {
+    } catch {
       alert("Save failed");
     }
   }
@@ -200,7 +187,7 @@ export default function EducationPage() {
   }
 
   function onEdit(item) {
-    setEditingId(item.id);
+    setEditingId(item.id /* o item._id */);
     setForm({
       institution: item.institution,
       degreeType: item.degreeType,
@@ -219,32 +206,49 @@ export default function EducationPage() {
     if (!confirm("Delete this education entry?")) return;
     try {
       await eduDelete(id);
-      setItems(prev => prev.filter(x => x.id !== id));
+      setItems(prev => prev.filter(x => x.id !== id /* o x._id !== id */));
     } catch {
       alert("Delete failed");
     }
   }
 
   return (
-    <div className="container p-6 space-y-6">
-      <div className="flex items-center justify-between">
+    <div className="educationBoard-container container p-6 space-y-6">
+      <div className="educationBoard-header">
         <h1 className="text-2xl font-bold">Education</h1>
         {!editingId && (
-          <button className="btn" onClick={() => setEditingId("new")}>Add Education</button>
+          <button className="btn btn-primary" onClick={() => setEditingId("new")}>
+            Add Education
+          </button>
         )}
       </div>
 
       {loading && <div>Loading…</div>}
       {error && <div className="text-red-600">{error}</div>}
-
       {!loading && sorted.length === 0 && <Empty />}
 
       {!loading && sorted.length > 0 && (
-        <div>
-          {sorted.map((it) => (
-            <Row key={it.id} item={it} onEdit={onEdit} onDelete={onDelete} />
-          ))}
-        </div>
+        <section className="edu-section">
+          <div className="edu-section-header">
+            <div className="edu-section-title">
+              <span className="edu-dot" />
+              <span>Education</span>
+            </div>
+            <div className="edu-count">{sorted.length}</div>
+          </div>
+
+          <div className="edu-list">
+            {sorted.map((it, idx) => (
+              <Row
+                key={it.id /* o it._id */}
+                item={it}
+                index={idx + 1}
+                onEdit={onEdit}
+                onDelete={onDelete}
+              />
+            ))}
+          </div>
+        </section>
       )}
 
       {editingId && (
