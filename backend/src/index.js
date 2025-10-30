@@ -53,8 +53,10 @@ app.use(passport.session());
 // routes
 import authRoutes from "./routes/auth.js";
 import userRouter from "./routes/user.js";
+import skillsRouter from "./routes/skills.js";
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRouter);
+app.use("/api/skills", skillsRouter);
 
 // simple test route
 app.get("/health", (req, res) => {
@@ -64,3 +66,5 @@ app.get("/health", (req, res) => {
 // start server
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+

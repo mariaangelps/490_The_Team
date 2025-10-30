@@ -5,6 +5,9 @@ html {
 }
 
 :root {
+  --bg: #ffffff;
+  --text: #000000;
+  --border: #d6d6d6;
 body {
     /* Use 'rem' for size to ensure all text scales correctly */
     font-family: 'forma-djr-micro', sans-serif; 

@@ -63,6 +63,14 @@ export default function Dashboard() {
       link: "/templates",
     icon: "article",
     color: theme === "colorblind" ? colorblindColors.orange : "#FCBD16",
+    },
+    {
+      id: 7,
+      title: "Skills",
+      description: "Add and manage your skills for job matching",
+      link: "/skills",        // ✅ NEW ROUTE TO SKILLS PAGE
+      icon: "psychology",     // material icon
+      color: theme === "colorblind" ? colorblindColors.blue : "#7C2ADF",
     }
   ];
 
