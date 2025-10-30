@@ -6,7 +6,6 @@ import cookieParser from "cookie-parser";
 import session from "express-session";
 import MongoStore from "connect-mongo";
 
-
 dotenv.config();
 
 const app = express();
@@ -40,6 +39,12 @@ app.use(
   })
 );
 
+// database connection
+mongoose
+  .connect(process.env.MONGO_URI || "mongodb://localhost:27017/projectdb")
+  .then(() => console.log("MongoDB connected"))
+  .catch((err) => console.error("MongoDB error:", err));
+
 // passport setup
 import passport from "./passport.js";
 app.use(passport.initialize());
@@ -47,13 +52,9 @@ app.use(passport.session());
 
 // routes
 import authRoutes from "./routes/auth.js";
+import userRouter from "./routes/user.js";
 app.use("/api/auth", authRoutes);
-
-// database connection
-mongoose
-  .connect(process.env.MONGO_URI || "mongodb://localhost:27017/projectdb")
-  .then(() => console.log("MongoDB connected"))
-  .catch((err) => console.error("MongoDB error:", err));
+app.use("/api/users", userRouter);
 
 // simple test route
 app.get("/health", (req, res) => {
