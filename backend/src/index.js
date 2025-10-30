@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
 import session from "express-session";
 import MongoStore from "connect-mongo";
+
 //import { connectDB, wireDBSignals } from "./db.js"; // ✅ conexión modular
 
 

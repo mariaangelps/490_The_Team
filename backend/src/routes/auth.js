@@ -147,14 +147,35 @@ router.get(
 );
 
 // -----------------------------
-// Debug: current session user
+// Debug / Estado de sesión
 // -----------------------------
 router.get("/me", (req, res) => {
-  if (!req.session?.passport?.user) {
+  // Passport (OAuth)
+  const viaPassport = typeof req.isAuthenticated === "function" && req.isAuthenticated();
+  // Sesión propia (login local)
+  const sessionUser = req.session?.user || null;
+  const passportUser = req.session?.passport?.user || null; // suele ser solo el id
+
+  const id =
+    req.user?._id ??
+    req.user?.id ??
+    sessionUser?.id ??
+    (typeof passportUser === "string" ? passportUser : passportUser?.id);
+
+  if (!viaPassport && !id) {
     return res.status(401).json({ error: { message: "Login required" } });
   }
-  res.json({ user: req.session.passport.user });
+
+  return res.json({
+    isAuth: true,
+    user: {
+      id: String(id),
+      email: req.user?.email ?? sessionUser?.email ?? null,
+      name: req.user?.name ?? sessionUser?.name ?? null,
+    },
+  });
 });
+
 
 // -----------------------------
 // UC-006: Request password reset

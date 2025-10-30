@@ -8,14 +8,12 @@ import Login from "./pages/Login.jsx";
 import Forgot from "./pages/Forgot.jsx";
 import Reset from "./pages/Reset.jsx";
 import Settings from "./pages/Settings.jsx";
-
-import "./main.css";
+import SkillsPage from "./pages/SkillsPage.jsx";  import "./main.css";
 import IconImage from "./assets/THE.png";
 import DarkIconImage from "./assets/THE(yellow).png"; // unused currently
 import whiteIcon from "./assets/THE(white).png";
 import Button from "./reusableButton.jsx";
-
-
+//comm
 export const ThemeContext = createContext();
 
 function scrollToElement(id) {
@@ -294,6 +292,8 @@ function App() {
 
         {/* app / protected-ish pages */}
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/skills" element={<SkillsPage />} />
+
         <Route path="/settings" element={<Settings />} /> {/* 👈 NEW */}
 
         {/* fallback */}
